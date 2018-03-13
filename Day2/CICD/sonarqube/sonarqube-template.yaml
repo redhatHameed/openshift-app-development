@@ -1,0 +1,155 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: deploy-sonarqube
+  annotations:
+    openshift.io/display-name: Deploy sonarqube
+    description: Deploy sonarqube
+    tags: sonarqube
+objects:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+    labels:
+      app: sonarqube
+    name: sonarqube
+  spec:
+    tags:
+    - annotations:
+      from:
+        kind: DockerImage
+        name: wkulhanek/sonarqube:6.7.2
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+    labels:
+      app: sonarqube
+    name: sonarqube
+  spec:
+    replicas: 1
+    selector:
+      app: sonarqube
+      deploymentconfig: sonarqube
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+        creationTimestamp: null
+        labels:
+          app: sonarqube
+          deploymentconfig: sonarqube
+      spec:
+        containers:
+        - name: sonarqube
+          image: wkulhanek/sonarqube:6.7.2
+          imagePullPolicy: Always
+          env:
+          - name: SONARQUBE_JDBC_PASSWORD
+            value: ${SONARQUBE_JDBC_PASSWORD}
+          - name: SONARQUBE_JDBC_URL
+            value: ${SONARQUBE_JDBC_URL}
+          - name: SONARQUBE_JDBC_USERNAME
+            value: ${SONARQUBE_JDBC_USERNAME}
+          volumeMounts:
+          - mountPath: /opt/sonarqube/data
+            name: sonarqube-data
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          terminationGracePeriodSeconds: 30
+          resources:
+            limits:
+              memory: 2Gi
+            requests:
+              memory: 1Gi
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 9000
+              scheme: HTTP
+          livenessProbe:
+            exec:
+              command:
+              - echo
+              - ok
+        volumes:
+        - name: sonarqube-data
+          persistentVolumeClaim:
+            claimName: sonarqube-pv
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: sonarqube
+    name: sonarqube
+  spec:
+    ports:
+    - name: 9000-tcp
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+    selector:
+      deploymentconfig: sonarqube
+    sessionAffinity: None
+    type: ClusterIP
+
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+    labels:
+      app: sonarqube
+    name: sonarqube
+  spec:
+    port:
+      targetPort: 9000-tcp
+    to:
+      kind: Service
+      name: sonarqube
+      weight: 100
+
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    labels:
+      app: sonarqube
+    name: sonarqube-pv
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 2Gi
+
+parameters:
+- description: Username for SonarQube Server PostgreSQL backend
+  displayName: SonarQube's PostgreSQL Username
+  from: '[a-zA-Z0-9]{16}'
+  generate: expression
+  name: SONARQUBE_JDBC_USERNAME
+  required: true
+- description: Password for SonarQube Server PostgreSQL backend
+  displayName: SonarQube's PostgreSQL Password
+  from: '[a-zA-Z0-9]{16}'
+  generate: expression
+  name: SONARQUBE_JDBC_PASSWORD
+  required: true
+- description: URL for SonarQube Server PostgreSQL backend
+  displayName: SonarQube's PostgreSQL URL
+  from: '[a-zA-Z0-9]{16}'
+  generate: expression
+  name:  SONARQUBE_JDBC_URL
+  value: "jdbc:postgresql://postgres-cicd/cicd"

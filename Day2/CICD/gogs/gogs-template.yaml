@@ -1,0 +1,128 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: deploy-gogs
+  annotations:
+    openshift.io/display-name: Deploy Gogs
+    description: Deploy Gogs
+    tags: gogs
+objects:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+    labels:
+      app: gogs
+    name: gogs
+  spec:
+    tags:
+    - annotations:
+      from:
+        kind: DockerImage
+        name: wkulhanek/gogs:11.34
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: Source
+
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+    labels:
+      app: gogs
+    name: gogs
+  spec:
+    replicas: 1
+    selector:
+      app: gogs
+      deploymentconfig: gogs
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+        creationTimestamp: null
+        labels:
+          app: gogs
+          deploymentconfig: gogs
+      spec:
+        containers:
+        - name: gogs
+          image: wkulhanek/gogs:11.34
+          imagePullPolicy: Always
+          volumeMounts:
+          - mountPath: /data
+            name: gogs-data
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          terminationGracePeriodSeconds: 30
+          resources:
+            limits:
+              memory: 2Gi
+            requests:
+              memory: 1Gi
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 3000
+              scheme: HTTP
+          livenessProbe:
+            exec:
+              command:
+              - echo
+              - ok
+        volumes:
+        - name: gogs-data
+          persistentVolumeClaim:
+            claimName: gogs-pv
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: gogs
+    name: gogs
+  spec:
+    ports:
+    - name: 3000-tcp
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+    selector:
+      deploymentconfig: gogs
+    sessionAffinity: None
+    type: ClusterIP
+
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+    labels:
+      app: gogs
+    name: gogs
+  spec:
+    port:
+      targetPort: 3000-tcp
+    to:
+      kind: Service
+      name: gogs
+      weight: 100
+
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    labels:
+      app: gogs
+    name: gogs-pv
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 2Gi
