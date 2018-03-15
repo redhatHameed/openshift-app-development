@@ -155,7 +155,7 @@ node('maven-appdev') {
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
-            println "Active Service : "+output
+            println "Active Service : "+output.toString()
         }
         echo "Switching Production application to ${destApp}."
         // TBD
