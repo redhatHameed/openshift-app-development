@@ -176,7 +176,9 @@ node('maven-appdev') {
         sh "oc create configmap ${target}-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n jnd-tasks-prod"
         openshiftDeploy apiURL: '', authToken: '', depCfg: "${target}", namespace: 'jnd-tasks-prod', verbose: 'false', waitTime: '', waitUnit: 'sec'
         openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: "${target}", namespace: 'jnd-tasks-prod', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
-
+        sleep(10)
+        ret = sh(script: 'oc patch route/tasks -p \'{"spec":{"to":{"name":"${target}"}}}\' -n jnd-tasks-prod', returnStdout: true)
+        println ret
     }
 }
 
