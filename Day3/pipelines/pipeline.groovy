@@ -157,7 +157,7 @@ node('maven-appdev') {
             it.waitForProcessOutput(output, error)
             println output.toString()
         }
-        def ret = sh(script: 'oc get route tasks -o jsonpath=\'{ .spec.to.name }\'', returnStdout: true)
+        def ret = sh(script: 'oc get route tasks -o jsonpath=\'{ .spec.to.name }\' -n jnd-tasks-prod', returnStdout: true)
         println ret
         echo "Switching Production application to ${destApp}."
         // TBD
