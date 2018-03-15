@@ -151,7 +151,7 @@ node('maven-appdev') {
 
     stage('Switch over to new Version') {
         echo "Determining active service ..."
-        oc = "oc get route tasks -o jsonpath='{ .spec.to.name }'".execute().with{
+        oc = "oc get route tasks -o jsonpath='{ .spec.to.name }' -n jnd-tasks-prod".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
@@ -159,7 +159,17 @@ node('maven-appdev') {
         }
         def ret = sh(script: 'oc get route tasks -o jsonpath=\'{ .spec.to.name }\' -n jnd-tasks-prod', returnStdout: true)
         println ret
-        echo "Switching Production application to ${ret}."
+        def target = "unknown"
+
+        if (ret.equals("tasks-green"))    {
+            target = "tasks-blue"
+            println "Cutting over to ${target}"
+        }
+        else    {
+            target = "tasks-green"
+            println "Cutting over to ${target}"
+        }
+        echo "Switching Production application to ${target}."
         // TBD
     }
 }
