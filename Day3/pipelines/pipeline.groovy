@@ -141,7 +141,7 @@ node('maven-appdev') {
     def activeApp = ""
 
     stage('Blue/Green Production Deployment') {
-        sh "oc set image dc/${destApp} tasks=docker-registry.default.svc:5000/jnd-tasks-prod/tasks:${prodTag} -n jnd-tasks-prod"
+        sh "oc set image dc/${destApp} ${destApp}=docker-registry.default.svc:5000/jnd-tasks-prod/tasks:${prodTag} -n jnd-tasks-prod"
         sh "oc delete configmap tasks-config -n jnd-tasks-prod"
         sh "oc create configmap tasks-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n jnd-tasks-prod"
         openshiftDeploy apiURL: '', authToken: '', depCfg: "${destApp}", namespace: 'jnd-tasks-prod', verbose: 'false', waitTime: '', waitUnit: 'sec'
