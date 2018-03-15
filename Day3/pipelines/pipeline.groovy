@@ -116,6 +116,8 @@ node('maven-appdev') {
 //            println it.exitValue()
 //            assert it.exitValue() == 0: "$error"
 //        }
+
+        openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: 'tasks', destTag: "${prodTag}", destinationAuthToken: '', destinationNamespace: 'jnd-tasks-prod', namespace: 'jnd-tasks-dev', srcStream: 'tasks', srcTag: "${devTag}", verbose: 'false'
     }
 
     // Copy Image to Nexus Docker Registry
@@ -139,7 +141,12 @@ node('maven-appdev') {
     def activeApp = ""
 
     stage('Blue/Green Production Deployment') {
-        // TBD
+        sh "oc set image dc/tasks tasks=docker-registry.default.svc:5000/jnd-tasks-prod/tasks:${prodTag} -n jnd-tasks-prod"
+        sh "oc delete configmap tasks-config -n jnd-tasks-dev"
+        sh "oc create configmap tasks-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n jnd-tasks-dev"
+        openshiftDeploy apiURL: '', authToken: '', depCfg: 'tasks', namespace: 'jnd-tasks-prod', verbose: 'false', waitTime: '', waitUnit: 'sec'
+        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: "${destApp}", namespace: 'jnd-tasks-prod', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+
     }
 
     stage('Switch over to new Version') {
