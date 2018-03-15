@@ -82,7 +82,7 @@ node('maven-appdev') {
     // Run Integration Tests in the Development Environment.
     stage('Integration Tests') {
         echo "Running Integration Tests"
-        sleep(30)
+        //sleep(30)
         openshiftVerifyService apiURL: '', authToken: '', namespace: 'jnd-tasks-dev', svcName: 'tasks', verbose: 'false'
         echo "Checking for homepage ..."
         def curlget = "curl -f http://tasks-jnd-tasks-dev.apps.fra.example.opentlc.com/index.jsp".execute().with{
