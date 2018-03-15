@@ -1,0 +1,153 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: do-my-build
+  annotations:
+    openshift.io/display-name: do-my-build
+    description: do-my-build
+    tags: do-my-build
+objects:
+
+- apiVersion: v1
+  data:
+    password: MTJqbmQzNA==
+    username: anVzdGluZGF2MXM=
+  kind: Secret
+  metadata:
+    name: gogs-secret
+  type: kubernetes.io/basic-auth
+
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      application: tasks
+    name: tasks
+  spec:
+    failedBuildsHistoryLimit: 5
+    nodeSelector: null
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      contextDir: /
+      git:
+        ref: master
+        uri: >-
+          http://gogs.jnd-gogs.svc.cluster.local:3000/CICDLabs/openshift-tasks-private.git
+      sourceSecret:
+        name: gogs-secret
+      type: Git
+    strategy:
+      sourceStrategy:
+        env:
+          - name: MAVEN_MIRROR_URL
+            value: >-
+              http://nexus-jnd-nexus.apps.fra.example.opentlc.com/repository/maven-all-public
+          - name: ARTIFACT_DIR
+        forcePull: false
+        incremental: true
+        from:
+          kind: ImageStreamTag
+          name: 'jboss-eap70-openshift:1.6'
+          namespace: openshift
+      type: Source
+
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+    labels:
+      app: eap70-basic-s2i
+      application: tasks
+    name: tasks
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      deploymentConfig: tasks
+    strategy:
+      activeDeadlineSeconds: 21600
+      recreateParams:
+        timeoutSeconds: 600
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        annotations:
+        labels:
+          app: eap70-basic-s2i
+          application: tasks
+          deploymentConfig: tasks
+        name: tasks
+      spec:
+        containers:
+          - env:
+            - name: OPENSHIFT_KUBE_PING_LABELS
+              value: application=tasks
+            - name: OPENSHIFT_KUBE_PING_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: MQ_CLUSTER_PASSWORD
+              value: YimUtL2R
+            - name: MQ_QUEUES
+            - name: MQ_TOPICS
+            - name: JGROUPS_CLUSTER_PASSWORD
+              value: IeGTOyO6
+            - name: AUTO_DEPLOY_EXPLODED
+              value: 'false'
+          image: >-
+            docker-registry.default.svc:5000/jnd-builds/tasks
+          imagePullPolicy: Always
+          livenessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - '-c'
+                - /opt/eap/bin/livenessProbe.sh
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: tasks
+          ports:
+            - containerPort: 8778
+              name: jolokia
+              protocol: TCP
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 8888
+              name: ping
+              protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - '-c'
+                - /opt/eap/bin/readinessProbe.sh
+            failureThreshold: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 75
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - tasks
+        from:
+          kind: ImageStreamTag
+          name: 'tasks:latest'
+      type: ImageChange
+    - type: ConfigChange

@@ -1,0 +1,23 @@
+source:
+  git:
+    uri: https://github.com/openshift/ruby-hello-world.git
+  images:
+  - from:
+      kind: ImageStreamTag
+      name: myinputimage:latest
+      namespace: mynamespace
+    paths:
+    - destinationDir: injected/dir
+      sourcePath: /usr/lib/somefile.jar
+  - from:
+      kind: ImageStreamTag
+      name: myotherinputimage:latest
+      namespace: myothernamespace
+    pullSecret: mysecret
+    paths:
+    - destinationDir: injected/dir
+      sourcePath: /usr/lib/somefile.jar
+
+oc export bc,dc,svc,route,is --as-template=ola -o yaml > ola.yaml
+
+oc start-build ola --from-file=/Users/jusdavis/github/ola/target/ola.jar

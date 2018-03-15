@@ -4,3 +4,7 @@ curl -o setup_nexus3.sh -s https://raw.githubusercontent.com/wkulhanek/ocp_advan
 chmod +x setup_nexus3.sh
 ./setup_nexus3.sh admin admin123 http://$(oc get route nexus3 --template='{{ .spec.host }}')
 rm setup_nexus3.sh
+
+
+git remote add gogs "http://justindav1s:12jnd34@gogs-jnd-gogs.apps.fra.example.opentlc.com/CICDLabs/openshift-task.git"
+

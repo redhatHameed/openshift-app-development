@@ -1,0 +1,15 @@
+wget http://http://nexus-jnd-nexus.apps.fra.example.opentlc.com/service/local/artifact/maven/content?r=snapshots&g=org.jboss.quickstarts.eap&a=tasks&v=LATEST --content-disposition
+
+    <groupId>org.jboss.quickstarts.eap</groupId>
+    <artifactId>tasks</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+mvn dependency:get \
+    -DremoteRepositories=http://nexus-jnd-nexus.apps.fra.example.opentlc.com/repository/maven-public \
+    -DgroupId=org.jboss.quickstarts.eap \
+    -DartifactId=tasks \
+    -Dversion=0.0.1-SNAPSHOT \
+    -Dpackaging=war \
+    -Dtransitive=false
+
+mvn dependency:copy -Dartifact=org.jboss.quickstarts.eap:tasks:1.0.0-0.0.1-SNAPSHOT:war -DoutputFile=tasks.war
