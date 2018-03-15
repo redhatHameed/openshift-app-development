@@ -159,7 +159,7 @@ node('maven-appdev') {
         }
         def ret = sh(script: 'oc get route tasks -o jsonpath=\'{ .spec.to.name }\' -n jnd-tasks-prod', returnStdout: true)
         println ret
-        echo "Switching Production application to ${destApp}."
+        echo "Switching Production application to ${ret}."
         // TBD
     }
 }
