@@ -13,3 +13,27 @@ mvn dependency:get \
     -Dtransitive=false
 
 mvn dependency:copy -Dartifact=org.jboss.quickstarts.eap:tasks:1.0.0-0.0.1-SNAPSHOT:war -DoutputFile=tasks.war
+
+curl -i -u 'tasks:redhat1' -H 'Content-Length: 0' -X POST http://tasks-jnd-tasks-dev.apps.fra.example.opentlc.com/ws/tasks/integration_test_1
+
+
+
+SRC_USER=jusdavis-redhat.com
+SRC_PASSWORD=$(oc whoami -t)
+SRC_REGISTRY_HOST=docker-registry-default.apps.fra.example.opentlc.com
+
+DEST_USER=admin
+DEST_PASSWORD=admin123
+DEST_REGISTRY_HOST=registry-jnd-nexus.apps.fra.example.opentlc.com
+
+
+
+skopeo \
+    --insecure-policy \
+    copy \
+    --src-creds=jusdavis-redhat.com:$(oc whoami -t) \
+    --dest-creds=admin:admin123 \
+    --src-tls-verify=false \
+    --dest-tls-verify=false \
+    docker://docker-registry-default.apps.fra.example.opentlc.com/jnd-jenkins/jenkins-slave-maven-jnd:latest \
+    docker://registry-jnd-nexus.apps.fra.example.opentlc.com/jnd-jenkins/jenkins-slave-maven-jnd:latest
