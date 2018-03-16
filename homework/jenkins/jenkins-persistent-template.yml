@@ -265,4 +265,4 @@ parameters:
   value: "5Gi"
 - name: JENKINS_VERSION
   description: Jenkins version
-  value: "v3.10"
+  value: "latest"
