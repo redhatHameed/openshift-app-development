@@ -3,6 +3,7 @@ apiVersion: v1
 metadata:
   annotations:
     description: The Postgresql Database
+    app: ${APPLICATION_NAME}
     tags: instant-app,postgres
   name: postgres
 objects:

@@ -4,6 +4,7 @@ metadata:
   annotations:
     description: The Gogs git server (https://gogs.io/)
     tags: instant-app,gogs,go,golang
+    app: ${APPLICATION_NAME}
   name: gogs
 objects:
 
@@ -20,7 +21,7 @@ objects:
   metadata:
     annotations:
       description: The Gogs server's http port
-      service.alpha.openshift.io/dependencies: '[{"name":"postgres-cicd","namespace":"","kind":"Service"}]'
+      service.alpha.openshift.io/dependencies: '[{"name":"postgres-${DOMAIN}","namespace":"","kind":"Service"}]'
     labels:
       app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
@@ -57,6 +58,9 @@ objects:
 - kind: DeploymentConfig
   apiVersion: v1
   metadata:
+    annotations:
+      description: The Gogs server's Deployment Config
+      service.alpha.openshift.io/dependencies: '[{"name":"postgres-${DOMAIN}","namespace":"","kind":"Service"}]'
     labels:
       app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
@@ -101,7 +105,7 @@ objects:
                 path: /
                 port: 3000
                 scheme: HTTP
-              initialDelaySeconds: 20
+              initialDelaySeconds: 45
               timeoutSeconds: 1
               periodSeconds: 20
               successThreshold: 1
@@ -111,7 +115,7 @@ objects:
                 path: /
                 port: 3000
                 scheme: HTTP
-              initialDelaySeconds: 20
+              initialDelaySeconds: 45
               timeoutSeconds: 1
               periodSeconds: 10
               successThreshold: 1

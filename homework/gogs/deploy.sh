@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-oc new-app  -f gogs/gogs-persistent-template.yml \
+. ../env.sh
+
+oc new-app  -f gogs-persistent-template.yml \
     -p DOMAIN=${DOMAIN} \
     -p APPLICATION_NAME=gogs \
     -p GOGS_VOLUME_CAPACITY=1Gi \
