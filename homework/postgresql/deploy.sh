@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-oc new-app -f postgres-persistent-template.yml \
+oc new-app -f postgres/postgres-persistent-template.yml \
     -p DOMAIN=${DOMAIN} \
     -p APPLICATION_NAME=postgres \
     -p DB_VOLUME_CAPACITY=1Gi \
