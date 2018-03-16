@@ -2,15 +2,19 @@
 
 . ../env.sh
 
-oc login https://${IP}:8443 -u $USER
+#oc login https://${IP}:8443 -u $USER
+#
+#oc delete project jenkins
+#oc new-project jenkins 2> /dev/null
+#while [ $? \> 0 ]; do
+#    sleep 1
+#    printf "."
+#    oc new-project jenkins 2> /dev/null
+#done
 
-oc delete project jenkins
-oc new-project jenkins 2> /dev/null
-while [ $? \> 0 ]; do
-    sleep 1
-    printf "."
-    oc new-project jenkins 2> /dev/null
-done
+oc delete all --all
+oc delete pvc jenkins-data
+oc delete serviceaccount jenkins
 
 oc new-app -f jenkins-persistent-template.yml \
     -p DOMAIN=${DOMAIN} \
