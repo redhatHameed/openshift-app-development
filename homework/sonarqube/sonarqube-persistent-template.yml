@@ -233,7 +233,7 @@ parameters:
   value: "Dockerfile"
   required: true
 - displayName: SonarQube version
-  value: "6.7.1"
+  value: "6.7.2"
   name: SONARQUBE_VERSION
   required: true
 - description: Username for SonarQube Server PostgreSQL backend
