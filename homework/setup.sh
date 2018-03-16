@@ -16,12 +16,12 @@ cd postgresql
 
 ./deploy.sh
 
-sleep 60
-
-cd ../gogs
-
-./deploy.sh
-
-cd ../sonarqube
-
-./deploy.sh
+#sleep 60
+#
+#cd ../gogs
+#
+#./deploy.sh
+#
+#cd ../sonarqube
+#
+#./deploy.sh
