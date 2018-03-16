@@ -178,7 +178,7 @@ node('maven-appdev') {
         openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: "${target}", namespace: 'jnd-tasks-prod', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
         sleep(10)
         ret = sh(script: "oc patch route/tasks -p '{\"spec\":{\"to\":{\"name\":\"${target}\"}}}' -n jnd-tasks-prod", returnStdout: true)
-        println ret
+
     }
 }
 
