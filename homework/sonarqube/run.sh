@@ -1,12 +1,13 @@
 #!/bin/bash
 
-set -e
+#set -e
+#
+#if [ "${1:0:1}" != '-' ]; then
+#  exec "$@"
+#fi
+#
+##chown -R sonarqube:sonarqube $SONARQUBE_HOME
 
-if [ "${1:0:1}" != '-' ]; then
-  exec "$@"
-fi
-
-#chown -R sonarqube:sonarqube $SONARQUBE_HOME
 echo SONAR_VERSION = $SONAR_VERSION
 echo SONARQUBE_JDBC_USERNAME = $SONARQUBE_JDBC_USERNAME
 echo SONARQUBE_JDBC_PASSWORD = $SONARQUBE_JDBC_PASSWORD
