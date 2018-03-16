@@ -50,6 +50,8 @@ objects:
         env:
           - name: "SONARQUBE_VERSION"
             value: "${SONARQUBE_VERSION}"
+          - name: "DOCKERFILE_PATH"
+            value: "${DOCKERFILE_PATH}"
     output:
       to:
         kind: "ImageStreamTag"
