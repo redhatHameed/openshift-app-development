@@ -101,7 +101,7 @@ objects:
                 path: /
                 port: 3000
                 scheme: HTTP
-              initialDelaySeconds: 3
+              initialDelaySeconds: 20
               timeoutSeconds: 1
               periodSeconds: 20
               successThreshold: 1

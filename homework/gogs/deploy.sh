@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-. ../env.sh
-
 oc new-app  -f gogs-persistent-template.yml \
     -p DOMAIN=${DOMAIN} \
     -p APPLICATION_NAME=gogs \
@@ -12,3 +10,4 @@ oc new-app  -f gogs-persistent-template.yml \
     -p GOGS_VERSION="latest" \
     -p INSTALL_LOCK=true \
     -p SKIP_TLS_VERIFY=true
+    -p HOSTNAME=gogs-cicd.apps.ocp.datr.eu

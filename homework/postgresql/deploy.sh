@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-. ../env.sh
-
 oc new-app -f postgres-persistent-template.yml \
     -p DOMAIN=${DOMAIN} \
     -p APPLICATION_NAME=postgres \
