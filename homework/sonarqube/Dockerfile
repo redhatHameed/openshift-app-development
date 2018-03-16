@@ -35,6 +35,7 @@ RUN set -x \
     && rm -rf $SONARQUBE_HOME/bin/*
 
 VOLUME "$SONARQUBE_HOME/data"
+VOLUME "$SONARQUBE_HOME/extensions"
 
 COPY run.sh $SONARQUBE_HOME/bin/
 RUN chown -R sonarqube:sonarqube $SONARQUBE_HOME && chmod -R 777 $SONARQUBE_HOME
