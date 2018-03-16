@@ -9,6 +9,8 @@ ENV SONAR_VERSION=$SONARQUBE_VERSION \
 # Http port
 EXPOSE 9000
 
+USER root
+
 RUN groupadd -r sonarqube && useradd -r -g sonarqube sonarqube
 
 ## grab gosu for easy step-down from root
