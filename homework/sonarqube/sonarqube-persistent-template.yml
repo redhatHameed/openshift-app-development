@@ -80,8 +80,6 @@ objects:
       type: Rolling
     template:
       metadata:
-        annotations:
-          openshift.io/container.${APPLICATION_NAME}.image.entrypoint: '["./bin/run.sh"]'
         creationTimestamp: null
         labels:
           app: ${APPLICATION_NAME}
