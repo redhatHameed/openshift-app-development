@@ -153,6 +153,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: ${APPLICATION_NAME}:latest
+          namespace: jenkins
       type: ImageChange
 
 - apiVersion: v1

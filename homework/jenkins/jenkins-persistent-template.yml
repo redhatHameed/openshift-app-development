@@ -152,7 +152,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: ${APPLICATION_NAME}:latest
-          namespace: openshift
+          namespace:
       type: ImageChange
     - type: ConfigChange
 
@@ -233,6 +233,7 @@ parameters:
 - description: The functional domain of the application.
   name: DOMAIN
   required: true
+  value: jenkins
 - description: Git source URI for application
   name: SOURCE_REPOSITORY_URL
   value: "https://github.com/justindav1s/ocp-appdev.git"
