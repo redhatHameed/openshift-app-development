@@ -98,7 +98,7 @@ objects:
             value: jenkins
           - name: JNLP_SERVICE_NAME
             value: jenkins-jnlp
-          image: ' '
+          image: 'jenkins:latest'
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 30
