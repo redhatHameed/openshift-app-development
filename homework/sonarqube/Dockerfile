@@ -38,5 +38,5 @@ VOLUME "$SONARQUBE_HOME/data"
 USER sonarqube
 
 WORKDIR $SONARQUBE_HOME
-COPY run.sh $SONARQUBE_HOME/bin/
-ENTRYPOINT ["./bin/run.sh"]
+COPY run2.sh $SONARQUBE_HOME/bin/
+ENTRYPOINT ["./bin/run2.sh"]
