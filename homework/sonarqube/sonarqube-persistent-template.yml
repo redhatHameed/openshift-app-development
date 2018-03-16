@@ -39,11 +39,14 @@ objects:
       imageChange: {}
     - type: ConfigChange
     source:
-      type : Dockerfile
-      dockerfile: "FROM centos:7"
+      type: Git
+      git:
+        uri: "${SOURCE_REPOSITORY_URL}"
+        ref: "${SOURCE_REPOSITORY_REF}"
+      contextDir: ${DOCKERFILE_PATH}
     strategy:
       dockerStrategy:
-        dockerfilePath: "${DOCKERFILE_NAME}"
+        dockerfilePath: ${DOCKERFILE_NAME}
         env:
           - name: "SONARQUBE_VERSION"
             value: "${SONARQUBE_VERSION}"
@@ -211,6 +214,14 @@ parameters:
 - description: The functional domain of the application.
   name: DOMAIN
   required: true
+- description: Git source URI for application
+  name: SOURCE_REPOSITORY_URL
+  value: "https://github.com/justindav1s/ocp-appdev.git"
+  required: true
+- description: Git branch/tag reference
+  name: SOURCE_REPOSITORY_REF
+  value: "master"
+  required: false
 - name: DOCKERFILE_PATH
   displayName: Dockerfile path
   description: Path within Git Repo wehere Dockerfile can be found.
