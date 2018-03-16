@@ -31,6 +31,7 @@ RUN set -x \
     && mv sonarqube-$SONAR_VERSION sonarqube \
     && chown -R sonarqube:sonarqube sonarqube \
     && rm sonarqube.zip* \
+    && touch /opt/sonarqube/temp/README.txt \
     && rm -rf $SONARQUBE_HOME/bin/*
 
 VOLUME "$SONARQUBE_HOME/data"
