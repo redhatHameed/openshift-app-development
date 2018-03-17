@@ -19,6 +19,7 @@ done
 oc new-app -f jenkins-persistent-template.yml \
     -p DOMAIN=${DOMAIN} \
     -p APPLICATION_NAME=jenkins \
+    -p JENKINS_VERSION=2 \
     -p SOURCE_REPOSITORY_URL=https://github.com/justindav1s/ocp-appdev.git \
     -p SOURCE_REPOSITORY_URL=master \
     -p DOCKERFILE_PATH="homework/jenkins" \
