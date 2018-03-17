@@ -1,15 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
   <disabledAdministrativeMonitors/>
-  <version>2.7.3</version>
+  <version>1.619</version>
   <numExecutors>5</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
   <authorizationStrategy class="hudson.security.GlobalMatrixAuthorizationStrategy">
     <permission>hudson.model.Computer.Configure:admin</permission>
+    <permission>hudson.model.Computer.Configure:system_builder</permission>
     <permission>hudson.model.Computer.Delete:admin</permission>
     <permission>hudson.model.Hudson.Administer:admin</permission>
+    <permission>hudson.model.Hudson.Administer:system_builder</permission>
     <permission>hudson.model.Hudson.Read:admin</permission>
+    <permission>hudson.model.Hudson.Read:system_builder</permission>
     <permission>hudson.model.Item.Build:admin</permission>
     <permission>hudson.model.Item.Configure:admin</permission>
     <permission>hudson.model.Item.Create:admin</permission>
@@ -25,7 +28,6 @@
   </authorizationStrategy>
   <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
     <disableSignup>true</disableSignup>
-    <enableCaptcha>false</enableCaptcha>
   </securityRealm>
   <disableRememberMe>false</disableRememberMe>
   <workspaceDir>${ITEM_ROOTDIR}/workspace</workspaceDir>
@@ -33,9 +35,6 @@
   <jdks/>
   <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
   <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
-  <clouds>
-    ${KUBERNETES_CONFIG}
-  </clouds>
   <quietPeriod>1</quietPeriod>
   <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
   <views>
@@ -44,12 +43,12 @@
       <name>All</name>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
-      <properties/>
+      <properties class="hudson.model.View$PropertyList"/>
     </hudson.model.AllView>
   </views>
   <primaryView>All</primaryView>
-  <slaveAgentPort>${JNLP_PORT}</slaveAgentPort>
-  <label>master</label>
+  <slaveAgentPort>49187</slaveAgentPort>
+  <label>s2i-test-config</label>
   <nodeProperties/>
   <globalNodeProperties/>
   <noUsageStatistics>true</noUsageStatistics>

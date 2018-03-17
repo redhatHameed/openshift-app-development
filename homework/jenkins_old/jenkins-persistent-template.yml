@@ -1,0 +1,267 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: jenkins-persistent
+objects:
+
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    annotations:
+      serviceaccounts.openshift.io/oauth-redirectreference.jenkins: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"jenkins"}}'
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    tags:
+    - annotations:
+        description: The Jenkins Docker image
+        tags: ${APPLICATION_NAME}
+      from:
+        kind: DockerImage
+        name: ${APPLICATION_NAME}:${JENKINS_VERSION}
+      importPolicy: {}
+      name: ${JENKINS_VERSION}
+
+- kind: BuildConfig
+  apiVersion: v1
+  metadata:
+    name: "${APPLICATION_NAME}-docker-build"
+    labels:
+      app: "${APPLICATION_NAME}"
+  spec:
+    triggers:
+    - type: ImageChange
+      imageChange: {}
+    - type: ConfigChange
+    source:
+      type: Git
+      git:
+        uri: "${SOURCE_REPOSITORY_URL}"
+        ref: "${SOURCE_REPOSITORY_REF}"
+      contextDir: ${DOCKERFILE_PATH}
+    strategy:
+      dockerStrategy:
+        dockerfilePath: ${DOCKERFILE_NAME}
+        env:
+          - name: "JENKINS_VERSION"
+            value: "${JENKINS_VERSION}"
+          - name: "DOCKERFILE_PATH"
+            value: "${DOCKERFILE_PATH}"
+    output:
+      to:
+        kind: "ImageStreamTag"
+        name: "${APPLICATION_NAME}:latest"
+    resources: {}
+    postCommit: {}
+
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    replicas: 1
+    selector:
+      name: ${APPLICATION_NAME}
+    strategy:
+      activeDeadlineSeconds: 21600
+      recreateParams:
+        timeoutSeconds: 600
+      resources: {}
+      type: Recreate
+    template:
+      metadata:
+        labels:
+          name: ${APPLICATION_NAME}
+      spec:
+        containers:
+        - env:
+          - name: OPENSHIFT_ENABLE_OAUTH
+            value: "${OPENSHIFT_ENABLE_OAUTH}"
+          - name: OPENSHIFT_ENABLE_REDIRECT_PROMPT
+            value: "${OPENSHIFT_ENABLE_REDIRECT_PROMPT}"
+          - name: KUBERNETES_MASTER
+            value: https://kubernetes.default:443
+          - name: KUBERNETES_TRUST_CERTIFICATES
+            value: "true"
+          - name: JENKINS_SERVICE_NAME
+            value: jenkins
+          - name: JNLP_SERVICE_NAME
+            value: jenkins-jnlp
+          image: ' '
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 30
+            httpGet:
+              path: /login
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 420
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          name: ${APPLICATION_NAME}
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /login
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          resources:
+            limits:
+              memory: ${MEMORY_LIMIT}
+          securityContext:
+            capabilities: {}
+            privileged: false
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/jenkins
+            name: ${APPLICATION_NAME}-data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: jenkins
+        serviceAccountName: jenkins
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: ${APPLICATION_NAME}-data
+          persistentVolumeClaim:
+            claimName: ${APPLICATION_NAME}-data
+    triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${APPLICATION_NAME}
+        from:
+          kind: ImageStreamTag
+          name: ${APPLICATION_NAME}:latest
+      type: ImageChange
+    - type: ConfigChange
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      service.alpha.openshift.io/dependencies: '[{"name": "jenkins-jnlp", "namespace":
+        "", "kind": "Service"}]'
+      service.openshift.io/infrastructure: "true"
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    ports:
+    - name: web
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      name: ${APPLICATION_NAME}
+    sessionAffinity: None
+    type: ClusterIP
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: ${APPLICATION_NAME}
+    name: jenkins-jnlp
+  spec:
+    ports:
+    - name: agent
+      port: 50000
+      protocol: TCP
+      targetPort: 50000
+    selector:
+      name: ${APPLICATION_NAME}
+    sessionAffinity: None
+    type: ClusterIP
+
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: ${APPLICATION_NAME}
+      weight: 100
+    wildcardPolicy: None
+
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}-data
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: ${VOLUME_REQUEST}
+
+parameters:
+- description: The name for the application.
+  name: APPLICATION_NAME
+  required: true
+  value: postgres
+- description: The functional domain of the application.
+  name: DOMAIN
+  required: true
+  value: jenkins
+- description: Git source URI for application
+  name: SOURCE_REPOSITORY_URL
+  value: "https://github.com/justindav1s/ocp-appdev.git"
+  required: true
+- description: Git branch/tag reference
+  name: SOURCE_REPOSITORY_REF
+  value: "master"
+  required: false
+- name: DOCKERFILE_PATH
+  displayName: Dockerfile path
+  description: Path within Git Repo wehere Dockerfile can be found.
+  value: "homework/jenkins"
+  required: false
+- name: DOCKERFILE_NAME
+  displayName: Dockerfile name
+  description: Name of Dockerfile.
+  value: "Dockerfile"
+  required: true
+- name: OPENSHIFT_ENABLE_OAUTH
+  description: enable auth delegation to ocp
+  value: "true"
+- name: OPENSHIFT_ENABLE_REDIRECT_PROMPT
+  description: Redirect prompt ?
+  value: "true"
+- name: MEMORY_LIMIT
+  description: Heap for JVM
+  value: "2Gi"
+- name: VOLUME_REQUEST
+  description: Size of persistent volume
+  value: "5Gi"
+- name: JENKINS_VERSION
+  description: Jenkins version
+  value: "latest"

@@ -1,4 +1,4 @@
-FROM openshift/origin:v3.7.0
+FROM openshift/origin
 
 # Jenkins image for OpenShift
 #
@@ -17,8 +17,8 @@ MAINTAINER Ben Parees <bparees@redhat.com>
 ENV JENKINS_VERSION=2 \
     HOME=/var/lib/jenkins \
     JENKINS_HOME=/var/lib/jenkins \
-    JENKINS_UC=https://updates.jenkins-ci.org \
-    OPENSHIFT_JENKINS_IMAGE_VERSION=3.7 \
+    JENKINS_UC=https://updates.jenkins.io \
+    OPENSHIFT_JENKINS_IMAGE_VERSION=3.10 \
     LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
@@ -34,7 +34,8 @@ EXPOSE 8080 50000
 RUN curl https://pkg.jenkins.io/redhat-stable/jenkins.repo -o /etc/yum.repos.d/jenkins.repo && \
     rpm --import https://pkg.jenkins.io/redhat-stable/jenkins-ci.org.key && \
     yum install -y centos-release-scl-rh && \
-    INSTALL_PKGS="dejavu-sans-fonts rsync gettext git tar zip unzip java-1.8.0-openjdk java-1.8.0-openjdk.i686 java-1.8.0-openjdk-devel java-1.8.0-openjdk-devel.i686 jenkins-2.73.3-1.1" && \
+    curl https://copr.fedorainfracloud.org/coprs/alsadi/dumb-init/repo/epel-7/alsadi-dumb-init-epel-7.repo -o /etc/yum.repos.d/alsadi-dumb-init-epel-7.repo && \
+    INSTALL_PKGS="dejavu-sans-fonts rsync gettext git tar zip unzip dumb-init java-1.8.0-openjdk java-1.8.0-openjdk.i686 java-1.8.0-openjdk-devel java-1.8.0-openjdk-devel.i686 jenkins-2.107.1-1.1" && \
     yum -y --setopt=tsflags=nodocs install $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum clean all  && \
@@ -83,11 +84,12 @@ RUN /usr/local/bin/install-plugins.sh /opt/openshift/base-plugins.txt && \
     unlink /usr/share/man/man1/unpack200.1.gz && \
     chown -R 1001:0 /opt/openshift && \
     /usr/local/bin/fix-permissions /opt/openshift && \
+    /usr/local/bin/fix-permissions /opt/openshift/configuration/init.groovy.d && \
     /usr/local/bin/fix-permissions /var/lib/jenkins && \
     /usr/local/bin/fix-permissions /var/log
 
 VOLUME ["/var/lib/jenkins"]
 
 USER 1001
-ENTRYPOINT []
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["/usr/libexec/s2i/run"]
