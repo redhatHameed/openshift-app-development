@@ -8,23 +8,23 @@ metadata:
     description: Deploy Nexus
     tags: sonarqube
 objects:
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    annotations:
-    labels:
-      app: nexus
-    name: nexus
-  spec:
-    tags:
-    - annotations:
-      from:
-        kind: DockerImage
-        name: sonatype/nexus3:latest
-      importPolicy: {}
-      name: latest
-      referencePolicy:
-        type: Source
+#- apiVersion: v1
+#  kind: ImageStream
+#  metadata:
+#    annotations:
+#    labels:
+#      app: nexus
+#    name: nexus
+#  spec:
+#    tags:
+#    - annotations:
+#      from:
+#        kind: DockerImage
+#        name: sonatype/nexus3:latest
+#      importPolicy: {}
+#      name: latest
+#      referencePolicy:
+#        type: Source
 
 - apiVersion: v1
   kind: DeploymentConfig
