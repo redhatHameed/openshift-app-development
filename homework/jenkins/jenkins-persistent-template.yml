@@ -143,7 +143,7 @@ objects:
         - name: ${APPLICATION_NAME}-data
           persistentVolumeClaim:
             claimName: ${APPLICATION_NAME}-data
-    test: false
+    test: true
     triggers:
     - imageChangeParams:
         automatic: true
