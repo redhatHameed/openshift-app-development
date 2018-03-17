@@ -13,22 +13,22 @@ objects:
       app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
 
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    labels:
-      app: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
-  spec:
-    tags:
-    - annotations:
-        description: The Jenkins Docker image
-        tags: ${APPLICATION_NAME}
-      from:
-        kind: DockerImage
-        name: ${APPLICATION_NAME}:${JENKINS_VERSION}
-      importPolicy: {}
-      name: ${JENKINS_VERSION}
+#- apiVersion: v1
+#  kind: ImageStream
+#  metadata:
+#    labels:
+#      app: ${APPLICATION_NAME}
+#    name: ${APPLICATION_NAME}
+#  spec:
+#    tags:
+#    - annotations:
+#        description: The Jenkins Docker image
+#        tags: ${APPLICATION_NAME}
+#      from:
+#        kind: DockerImage
+#        name: ${APPLICATION_NAME}:${JENKINS_VERSION}
+#      importPolicy: {}
+#      name: ${JENKINS_VERSION}
 
 - kind: BuildConfig
   apiVersion: v1
