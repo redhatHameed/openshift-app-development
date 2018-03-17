@@ -152,7 +152,7 @@ objects:
         from:
           kind: ImageStreamTag
           name: ${APPLICATION_NAME}:latest
-          namespace:
+          namespace: ${APPLICATION_NAME}
       type: ImageChange
     - type: ConfigChange
 
