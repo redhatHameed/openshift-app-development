@@ -12,9 +12,9 @@ while [ $? \> 0 ]; do
     oc new-project $CICD_PROJECT 2> /dev/null
 done
 
-cd postgresql
-
-./deploy.sh
+#cd postgresql
+#
+#./deploy.sh
 
 #sleep 60
 #

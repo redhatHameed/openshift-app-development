@@ -82,7 +82,6 @@ objects:
       type: Rolling
     template:
       metadata:
-        creationTimestamp: null
         labels:
           app: ${APPLICATION_NAME}
           deploymentconfig: ${APPLICATION_NAME}

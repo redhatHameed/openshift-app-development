@@ -4,14 +4,14 @@ metadata:
   name: jenkins-persistent
 objects:
 
-- apiVersion: v1
-  kind: ServiceAccount
-  metadata:
-    annotations:
-      serviceaccounts.openshift.io/oauth-redirectreference.jenkins: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"jenkins"}}'
-    labels:
-      app: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
+#- apiVersion: v1
+#  kind: ServiceAccount
+#  metadata:
+#    annotations:
+#      serviceaccounts.openshift.io/oauth-redirectreference.jenkins: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"jenkins"}}'
+#    labels:
+#      app: ${APPLICATION_NAME}
+#    name: ${APPLICATION_NAME}
 
 - apiVersion: v1
   kind: ImageStream
@@ -26,7 +26,7 @@ objects:
         tags: ${APPLICATION_NAME}
       from:
         kind: DockerImage
-        name: ${APPLICATION_NAME}
+        name: ${APPLICATION_NAME}:${JENKINS_VERSION}
       importPolicy: {}
       name: ${JENKINS_VERSION}
 
@@ -98,7 +98,7 @@ objects:
             value: jenkins
           - name: JNLP_SERVICE_NAME
             value: jenkins-jnlp
-          image: 'jenkins:latest'
+          image: ' '
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 30
@@ -136,8 +136,8 @@ objects:
         restartPolicy: Always
         schedulerName: default-scheduler
         securityContext: {}
-        serviceAccount: jenkins
-        serviceAccountName: jenkins
+#        serviceAccount: jenkins
+#        serviceAccountName: jenkins
         terminationGracePeriodSeconds: 30
         volumes:
         - name: ${APPLICATION_NAME}-data
@@ -152,7 +152,6 @@ objects:
         from:
           kind: ImageStreamTag
           name: ${APPLICATION_NAME}:latest
-          namespace: ${APPLICATION_NAME}
       type: ImageChange
     - type: ConfigChange
 
