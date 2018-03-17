@@ -1,0 +1,39 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  name: registry-route
+objects:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: nexus
+    name: docker-registry
+  spec:
+    ports:
+    - name: 5000-tcp
+      port: 5000
+      protocol: TCP
+      targetPort: 5000
+    selector:
+      deploymentconfig: nexus
+    sessionAffinity: None
+    type: ClusterIP
+
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+    labels:
+      app: nexus
+    name: registry
+  spec:
+    tls:
+      termination: edge
+    port:
+      targetPort: 5000-tcp
+    to:
+      kind: Service
+      name: docker-registry
+      weight: 100

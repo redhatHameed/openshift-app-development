@@ -2,6 +2,8 @@
 kind: Template
 apiVersion: v1
 metadata:
+  labels:
+      app: nexus
   name: deploy-nexus
   annotations:
     openshift.io/display-name: Deploy Nexus
@@ -91,6 +93,8 @@ objects:
       app: nexus
     name: nexus
   spec:
+    tls:
+      termination: edge
     port:
       targetPort: 8081-tcp
     to:
@@ -109,4 +113,4 @@ objects:
     - ReadWriteOnce
     resources:
       requests:
-        storage: 2Gi
+        storage: 5Gi

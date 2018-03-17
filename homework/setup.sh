@@ -12,16 +12,24 @@ while [ $? \> 0 ]; do
     oc new-project $CICD_PROJECT 2> /dev/null
 done
 
-#cd postgresql
-#
-#./deploy.sh
+oc delete project $TEST_PROJECT
+oc new-project $TEST_PROJECT 2> /dev/null
+while [ $? \> 0 ]; do
+    sleep 1
+    printf "."
+    oc new-project $TEST_PROJECT 2> /dev/null
+done
 
-#sleep 60
-#
-#cd ../gogs
-#
-#./deploy.sh
-#
-#cd ../sonarqube
-#
-#./deploy.sh
+oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:jenkins -n ${TEST_PROJECT}
+oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:default -n ${TEST_PROJECT}
+
+oc delete project $PROD_PROJECT
+oc new-project $PROD_PROJECT 2> /dev/null
+while [ $? \> 0 ]; do
+    sleep 1
+    printf "."
+    oc new-project $PROD_PROJECT 2> /dev/null
+done
+
+oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:jenkins -n ${PROD_PROJECT}
+oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:default -n ${PROD_PROJECT}
