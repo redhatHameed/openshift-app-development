@@ -4,7 +4,7 @@ export IP=ocp.datr.eu
 export USER=justin
 export ORG=mitzicom
 export CICD_PROJECT=cicd
-export TEST_PROJECT=${ORG}-test
+export DEV_PROJECT=${ORG}-dev
 export PROD_PROJECT=${ORG}-prod
 
 export DOMAIN=${CICD_PROJECT}
