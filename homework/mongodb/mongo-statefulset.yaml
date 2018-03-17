@@ -1,0 +1,49 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: mongodb
+spec:
+  replicas: 3
+  serviceName: mongodb-internal
+  selector:
+    matchLabels:
+      name: mongodb
+  template:
+    metadata:
+      labels:
+        name: mongodb
+    spec:
+      containers:
+      - image: registry.access.redhat.com/rhscl/mongodb-32-rhel7:3.2
+        ports:
+        - containerPort: 27017
+          name: mongodb
+        volumeMounts:
+        - name: mongo
+          mountPath: /var/lib/mongodb/data
+        name: mongodb
+        args: ["run-mongod-replication" ]
+        env:
+        - name: MONGODB_DATABASE
+          value: "mongodb"
+        - name: MONGODB_USER
+          value: "mongodb_user"
+        - name: MONGODB_PASSWORD
+          value: "mongodb_password"
+        - name: MONGODB_ADMIN_PASSWORD
+          value: "mongodb_admin_password"
+        - name: MONGODB_REPLICA_NAME
+          value: "rs0"
+        - name: MONGODB_KEYFILE_VALUE
+          value: "12345678901234567890"
+        - name: MONGODB_SERVICE_NAME
+          value: "mongodb-internal"
+  volumeClaimTemplates:
+  - metadata:
+      name: mongo
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+
