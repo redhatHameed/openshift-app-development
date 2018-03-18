@@ -29,12 +29,20 @@ https://github.com/wkulhanek/ParksMap
 
 ### Setting the environment
 
-1. In the **homework** folder run _setup.sh_, this :
+1. First run **setup.sh**, this :
     1. sets up three openshift projects
         1. **cicd** - hosts the CICD components, jenkins, sonar, nexus etc
         2. **mitzicom-dev** - this hosts the development version of the application for testing purposes.
         3. **mitzicom-prod** - this hosts the production version of the application, changes tested in dev are promoted to here.
-        4. configures openshift security, so that Jenkins can orchestrate changes in the mitzicom-dev and mitzicom-prod projects.
-        5. configures build and deployment configurations
-    
+     2. configures openshift security, so that Jenkins can orchestrate changes in the mitzicom-dev and mitzicom-prod projects.
+     3. configures build and deployment configurations in mitzicom-dev, mitzicom-prod, these will be used by jenkins later.
+     
+2. In the **postgresql** folder run the **deploy.sh** script, this deploys a postgresql database with persistent storage
+3. In the **gogs** folder run the **deploy.sh** script, this deploys the gogs version control application
+4. In the **sonarqube** folder run the **deploy.sh** script, this deploys the sonarqube code quality analysis application    
+5. In the **nexus** folder run the **deploy.sh** script, this deploys the nexus maven repository management application
+    1. next run the **setup_nexus3.sh** script, this adds extra repos to nexus and also allows it to be a docker repository
+        ``$ ./setup_nexus3.sh <nexus username> <nexus password> <nexus URL>``
+    2. next run **add-docker-registry-route.sh** script to expose the docker registry capability on your network        
+6. In the **jenkins** folder run the **deploy.sh** script, this deploys the sonarqube code quality analysis application    
 
