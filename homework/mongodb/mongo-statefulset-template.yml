@@ -1,0 +1,98 @@
+---
+kind: Template
+apiVersion: v1
+metadata:
+  labels:
+      app: mongodb
+  name: mongodb
+  annotations:
+    openshift.io/display-name: Deploy Mongodb
+    description: Deploy Mongodb
+    tags: mongodb
+objects:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+    labels:
+      name: mongodb
+    name: mongodb-internal
+  spec:
+    ports:
+    - name: 27017-tcp
+      port: 27017
+    clusterIP: None
+    selector:
+      name: "mongodb"
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+    labels:
+      name: mongodb
+    name: mongodb
+  spec:
+    ports:
+    - name: 27017-tcp
+      port: 27017
+      protocol: TCP
+      targetPort: 27017
+    selector:
+      name: mongodb
+
+- apiVersion: apps/v1beta1
+  kind: StatefulSet
+  metadata:
+    name: mongodb
+  spec:
+    replicas: ${REPLICAS}
+    serviceName: mongodb-internal
+    selector:
+      matchLabels:
+        name: mongodb
+    template:
+      metadata:
+        labels:
+          name: mongodb
+      spec:
+        containers:
+        - image: registry.access.redhat.com/rhscl/mongodb-32-rhel7:3.2
+          ports:
+          - containerPort: 27017
+            name: mongodb
+          volumeMounts:
+          - name: mongo
+            mountPath: /var/lib/mongodb/data
+          name: mongodb
+          args: ["run-mongod-replication" ]
+          env:
+          - name: MONGODB_DATABASE
+            value: "mongodb"
+          - name: MONGODB_USER
+            value: "mongodb_user"
+          - name: MONGODB_PASSWORD
+            value: "mongodb_password"
+          - name: MONGODB_ADMIN_PASSWORD
+            value: "mongodb_admin_password"
+          - name: MONGODB_REPLICA_NAME
+            value: "rs0"
+          - name: MONGODB_KEYFILE_VALUE
+            value: "12345678901234567890"
+          - name: MONGODB_SERVICE_NAME
+            value: "mongodb-internal"
+    volumeClaimTemplates:
+    - metadata:
+        name: mongo
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+
+parameters:
+- description: the number of mongodbs required in the statefulset.
+  name: REPLICAS
+  required: true
+  value: "1"
