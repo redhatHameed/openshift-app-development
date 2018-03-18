@@ -85,7 +85,6 @@ node('maven') {
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
-            println it.exitValue()
             assert it.exitValue() == 0: "$error"
         }
         echo "Checking for app info ..."
@@ -93,7 +92,6 @@ node('maven') {
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
-            println it.exitValue()
             assert it.exitValue() == 0: "$error"
         }
         openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: app_name, destTag: prodTag, destinationAuthToken: '', destinationNamespace: prod_project, namespace: dev_project, srcStream: app_name, srcTag: devTag, verbose: 'false'
