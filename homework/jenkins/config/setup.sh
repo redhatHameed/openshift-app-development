@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 USER=justin-admin
-TOKEN=16f2aff7615fb87337d2d460b5eda36f
+TOKEN=ef09f2fdff580b687a6a05cad57c9429
 JENKINS=jenkins-cicd.apps.ocp.datr.eu
 
 CRUMB_JSON=$(curl -s "https://${USER}:${TOKEN}@${JENKINS}/crumbIssuer/api/json")

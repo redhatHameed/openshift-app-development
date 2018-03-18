@@ -24,7 +24,7 @@ node('maven') {
     // Using Maven run the unit tests
     stage('Unit Tests') {
         echo "Running Unit Tests"
-        sh "mvn -B -s nexus_settings.xml test"
+        sh "mvn -B -s settings.xml test"
     }
 
     // Using Maven call SonarQube for Code Analysis

@@ -30,7 +30,7 @@
             <submoduleCfg class="list"/>
             <extensions/>
         </scm>
-        <scriptPath>homework/jenkins/configmlbparks/pipeline.groovy</scriptPath>
+        <scriptPath>homework/jenkins/config/mlbparks/pipeline.groovy</scriptPath>
         <lightweight>true</lightweight>
     </definition>
     <triggers/>

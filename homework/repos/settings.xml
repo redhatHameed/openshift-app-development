@@ -4,7 +4,7 @@
         <mirror>
             <id>Nexus</id>
             <name>Nexus Public Mirror</name>
-            <url>https://nexus-cicd.apps.ocp.datr.eu/repository/maven-all-public/</url>
+            <url>https://nexus-cicd.apps.ocp.datr.eu/repository/maven-public/</url>
             <mirrorOf>*</mirrorOf>
         </mirror>
     </mirrors>
