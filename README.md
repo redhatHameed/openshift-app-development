@@ -1,38 +1,39 @@
-# ocp-appdev
+#Openshift Continuous Delivery Demo
 
-http://etherpad-opentlc-shared.apps.na37.openshift.opentlc.com/p/AdvPaaS_Development_FRA_2018_03_12
+## Get Openshift
 
+First setup an Openshift cluster, a guide for this is available here :
 
-oc patch route bluegreen -p '{"spec": {"to": [{"kind": "Service","name": "green","weight": 100}}}'
-oc patch route bluegreen -p '{"spec": {"to": [{"kind": "Service","name": "blue","weight": 100}}}'
+https://github.com/justindav1s/openshift-ansible-on-openstack
 
-oc set route-backends bluegreen blue=0 green=100
+##Configure Openshift for CICD
 
-oc set route-backends bluegreen blue=100 green=0
+Scripts in this repo are designed acheive a number of goals :
 
-Readiness
+1. Setup a CICD environment, in its own openshift project "**cicd**", this consists of
+    1. **postgresql**, a database required by other tools.
+    2. **gogs**, a lightweight git server, this requires a db schema
+    3. **sonarqube**, this analsyses an provides insights into code quality
+    4. **nexus**, a maven repository for shared resources
+    5. **jenkins**, a build & deploy automation engine
 
+    This infrastructure chained together correctly can facilitate app development and delivery automation for any modern programming language
+ 
+2. Deliver a continuous integration and deployment process for three java based microservices. Building, testing and deploying Openshift platform. The source code to be deployed can be found here :
+https://github.com/wkulhanek/ParksMap
 
-  # Clear both readiness and liveness probes off all containers
-  oc set probe dc/registry --remove --readiness --liveness
-  
-  # Set an exec action as a liveness probe to run 'echo ok'
-  oc set probe dc/registry --liveness -- echo ok
-  
-  # Set a readiness probe to try to open a TCP socket on 3306
-  oc set probe rc/mysql --readiness --open-tcp=3306
-  
-  # Set an HTTP readiness probe for port 8080 and path /healthz over HTTP on the pod IP
-  oc set probe dc/blue --readiness --get-url=http://:8080/item.php
-  oc set probe dc/green --readiness --get-url=http://:8080/item.php
-  
-  # Set an HTTP readiness probe over HTTPS on 127.0.0.1 for a hostNetwork pod
-  oc set probe dc/router --readiness --get-url=https://127.0.0.1:1936/stats
-  
-  # Set only the initial-delay-seconds field on all deployments
-  oc set probe dc --all --readiness --initial-delay-seconds=30
-  
-  
-  
+    The microservices are:
+    1. **mlbparks** - a REST API to a database of baseball stadiums
+    2. **nationalparks** - a REST API to a database of nation parks
+    3. **parksmap** - a mapping eapplications that leverages these APIs
 
+###Setting the environment
+
+1. In the homwork folder run setup.sh, this :
+    1. sets up three openshift projects
+        1. cicd - hosts the CICD components, jenkins, sonar, nexus etc
+        2. mitzicom-dev - this hosts the development version of the application for testing purposes.
+        3. mitzicom-prod - this hosts the production version of the application, changes tested in dev are promoted to here.
+        4. configures openshift security, so that Jenkins can orchestrate changes in the mitzicom-dev and mitzicom-prod projects
+    
 
