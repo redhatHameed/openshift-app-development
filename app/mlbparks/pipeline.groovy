@@ -15,7 +15,7 @@ node('maven') {
 
     stage('Checkout Source') {
         echo "Git url : $giturl"
-        git credentialsId: 'gogs', url: git_url
+        git credentialsId: 'gogs', url: "https://gogs-cicd.apps.ocp.datr.eu/${org}/${app_name}.git"
     }
 
 
