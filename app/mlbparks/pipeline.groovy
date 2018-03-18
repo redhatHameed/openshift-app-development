@@ -108,46 +108,46 @@ node('maven') {
     def destApp   = "tasks-green"
     def activeApp = ""
 
-//    stage('Blue/Green Production Deployment') {
-//        sh "oc set image dc/${destApp} ${destApp}=docker-registry.default.svc:5000/jnd-tasks-prod/tasks:${prodTag} -n jnd-tasks-prod"
-//        sh "oc delete configmap ${destApp}-config -n jnd-tasks-prod"
-//        sh "oc create configmap ${destApp}-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n jnd-tasks-prod"
-//        openshiftDeploy apiURL: '', authToken: '', depCfg: "${destApp}", namespace: 'jnd-tasks-prod', verbose: 'false', waitTime: '', waitUnit: 'sec'
-//        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: "${destApp}", namespace: 'jnd-tasks-prod', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
-//
-//    }
-//
-//    stage('Switch over to new Version') {
-//        echo "Determining active service ..."
-//        oc = "oc get route tasks -o jsonpath='{ .spec.to.name }' -n jnd-tasks-prod".execute().with{
-//            def output = new StringWriter()
-//            def error = new StringWriter()
-//            it.waitForProcessOutput(output, error)
-//            println output.toString()
-//        }
-//        def ret = sh(script: 'oc get route tasks -o jsonpath=\'{ .spec.to.name }\' -n jnd-tasks-prod', returnStdout: true)
-//        println ret
-//        def target = "unknown"
-//
-//        if (ret.equals("tasks-green"))    {
-//            target = "tasks-blue"
-//            println "Cutting over to ${target}"
-//        }
-//        else    {
-//            target = "tasks-green"
-//            println "Cutting over to ${target}"
-//        }
-//        echo "Switching Production application to ${target}."
-//
-//        sh "oc set image dc/${target} ${target}=docker-registry.default.svc:5000/jnd-tasks-prod/tasks:${prodTag} -n jnd-tasks-prod"
-//        sh "oc delete configmap ${target}-config -n jnd-tasks-prod"
-//        sh "oc create configmap ${target}-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n jnd-tasks-prod"
-//        openshiftDeploy apiURL: '', authToken: '', depCfg: "${target}", namespace: 'jnd-tasks-prod', verbose: 'false', waitTime: '', waitUnit: 'sec'
-//        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: "${target}", namespace: 'jnd-tasks-prod', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
-//        sleep(10)
-//        ret = sh(script: "oc patch route/tasks -p '{\"spec\":{\"to\":{\"name\":\"${target}\"}}}' -n jnd-tasks-prod", returnStdout: true)
-//
-//    }
+    stage('Blue/Green Production Deployment') {
+        sh "oc set image dc/${destApp} ${destApp}=docker-registry.default.svc:5000/jnd-tasks-prod/tasks:${prodTag} -n jnd-tasks-prod"
+        sh "oc delete configmap ${destApp}-config -n jnd-tasks-prod"
+        sh "oc create configmap ${destApp}-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n jnd-tasks-prod"
+        openshiftDeploy apiURL: '', authToken: '', depCfg: "${destApp}", namespace: 'jnd-tasks-prod', verbose: 'false', waitTime: '', waitUnit: 'sec'
+        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: "${destApp}", namespace: 'jnd-tasks-prod', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+
+    }
+
+    stage('Switch over to new Version') {
+        echo "Determining active service ..."
+        oc = "oc get route tasks -o jsonpath='{ .spec.to.name }' -n jnd-tasks-prod".execute().with{
+            def output = new StringWriter()
+            def error = new StringWriter()
+            it.waitForProcessOutput(output, error)
+            println output.toString()
+        }
+        def ret = sh(script: 'oc get route tasks -o jsonpath=\'{ .spec.to.name }\' -n jnd-tasks-prod', returnStdout: true)
+        println ret
+        def target = "unknown"
+
+        if (ret.equals("tasks-green"))    {
+            target = "tasks-blue"
+            println "Cutting over to ${target}"
+        }
+        else    {
+            target = "tasks-green"
+            println "Cutting over to ${target}"
+        }
+        echo "Switching Production application to ${target}."
+
+        sh "oc set image dc/${target} ${target}=docker-registry.default.svc:5000/jnd-tasks-prod/tasks:${prodTag} -n jnd-tasks-prod"
+        sh "oc delete configmap ${target}-config -n jnd-tasks-prod"
+        sh "oc create configmap ${target}-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n jnd-tasks-prod"
+        openshiftDeploy apiURL: '', authToken: '', depCfg: "${target}", namespace: 'jnd-tasks-prod', verbose: 'false', waitTime: '', waitUnit: 'sec'
+        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: "${target}", namespace: 'jnd-tasks-prod', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+        sleep(10)
+        ret = sh(script: "oc patch route/tasks -p '{\"spec\":{\"to\":{\"name\":\"${target}\"}}}' -n jnd-tasks-prod", returnStdout: true)
+
+    }
 }
 
 // Convenience Functions to read variables from the pom.xml
