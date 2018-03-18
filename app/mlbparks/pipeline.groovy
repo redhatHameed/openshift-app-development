@@ -2,8 +2,6 @@
 
 node('maven') {
 
-
-
     stage('Checkout Source') {
         git credentialsId: 'gogs', url: "https://gogs-cicd.apps.ocp.datr.eu/mitzicom/mlbparks.git"
     }
@@ -13,7 +11,6 @@ node('maven') {
     def dev_project = "${org}-dev"
     def prod_project = "${org}-prod"
     def app_url = "http://${app_name}-${dev_project}.apps.ocp.datr.eu"
-    def git_url = "https://gogs-cicd.apps.ocp.datr.eu/${org}/${app_name}.git"
     def groupId    = getGroupIdFromPom("pom.xml")
     def artifactId = getArtifactIdFromPom("pom.xml")
     def version    = getVersionFromPom("pom.xml")
@@ -82,9 +79,9 @@ node('maven') {
     stage('Integration Tests') {
         echo "Running Integration Tests"
         //sleep(30)
-        openshiftVerifyService apiURL: '', authToken: '', namespace: 'jnd-tasks-dev', svcName: 'tasks', verbose: 'false'
+        openshiftVerifyService apiURL: '', authToken: '', namespace: dev_project, svcName: app_name, verbose: 'false'
         echo "Checking for app health ..."
-        def curlget = "curl -f ${app_url}//ws/healthz".execute().with{
+        def curlget = "curl -f ${app_url}/ws/healthz".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
@@ -92,7 +89,7 @@ node('maven') {
             assert it.exitValue() == 0: "$error"
         }
         echo "Checking for app info ..."
-        curlget = "curl -f ${app_url}//ws/info".execute().with{
+        curlget = "curl -f ${app_url}/ws/info".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
