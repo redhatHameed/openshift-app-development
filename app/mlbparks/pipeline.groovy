@@ -2,15 +2,21 @@
 
 node('maven') {
 
-    stage('Checkout Source') {
-        git credentialsId: 'gogs', url: 'https://gogs-cicd.apps.ocp.datr.eu/mitzicom/mlbparks.git'
-    }
-    def ocp_project = "mitzicom-dev"
+    def org = "mitzicom"
     def app_name = "mlbparks"
+    def dev_project = "${org}-dev"
+    def prod_project = "${org}-prod"
+    def app_url = "http://${app_name}-${dev_project}.apps.ocp.datr.eu"
+    def git_url = "https://gogs-cicd.apps.ocp.datr.eu/${org}/${app_name}.git"
     def groupId    = getGroupIdFromPom("pom.xml")
     def artifactId = getArtifactIdFromPom("pom.xml")
     def version    = getVersionFromPom("pom.xml")
     def packaging    = getPackagingFromPom("pom.xml")
+
+    stage('Checkout Source') {
+        git credentialsId: 'gogs', url: ${git_url}
+    }
+
 
     // Set the tag for the development image: version + build number
     def devTag  = "0.0-0"
@@ -43,7 +49,7 @@ node('maven') {
     //Build the OpenShift Image in OpenShift and tag it.
     stage('Build and Tag OpenShift Image') {
         echo "Building OpenShift container image tasks:${devTag}"
-        echo "Project : ${ocp_project}"
+        echo "Project : ${dev_project}"
         echo "App : ${app_name}"
         echo "Group ID : ${groupId}"
         echo "Artifact ID : ${artifactId}"
@@ -53,82 +59,52 @@ node('maven') {
         sh "mvn -B -s settings.xml dependency:copy -DstripVersion=true -Dartifact=${groupId}:${artifactId}:${version}:${packaging} -DoutputDirectory=."
         sh "cp \$(find . -type f -name \"${artifactId}-*.${packaging}\")  ${artifactId}.${packaging}"
         sh "pwd; ls -ltr"
-        sh "oc start-build ${app_name} --follow --from-file=${artifactId}.${packaging} -n ${ocp_project}"
-        openshiftVerifyBuild apiURL: '', authToken: '', bldCfg: app_name, checkForTriggeredDeployments: 'true', namespace: ocp_project, verbose: 'false', waitTime: ''
-        openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: app_name, destTag: devTag, destinationAuthToken: '', destinationNamespace: ocp_project, namespace: ocp_project, srcStream: app_name, srcTag: 'latest', verbose: 'false'
+        sh "oc start-build ${app_name} --follow --from-file=${artifactId}.${packaging} -n ${dev_project}"
+        openshiftVerifyBuild apiURL: '', authToken: '', bldCfg: app_name, checkForTriggeredDeployments: 'true', namespace: dev_project, verbose: 'false', waitTime: ''
+        openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: app_name, destTag: devTag, destinationAuthToken: '', destinationNamespace: dev_project, namespace: dev_project, srcStream: app_name, srcTag: 'latest', verbose: 'false'
     }
 
     // Deploy the built image to the Development Environment.
     stage('Deploy to Dev') {
         echo "Deploying container image to Development Project"
-        echo "Project : ${ocp_project}"
+        echo "Project : ${dev_project}"
         echo "App : ${app_name}"
         echo "Dev Tag : ${devTag}"
-        sh "oc set image dc/${app_name} ${app_name}=${ocp_project}/${app_name}:${devTag} -n ${ocp_project}"
-        //sh "oc delete configmap ${app_name}-config -n ${ocp_project}"
-        def ret = sh(script: "oc delete configmap ${app_name}-config --ignore-not-found=true -n ${ocp_project}", returnStdout: true)
-        println ret
-        ret = sh(script: "oc create configmap ${app_name}-config --from-file=src/main/resources/mlbparks.json -n ${ocp_project}", returnStdout: true)
-        println ret
-        //sh "oc create configmap ${app_name}-config --from-file=./config/dev.properties -n ${ocp_project}"
-        openshiftDeploy apiURL: '', authToken: '', depCfg: app_name, namespace: ocp_project, verbose: 'false', waitTime: '', waitUnit: 'sec'
-        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: app_name, namespace: ocp_project, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+        sh "oc set image dc/${app_name} ${app_name}=${dev_project}/${app_name}:${devTag} -n ${dev_project}"
+        def ret = sh(script: "oc delete configmap ${app_name}-config --ignore-not-found=true -n ${dev_project}", returnStdout: true)
+        ret = sh(script: "oc create configmap ${app_name}-config --from-file=src/main/resources/mlbparks.json -n ${dev_project}", returnStdout: true)
+        openshiftDeploy apiURL: '', authToken: '', depCfg: app_name, namespace: dev_project, verbose: 'false', waitTime: '', waitUnit: 'sec'
+        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: app_name, namespace: dev_project, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
     }
 
-//    // Run Integration Tests in the Development Environment.
-//    stage('Integration Tests') {
-//        echo "Running Integration Tests"
-//        //sleep(30)
-//        openshiftVerifyService apiURL: '', authToken: '', namespace: 'jnd-tasks-dev', svcName: 'tasks', verbose: 'false'
-//        echo "Checking for homepage ..."
-//        def curlget = "curl -f http://tasks-jnd-tasks-dev.apps.fra.example.opentlc.com/index.jsp".execute().with{
-//            def output = new StringWriter()
-//            def error = new StringWriter()
-//            it.waitForProcessOutput(output, error)
-//            println it.exitValue()
-//            assert it.exitValue() == 0: "$error"
-//        }
-//        echo "Posting to service ..."
-//        def curlpost = "curl -i -f -u tasks:redhat1 -X POST http://tasks-jnd-tasks-dev.apps.fra.example.opentlc.com/ws/tasks/integration_test_1".execute().with{
-//            def output = new StringWriter()
-//            def error = new StringWriter()
-//            it.waitForProcessOutput(output, error)
-//            println it.exitValue()
-//            assert it.exitValue() == 0: "$error"
-//        }
-//        echo "Getting from service ..."
-//        def curlget2 = "curl -i -f -u tasks:redhat1 -X GET http://tasks-jnd-tasks-dev.apps.fra.example.opentlc.com/ws/tasks/1".execute().with{
-//            def output = new StringWriter()
-//            def error = new StringWriter()
-//            it.waitForProcessOutput(output, error)
-//            println it.exitValue()
-//            assert it.exitValue() == 0: "$error"
-//        }
-//        echo "Deleteing from service ..."
-//        def curldel = "curl -i -f -u tasks:redhat1 -X DELETE http://tasks-jnd-tasks-dev.apps.fra.example.opentlc.com/ws/tasks/1".execute().with{
-//            def output = new StringWriter()
-//            def error = new StringWriter()
-//            it.waitForProcessOutput(output, error)
-//            println it.exitValue()
-//            assert it.exitValue() == 0: "$error"
-//        }
-//
-//        openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: 'tasks', destTag: "${prodTag}", destinationAuthToken: '', destinationNamespace: 'jnd-tasks-prod', namespace: 'jnd-tasks-dev', srcStream: 'tasks', srcTag: "${devTag}", verbose: 'false'
-//    }
+    // Run Integration Tests in the Development Environment.
+    stage('Integration Tests') {
+        echo "Running Integration Tests"
+        //sleep(30)
+        openshiftVerifyService apiURL: '', authToken: '', namespace: 'jnd-tasks-dev', svcName: 'tasks', verbose: 'false'
+        echo "Checking for app health ..."
+        def curlget = "curl -f ${app_url}//ws/healthz".execute().with{
+            def output = new StringWriter()
+            def error = new StringWriter()
+            it.waitForProcessOutput(output, error)
+            println it.exitValue()
+            assert it.exitValue() == 0: "$error"
+        }
+        echo "Checking for app info ..."
+        curlget = "curl -f ${app_url}//ws/info".execute().with{
+            def output = new StringWriter()
+            def error = new StringWriter()
+            it.waitForProcessOutput(output, error)
+            println it.exitValue()
+            assert it.exitValue() == 0: "$error"
+        }
+        openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: app_name, destTag: prodTag, destinationAuthToken: '', destinationNamespace: prod_project, namespace: dev_project, srcStream: app_name, srcTag: devTag, verbose: 'false'
+    }
 
-//    // Copy Image to Nexus Docker Registry
-//    stage('Copy Image to Nexus Docker Registry') {
-//        echo "Copy image to Nexus Docker Registry"
-//        sh"skopeo \\\n" +
-//                "    --insecure-policy \\\n" +
-//                "    copy \\\n" +
-//                "    --src-creds=jusdavis-redhat.com:\$(oc whoami -t) \\\n" +
-//                "    --dest-creds=admin:admin123 \\\n" +
-//                "    --src-tls-verify=false \\\n" +
-//                "    --dest-tls-verify=false \\\n" +
-//                "    docker://docker-registry-default.apps.fra.example.opentlc.com/jnd-jenkins/jenkins-slave-maven-jnd:latest \\\n" +
-//                "    docker://registry-jnd-nexus.apps.fra.example.opentlc.com/jnd-jenkins/jenkins-slave-maven-jnd:latest"
-//    }
+
+    stage('Wait for approval') {
+
+    }
 
     // Blue/Green Deployment into Production
     // -------------------------------------
