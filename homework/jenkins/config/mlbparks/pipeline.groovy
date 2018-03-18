@@ -36,7 +36,7 @@ node('maven') {
     // Publish the built war file to Nexus
     stage('Publish to Nexus') {
         echo "Publish to Nexus"
-        sh "mvn -B -s settings.xml deploy -DskipTests -DaltDeploymentRepository=https://nexus-cicd.apps.ocp.datr.eu/repository/maven-snapshots"
+        sh "mvn -B -s settings.xml deploy -DskipTests -DaltDeploymentRepository=snapshot-repo::default::https://nexus-cicd.apps.ocp.datr.eu/repository/maven-snapshots"
     }
 
     // Build the OpenShift Image in OpenShift and tag it.
