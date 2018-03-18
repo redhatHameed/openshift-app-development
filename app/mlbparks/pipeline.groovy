@@ -66,9 +66,9 @@ node('maven') {
         echo "Dev Tag : ${devTag}"
         sh "oc set image dc/${app_name} ${app_name}=${ocp_project}/${app_name}:${devTag} -n ${ocp_project}"
         //sh "oc delete configmap ${app_name}-config -n ${ocp_project}"
-        def ret = sh(script: "oc delete configmap app-config --ignore-not-found=true -n ${ocp_project}", returnStdout: true)
+        def ret = sh(script: "oc delete configmap ${app_name}-config --ignore-not-found=true -n ${ocp_project}", returnStdout: true)
         println ret
-        ret = sh(script: "oc create configmap app-config --from-file=src/main/resources/mlbparks.json -n ${ocp_project}", returnStdout: true)
+        ret = sh(script: "oc create configmap ${app_name}-config --from-file=src/main/resources/mlbparks.json -n ${ocp_project}", returnStdout: true)
         println ret
         //sh "oc create configmap ${app_name}-config --from-file=./config/dev.properties -n ${ocp_project}"
         openshiftDeploy apiURL: '', authToken: '', depCfg: app_name, namespace: ocp_project, verbose: 'false', waitTime: '', waitUnit: 'sec'

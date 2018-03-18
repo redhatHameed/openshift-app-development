@@ -56,33 +56,21 @@ objects:
             periodSeconds: 10
             successThreshold: 1
             timeoutSeconds: 1
-            volumeMounts:
-              - name: "app-config"
-                mountPath: "/opt/eap/standalone/configuration/"
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /opt/eap/standalone/configuration/mlbparks.json
+              name: mlbparks-config
+              subPath: mlbparks.json
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         schedulerName: default-scheduler
         securityContext: {}
         terminationGracePeriodSeconds: 30
         volumes:
-        - name: app-config
-          configMap:
-            name: "mlbparks.json"
-            items:
-            - key: "mlbparks.json"
-              path: "mlbparks.json"
+          - configMap:
+              defaultMode: 420
+              name: mlbparks-config
+            name: mlbparks-config
     test: false
-#    triggers:
-#    - imageChangeParams:
-#        automatic: true
-#        containerNames:
-#        - mlbparks
-#        from:
-#          kind: ImageStreamTag
-#          name: mlbparks:latest
-#          namespace: mitzicom-dev
-#      type: ImageChange
-#    - type: ConfigChange
