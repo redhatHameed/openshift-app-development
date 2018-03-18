@@ -20,38 +20,38 @@ curl -H "Content-Type: application/json" \
     -X POST ${GOGS}/api/v1/org/${ORG}/repos?token=${TOKEN}
 
 curl -H "Content-Type: application/json" \
-    -d '{"name": "parksmap2", "description": "parksmap repo", "private": true, "gitignores": "Java"}' \
+    -d '{"name": "parksmap", "description": "parksmap repo", "private": true, "gitignores": "Java"}' \
     -X POST ${GOGS}/api/v1/org/${ORG}/repos?token=${TOKEN}
 
 
-git clone https://github.com/wkulhanek/ParksMap.git
+git clone https://github.com/wkulhanek/ParksMap.git pm
 
 sleep 5
 
 git clone ${GOGS}/${ORG}/mlbparks.git
 git clone ${GOGS}/${ORG}/nationalparks.git
-git clone ${GOGS}/${ORG}/parksmap2.git
+git clone ${GOGS}/${ORG}/parksmap.git
 
-cp -r ParksMap/mlbparks/* mlbparks
+cp -r pm/mlbparks/* mlbparks
 cd mlbparks
 sed '5 s/1.0/0.0.1-SNAPSHOT/' pom.xml > pom2.xml && mv pom2.xml pom.xml
 cp ../settings.xml .
 git add *; git commit -m "initial commit"; git push origin master
 cd ..
 
-cp -r ParksMap/nationalparks/* nationalparks
+cp -r pm/nationalparks/* nationalparks
 cd nationalparks
 sed '12 s/1.0/0.0.1-SNAPSHOT/' pom.xml > pom2.xml && mv pom2.xml pom.xml
 cp ../settings.xml .
 git add *; git commit -m "initial commit"; git push origin master
 cd ..
 
-cp -r ParksMap/parksmap/* parksmap2
-cd parksmap2
+cp -r pm/parksmap/* parksmap
+cd parksmap
 sed '12 s/1.0/0.0.1-SNAPSHOT/' pom.xml > pom2.xml && mv pom2.xml pom.xml
 cp ../settings.xml .
 git add *; git commit -m "initial commit"; git push origin master
 cd ..
 
-rm -rf ParksMap nationalparks parksmap2 mlbparks
+rm -rf pm nationalparks parksmap mlbparks
 

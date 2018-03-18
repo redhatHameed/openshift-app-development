@@ -44,5 +44,6 @@ https://github.com/wkulhanek/ParksMap
     1. next run the **setup_nexus3.sh** script, this adds extra repos to nexus and also allows it to be a docker repository
         ``$ ./setup_nexus3.sh <nexus username> <nexus password> <nexus URL>``
     2. next run **add-docker-registry-route.sh** script to expose the docker registry capability on your network        
-6. In the **jenkins** folder run the **deploy.sh** script, this deploys the sonarqube code quality analysis application    
+6. In the **jenkins** folder run the **deploy.sh** script, this deploys the Jenkins process automation engine.
+7. In the repos folder     
 
