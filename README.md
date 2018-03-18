@@ -60,7 +60,7 @@ https://github.com/wkulhanek/ParksMap
     
 ### Running the CICD process
 
-Having done the preparation above, we now have three seperate and indepent piplines that deploy our microservices in line with the blue-green deployment paradigm described here :
+Having done the preparation above, we now have three seperate and independent pipelines that deploy our microservices in line with the blue-green deployment paradigm described here :
   - https://martinfowler.com/bliki/BlueGreenDeployment.html
   
-Deployments are triggered by interacting with the jobs in Jenkins and by pushs to the master branches of each microservice in git (gogs). 
+Deployments are triggered by interacting with the jobs in Jenkins and by git pushs to the master branches of each microservice in gogs. 
