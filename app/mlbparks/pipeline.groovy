@@ -5,7 +5,8 @@ node('maven') {
     stage('Checkout Source') {
         git credentialsId: 'gogs', url: 'https://gogs-cicd.apps.ocp.datr.eu/mitzicom/mlbparks.git'
     }
-
+    def ocp_project = "mitzicom-dev"
+    def app_name = "mlbparks"
     def groupId    = getGroupIdFromPom("pom.xml")
     def artifactId = getArtifactIdFromPom("pom.xml")
     def version    = getVersionFromPom("pom.xml")
@@ -39,31 +40,36 @@ node('maven') {
         sh "mvn -B -s settings.xml deploy -DskipTests -DaltDeploymentRepository=nexus::default::https://nexus-cicd.apps.ocp.datr.eu/repository/maven-snapshots"
     }
 
-    // Build the OpenShift Image in OpenShift and tag it.
-//    stage('Build and Tag OpenShift Image') {
-//        echo "Building OpenShift container image tasks:${devTag}"
-//        echo "Group ID : ${groupId}"
-//        echo "Artifact ID : ${artifactId}"
-//        echo "Version : ${version}"
-//        echo "Packaging : ${packaging}"
-//
-//        sh "mvn -B -s nexus_settings.xml dependency:copy -DstripVersion=true -Dartifact=${groupId}:${artifactId}:${version}:${packaging} -DoutputDirectory=."
-//        sh "cp \$(find . -type f -name \"${artifactId}-*.${packaging}\")  ${artifactId}.${packaging}"
-//        sh "pwd; ls -ltr"
-//        sh "oc start-build tasks --follow --from-file=${artifactId}.${packaging} -n jnd-tasks-dev"
-//        openshiftVerifyBuild apiURL: '', authToken: '', bldCfg: 'tasks', checkForTriggeredDeployments: 'true', namespace: 'jnd-tasks-dev', verbose: 'false', waitTime: ''
-//        openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: 'tasks', destTag: "${devTag}", destinationAuthToken: '', destinationNamespace: 'jnd-tasks-dev', namespace: 'jnd-tasks-dev', srcStream: 'tasks', srcTag: 'latest', verbose: 'false'
-//    }
-//
-//    // Deploy the built image to the Development Environment.
-//    stage('Deploy to Dev') {
-//        echo "Deploying container image to Development Project"
-//        sh "oc set image dc/tasks tasks=docker-registry.default.svc:5000/jnd-tasks-dev/tasks:${devTag} -n jnd-tasks-dev"
-//        sh "oc delete configmap tasks-config -n jnd-tasks-dev"
-//        sh "oc create configmap tasks-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n jnd-tasks-dev"
-//        openshiftDeploy apiURL: '', authToken: '', depCfg: 'tasks', namespace: 'jnd-tasks-dev', verbose: 'false', waitTime: '', waitUnit: 'sec'
-//        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: 'tasks', namespace: 'jnd-tasks-dev', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
-//    }
+    //Build the OpenShift Image in OpenShift and tag it.
+    stage('Build and Tag OpenShift Image') {
+        echo "Building OpenShift container image tasks:${devTag}"
+        echo "Project : ${ocp_project}"
+        echo "App : ${app_name}"
+        echo "Group ID : ${groupId}"
+        echo "Artifact ID : ${artifactId}"
+        echo "Version : ${version}"
+        echo "Packaging : ${packaging}"
+
+        sh "mvn -B -s settings.xml dependency:copy -DstripVersion=true -Dartifact=${groupId}:${artifactId}:${version}:${packaging} -DoutputDirectory=."
+        sh "cp \$(find . -type f -name \"${artifactId}-*.${packaging}\")  ${artifactId}.${packaging}"
+        sh "pwd; ls -ltr"
+        sh "oc start-build tasks --follow --from-file=${artifactId}.${packaging} -n ${ocp_project}"
+        openshiftVerifyBuild apiURL: '', authToken: '', bldCfg: '${app_name}', checkForTriggeredDeployments: 'true', namespace: '${ocp_project}', verbose: 'false', waitTime: ''
+        openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: '${app_name}', destTag: '${devTag}', destinationAuthToken: '', destinationNamespace: '${ocp_project}', namespace: '${ocp_project}', srcStream: '${app_name}', srcTag: 'latest', verbose: 'false'
+    }
+
+    // Deploy the built image to the Development Environment.
+    stage('Deploy to Dev') {
+        echo "Deploying container image to Development Project"
+        echo "Project : ${ocp_project}"
+        echo "App : ${app_name}"
+        echo "Dev Tag : ${devTag}"
+        sh "oc set image dc/${app_name} tasks=docker-registry.default.svc:5000/${ocp_project}/${app_name}:${devTag} -n jnd-tasks-dev"
+        sh "oc delete configmap ${app_name}-config -n ${ocp_project}"
+        sh "oc create configmap ${app_name}-config --from-file=./config/dev.properties -n ${ocp_project}"
+        openshiftDeploy apiURL: '', authToken: '', depCfg: '${app_name}', namespace: '${ocp_project}', verbose: 'false', waitTime: '', waitUnit: 'sec'
+        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: '${app_name}', namespace: '${ocp_project}', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+    }
 
 //    // Run Integration Tests in the Development Environment.
 //    stage('Integration Tests') {
