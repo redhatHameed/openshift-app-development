@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: mlbparks-dev-dc
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: mlbparks
+    name: mlbparks
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      app: mlbparks
+      deploymentconfig: mlbparks
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: mlbparks
+          deploymentconfig: mlbparks
+      spec:
+        containers:
+        - image: ' '
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ws/info
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: mlbparks
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /ws/healthz
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+#    triggers:
+#    - imageChangeParams:
+#        automatic: true
+#        containerNames:
+#        - mlbparks
+#        from:
+#          kind: ImageStreamTag
+#          name: mlbparks:latest
+#          namespace: mitzicom-dev
+#      type: ImageChange
+#    - type: ConfigChange

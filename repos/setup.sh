@@ -54,5 +54,5 @@ cp ../settings.xml .
 git add *; git commit -m "initial commit"; git push origin master
 cd ..
 
-#rm -rf pm nationalparks parksmap mlbparks
+rm -rf pm nationalparks parksmap mlbparks
 
