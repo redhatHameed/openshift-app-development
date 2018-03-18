@@ -26,8 +26,6 @@ curl -H "Content-Type: application/json" \
 
 git clone https://github.com/wkulhanek/ParksMap.git pm
 
-sleep 5
-
 git clone ${GOGS}/${ORG}/mlbparks.git
 git clone ${GOGS}/${ORG}/nationalparks.git
 git clone ${GOGS}/${ORG}/parksmap.git
@@ -37,8 +35,8 @@ cd mlbparks
 sed '5 s/1.0/0.0.1-SNAPSHOT/' pom.xml > pom2.xml && mv pom2.xml pom.xml
 cp ../settings.xml .
 mkdir config
-cp ../app/mlbparks/config/dev.properties config
-cp ../app/mlbparks/config/prod.properties config
+cp ../../app/mlbparks/config/dev.properties config
+cp ../../app/mlbparks/config/prod.properties config
 git add *; git commit -m "initial commit"; git push origin master
 cd ..
 
@@ -56,5 +54,5 @@ cp ../settings.xml .
 git add *; git commit -m "initial commit"; git push origin master
 cd ..
 
-rm -rf pm nationalparks parksmap mlbparks
+#rm -rf pm nationalparks parksmap mlbparks
 

@@ -9,5 +9,5 @@ ORG=mitzicom
 
 curl -v -H "Content-Type: application/json" -X DELETE ${GOGS}/api/v1/repos/${ORG}/mlbparks?token=${TOKEN}
 curl -v -H "Content-Type: application/json" -X DELETE ${GOGS}/api/v1/repos/${ORG}/nationalparks?token=${TOKEN}
-curl -v -H "Content-Type: application/json" -X DELETE ${GOGS}/api/v1/repos/${ORG}/parksmap2?token=${TOKEN}
+curl -v -H "Content-Type: application/json" -X DELETE ${GOGS}/api/v1/repos/${ORG}/parksmap?token=${TOKEN}
 curl -v -H "Content-Type: application/json" -X DELETE ${GOGS}/api/v1/admin/users/${USER}/orgs?token=${TOKEN}
