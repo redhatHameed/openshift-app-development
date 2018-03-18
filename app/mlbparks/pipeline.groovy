@@ -68,7 +68,7 @@ node('maven') {
         sh "oc delete configmap ${app_name}-config -n ${ocp_project}"
         sh "oc create configmap ${app_name}-config --from-file=./config/dev.properties -n ${ocp_project}"
         openshiftDeploy apiURL: '', authToken: '', depCfg: '${app_name}', namespace: '${ocp_project}', verbose: 'false', waitTime: '', waitUnit: 'sec'
-        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: '${app_name}', namespace: '${ocp_project}', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: "${app_name}", namespace: "${ocp_project}"', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
     }
 
 //    // Run Integration Tests in the Development Environment.
