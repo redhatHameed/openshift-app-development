@@ -36,6 +36,9 @@ cp -r pm/mlbparks/* mlbparks
 cd mlbparks
 sed '5 s/1.0/0.0.1-SNAPSHOT/' pom.xml > pom2.xml && mv pom2.xml pom.xml
 cp ../settings.xml .
+mkdir config
+cp ../app/mlbparks/config/dev.properties config
+cp ../app/mlbparks/config/prod.properties config
 git add *; git commit -m "initial commit"; git push origin master
 cd ..
 

@@ -64,7 +64,7 @@ node('maven') {
         echo "Project : ${ocp_project}"
         echo "App : ${app_name}"
         echo "Dev Tag : ${devTag}"
-        sh "oc set image dc/${app_name} tasks=docker-registry.default.svc:5000/${ocp_project}/${app_name}:${devTag} -n jnd-tasks-dev"
+        sh "oc set image dc/${app_name} tasks=docker-registry.default.svc:5000/${ocp_project}/${app_name}:${devTag} -n ${ocp_project}"
         sh "oc delete configmap ${app_name}-config -n ${ocp_project}"
         sh "oc create configmap ${app_name}-config --from-file=./config/dev.properties -n ${ocp_project}"
         openshiftDeploy apiURL: '', authToken: '', depCfg: '${app_name}', namespace: '${ocp_project}', verbose: 'false', waitTime: '', waitUnit: 'sec'
