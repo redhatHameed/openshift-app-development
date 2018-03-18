@@ -1,4 +1,4 @@
-#Openshift Continuous Delivery Demo
+# Openshift Continuous Delivery Demo
 
 ## Get Openshift
 
@@ -6,7 +6,7 @@ First setup an Openshift cluster, a guide for this is available here :
 
 https://github.com/justindav1s/openshift-ansible-on-openstack
 
-##Configure Openshift for CICD
+## Configure Openshift for CICD
 
 Scripts in this repo are designed acheive a number of goals :
 
@@ -27,7 +27,7 @@ https://github.com/wkulhanek/ParksMap
     2. **nationalparks** - a REST API to a database of nation parks
     3. **parksmap** - a mapping eapplications that leverages these APIs
 
-###Setting the environment
+### Setting the environment
 
 1. In the homwork folder run setup.sh, this :
     1. sets up three openshift projects
