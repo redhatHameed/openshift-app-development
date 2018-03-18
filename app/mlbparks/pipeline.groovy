@@ -53,7 +53,7 @@ node('maven') {
         sh "mvn -B -s settings.xml dependency:copy -DstripVersion=true -Dartifact=${groupId}:${artifactId}:${version}:${packaging} -DoutputDirectory=."
         sh "cp \$(find . -type f -name \"${artifactId}-*.${packaging}\")  ${artifactId}.${packaging}"
         sh "pwd; ls -ltr"
-        sh "oc start-build tasks --follow --from-file=${artifactId}.${packaging} -n ${ocp_project}"
+        sh "oc start-build ${app_name} --follow --from-file=${artifactId}.${packaging} -n ${ocp_project}"
         openshiftVerifyBuild apiURL: '', authToken: '', bldCfg: '${app_name}', checkForTriggeredDeployments: 'true', namespace: '${ocp_project}', verbose: 'false', waitTime: ''
         openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: '${app_name}', destTag: '${devTag}', destinationAuthToken: '', destinationNamespace: '${ocp_project}', namespace: '${ocp_project}', srcStream: '${app_name}', srcTag: 'latest', verbose: 'false'
     }
