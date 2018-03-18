@@ -59,18 +59,9 @@ objects:
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
-          volumeMounts:
-            - mountPath: /opt/eap/standalone/configuration/mlbparks.json
-              name: mlbparks-config
-              subPath: mlbparks.json
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         schedulerName: default-scheduler
         securityContext: {}
         terminationGracePeriodSeconds: 30
-        volumes:
-          - configMap:
-              defaultMode: 420
-              name: mlbparks-config
-            name: mlbparks-config
     test: false
