@@ -14,7 +14,7 @@ node('maven') {
     def packaging    = getPackagingFromPom("pom.xml")
 
     stage('Checkout Source') {
-        git credentialsId: 'gogs', url: "${git_url}"
+        git credentialsId: 'gogs', url: git_url
     }
 
 
