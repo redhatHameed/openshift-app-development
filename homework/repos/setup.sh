@@ -34,18 +34,21 @@ git clone ${GOGS}/${ORG}/parksmap2.git
 
 cp -r ParksMap/mlbparks/* mlbparks
 cd mlbparks
+cat pom.xml | sed '5 s/1.0/0.0.1-SNAPSHOT/' > pom.xml
 cp ../settings.xml .
 git add *; git commit -m "initial commit"; git push origin master
 cd ..
 
 cp -r ParksMap/nationalparks/* nationalparks
 cd nationalparks
+cat pom.xml | sed '5 s/1.0/0.0.1-SNAPSHOT/' > pom.xml
 cp ../settings.xml .
 git add *; git commit -m "initial commit"; git push origin master
 cd ..
 
 cp -r ParksMap/parksmap/* parksmap2
 cd parksmap2
+cat pom.xml | sed '5 s/1.0/0.0.1-SNAPSHOT/' > pom.xml
 cp ../settings.xml .
 git add *; git commit -m "initial commit"; git push origin master
 cd ..
