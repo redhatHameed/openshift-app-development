@@ -54,3 +54,6 @@ https://github.com/wkulhanek/ParksMap
 8. In the **app/mlbparks** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/mlbparks/pipeline.groovy** file in this repo
 9. In the **app/nationalparks** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/nationalparks/pipeline.groovy** file in this repo
 10. In the **app/parksmap** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/parksmap/pipeline.groovy** file in this repo
+11. In the **app/mongodb** folder run :
+    1. **dev-deploy.sh**, this deploys a single replica mogodb statefulset with persistent storage into the **mitzicom-dev** project
+    2. **prod-deploy.sh**, this deploys a 3 replica mogodb statefulset with persistent storage into the **mitzicom-prod** project
