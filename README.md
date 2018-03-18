@@ -24,16 +24,17 @@ https://github.com/wkulhanek/ParksMap
 
     The microservices are:
     1. **mlbparks** - a REST API to a database of baseball stadiums
-    2. **nationalparks** - a REST API to a database of nation parks
+    2. **nationalparks** - a REST API to a database of national parks
     3. **parksmap** - a mapping eapplications that leverages these APIs
 
 ### Setting the environment
 
-1. In the homwork folder run setup.sh, this :
+1. In the **homework** folder run _setup.sh_, this :
     1. sets up three openshift projects
-        1. cicd - hosts the CICD components, jenkins, sonar, nexus etc
-        2. mitzicom-dev - this hosts the development version of the application for testing purposes.
-        3. mitzicom-prod - this hosts the production version of the application, changes tested in dev are promoted to here.
-        4. configures openshift security, so that Jenkins can orchestrate changes in the mitzicom-dev and mitzicom-prod projects
+        1. **cicd** - hosts the CICD components, jenkins, sonar, nexus etc
+        2. **mitzicom-dev** - this hosts the development version of the application for testing purposes.
+        3. **mitzicom-prod** - this hosts the production version of the application, changes tested in dev are promoted to here.
+        4. configures openshift security, so that Jenkins can orchestrate changes in the mitzicom-dev and mitzicom-prod projects.
+        5. configures build and deployment configurations
     
 
