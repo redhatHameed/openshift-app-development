@@ -16,29 +16,29 @@ node('maven') {
     def devTag  = "0.0-0"
     // Set the tag for the production image: version
     def prodTag = "0.0"
-//
-//    stage('Build war') {
-//        echo "Building version ${version}"
-//        sh "mvn -B -s settings.xml clean package -DskipTests"
-//    }
-//
-//    // Using Maven run the unit tests
-//    stage('Unit Tests') {
-//        echo "Running Unit Tests"
-//        sh "mvn -B -s settings.xml test"
-//    }
-//
-//    // Using Maven call SonarQube for Code Analysis
-//    stage('Code Analysis') {
-//        echo "Running Code Analysis"
-//        sh "mvn -B -s settings.xml sonar:sonar -DskipTests -Dsonar.host.url=https://sonarqube-cicd.apps.ocp.datr.eu"
-//    }
-//
-//    // Publish the built war file to Nexus
-//    stage('Publish to Nexus') {
-//        echo "Publish to Nexus"
-//        sh "mvn -B -s settings.xml deploy -DskipTests -DaltDeploymentRepository=nexus::default::https://nexus-cicd.apps.ocp.datr.eu/repository/maven-snapshots"
-//    }
+
+    stage('Build war') {
+        echo "Building version ${version}"
+        sh "mvn -B -s settings.xml clean package -DskipTests"
+    }
+
+    // Using Maven run the unit tests
+    stage('Unit Tests') {
+        echo "Running Unit Tests"
+        sh "mvn -B -s settings.xml test"
+    }
+
+    // Using Maven call SonarQube for Code Analysis
+    stage('Code Analysis') {
+        echo "Running Code Analysis"
+        sh "mvn -B -s settings.xml sonar:sonar -DskipTests -Dsonar.host.url=https://sonarqube-cicd.apps.ocp.datr.eu"
+    }
+
+    // Publish the built war file to Nexus
+    stage('Publish to Nexus') {
+        echo "Publish to Nexus"
+        sh "mvn -B -s settings.xml deploy -DskipTests -DaltDeploymentRepository=nexus::default::https://nexus-cicd.apps.ocp.datr.eu/repository/maven-snapshots"
+    }
 
     //Build the OpenShift Image in OpenShift and tag it.
     stage('Build and Tag OpenShift Image') {
