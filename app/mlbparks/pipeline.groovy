@@ -2,6 +2,13 @@
 
 node('maven') {
 
+
+
+    stage('Checkout Source') {
+        echo "Git url : $giturl"
+        git credentialsId: 'gogs', url: "https://gogs-cicd.apps.ocp.datr.eu/mitzicom/mlbparks.git"
+    }
+
     def org = "mitzicom"
     def app_name = "mlbparks"
     def dev_project = "${org}-dev"
@@ -12,12 +19,6 @@ node('maven') {
     def artifactId = getArtifactIdFromPom("pom.xml")
     def version    = getVersionFromPom("pom.xml")
     def packaging    = getPackagingFromPom("pom.xml")
-
-    stage('Checkout Source') {
-        echo "Git url : $giturl"
-        git credentialsId: 'gogs', url: "https://gogs-cicd.apps.ocp.datr.eu/mitzicom/mlbparks.git"
-    }
-
 
     // Set the tag for the development image: version + build number
     def devTag  = "0.0-0"
