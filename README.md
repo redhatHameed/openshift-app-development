@@ -57,3 +57,10 @@ https://github.com/wkulhanek/ParksMap
 11. In the **app/mongodb** folder run :
     1. **dev-deploy.sh**, this deploys a single replica mogodb statefulset with persistent storage into the **mitzicom-dev** project
     2. **prod-deploy.sh**, this deploys a 3 replica mogodb statefulset with persistent storage into the **mitzicom-prod** project
+    
+### Running the CICD process
+
+Having done the preparation above, we now have three seperate and indepent piplines that deploy our microservices in line with the blue-green deployment paradigm described here :
+  - https://martinfowler.com/bliki/BlueGreenDeployment.html
+  
+Deployments are triggered by interacting with the jobs in Jenkins and by pushs to the master branches of each microservice in git (gogs). 
