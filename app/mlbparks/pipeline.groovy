@@ -65,10 +65,14 @@ node('maven') {
         echo "App : ${app_name}"
         echo "Dev Tag : ${devTag}"
         sh "oc set image dc/${app_name} tasks=docker-registry.default.svc:5000/${ocp_project}/${app_name}:${devTag} -n ${ocp_project}"
-        sh "oc delete configmap ${app_name}-config -n ${ocp_project}"
-        sh "oc create configmap ${app_name}-config --from-file=./config/dev.properties -n ${ocp_project}"
+        def ret = sh(script: 'oc delete configmap ${app_name}-config -n ${ocp_project}', returnStdout: true)
+        println ret
+        ret = sh(script: 'oc create configmap ${app_name}-config --from-file=./config/dev.properties -n ${ocp_project}', returnStdout: true)
+        println ret
+        //sh "oc delete configmap ${app_name}-config -n ${ocp_project}"
+        //sh "oc create configmap ${app_name}-config --from-file=./config/dev.properties -n ${ocp_project}"
         openshiftDeploy apiURL: '', authToken: '', depCfg: '${app_name}', namespace: '${ocp_project}', verbose: 'false', waitTime: '', waitUnit: 'sec'
-        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: ${app_name}, namespace: ${ocp_project}, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: app_name, namespace: ocp_project, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
     }
 
 //    // Run Integration Tests in the Development Environment.
