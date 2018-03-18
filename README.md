@@ -45,5 +45,7 @@ https://github.com/wkulhanek/ParksMap
         ``$ ./setup_nexus3.sh <nexus username> <nexus password> <nexus URL>``
     2. next run **add-docker-registry-route.sh** script to expose the docker registry capability on your network        
 6. In the **jenkins** folder run the **deploy.sh** script, this deploys the Jenkins process automation engine.
-7. In the repos folder     
-
+7. In the repos folder run the setup.sh script, this clones https://github.com/wkulhanek/ParksMap and then splits that repo into three other in gogs :
+    1. https://gogs-cicd.apps.<your ocp domain>/mitzicom/parksmap    
+    2. https://gogs-cicd.apps.<your ocp domain>/mitzicom/nationalparks
+    3. https://gogs-cicd.apps.<your ocp domain>/mitzicom/mlbparks
