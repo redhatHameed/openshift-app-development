@@ -51,4 +51,6 @@ https://github.com/wkulhanek/ParksMap
     1. https://gogs-cicd.apps.your.ocp.domain/mitzicom/parksmap    
     2. https://gogs-cicd.apps.your.ocp.domain/mitzicom/nationalparks
     3. https://gogs-cicd.apps.your.ocp.domain/mitzicom/mlbparks
-8. In the **mlbparks** folder run the **setup.sh** script, this creates a jenkins pipline job, that points to **mlbparks/pipline.groovy** file in this repo
+8. In the **app/mlbparks** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/mlbparks/pipeline.groovy** file in this repo
+9. In the **app/nationalparks** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/nationalparks/pipeline.groovy** file in this repo
+10. In the **app/parksmap** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/parksmap/pipeline.groovy** file in this repo
