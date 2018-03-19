@@ -10,7 +10,8 @@ node('maven') {
     def app_name = "mlbparks"
     def dev_project = "${org}-dev"
     def prod_project = "${org}-prod"
-    def app_url = "http://${app_name}-${dev_project}.apps.ocp.datr.eu"
+    def app_url_dev = "http://${app_name}-${dev_project}.apps.ocp.datr.eu"
+    def app_url = "http://${app_name}.apps.ocp.datr.eu"
     def groupId    = getGroupIdFromPom("pom.xml")
     def artifactId = getArtifactIdFromPom("pom.xml")
     def version    = getVersionFromPom("pom.xml")
@@ -78,29 +79,30 @@ node('maven') {
     // Run Integration Tests in the Development Environment.
     stage('Integration Tests') {
         echo "Running Integration Tests"
-        //sleep(30)
+
         openshiftVerifyService apiURL: '', authToken: '', namespace: dev_project, svcName: app_name, verbose: 'false'
         echo "Checking for app health ..."
-        def curlget = "curl -f ${app_url}/ws/healthz".execute().with{
+        def curlget = "curl -f ${app_url_dev}/ws/healthz".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
             assert it.exitValue() == 0: "$error"
         }
         echo "Checking for app info ..."
-        curlget = "curl -f ${app_url}/ws/info".execute().with{
+        curlget = "curl -f ${app_url_dev}/ws/info".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
             assert it.exitValue() == 0: "$error"
         }
+
         openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: app_name, destTag: prodTag, destinationAuthToken: '', destinationNamespace: dev_project, namespace: dev_project, srcStream: app_name, srcTag: devTag, verbose: 'false'
     }
 
 
-    stage('Wait for approval') {
+    stage('Wait for approval to be staged in production') {
         timeout(time: 2, unit: 'DAYS') {
-            input message: 'Approve this build to move into production ?'
+            input message: 'Approve this build to be staged in production ?'
         }
     }
 
@@ -110,18 +112,18 @@ node('maven') {
     def destApp   = "${app_name}-green"
     def activeApp = ""
 
-    stage('Blue/Green Production Deployment') {
-        sh "oc set image dc/${destApp} ${destApp}=${dev_project}/${app_name}:${prodTag} -n ${prod_project}"
-        def ret = sh(script: "oc delete configmap ${app_name}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
-        ret = sh(script: "oc create configmap ${app_name}-config --from-file=src/main/resources/mlbparks.json -n ${prod_project}", returnStdout: true)
-        openshiftDeploy apiURL: '', authToken: '', depCfg: destApp, namespace: prod_project, verbose: 'false', waitTime: '', waitUnit: 'sec'
-        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: destApp, namespace: prod_project, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+//    stage('Blue/Green Production Deployment') {
+//        sh "oc set image dc/${destApp} ${destApp}=${dev_project}/${app_name}:${prodTag} -n ${prod_project}"
+//        def ret = sh(script: "oc delete configmap ${destApp}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
+//        ret = sh(script: "oc create configmap ${destApp}-config --from-file=src/main/resources/mlbparks.json -n ${prod_project}", returnStdout: true)
+//        openshiftDeploy apiURL: '', authToken: '', depCfg: destApp, namespace: prod_project, verbose: 'false', waitTime: '', waitUnit: 'sec'
+//        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: destApp, namespace: prod_project, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+//
+//    }
 
-    }
-
-    stage('Switch over to new Version') {
-        echo "Determining active service ..."
-        oc = "oc get route tasks -o jsonpath='{ .spec.to.name }' -n ${prod_project}".execute().with{
+    stage('Deploying ${app_name} into Production') {
+        echo "Determining currently active service ..."
+        oc = "oc get route ${app_name} -o jsonpath='{ .spec.to.name }' -n ${prod_project}".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
@@ -141,12 +143,33 @@ node('maven') {
         }
         echo "Switching Production application to ${target}."
 
-        sh "oc set image dc/${target} ${target}=docker-registry.default.svc:5000/jnd-tasks-prod/tasks:${prodTag} -n ${prod_project}"
-        ret = sh(script: "oc delete configmap ${app_name}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
-        ret = sh(script: "oc create configmap ${app_name}-config --from-file=src/main/resources/mlbparks.json -n ${prod_project}", returnStdout: true)
+        sh "oc set image dc/${target} ${target}=${dev_project}/${app_name}:${prodTag} -n ${prod_project}"
+        ret = sh(script: "oc delete configmap ${destApp}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
+        ret = sh(script: "oc create configmap ${destApp}-config --from-file=src/main/resources/mlbparks.json -n ${prod_project}", returnStdout: true)
         openshiftDeploy apiURL: '', authToken: '', depCfg: target, namespace: prod_project, verbose: 'false', waitTime: '', waitUnit: 'sec'
         openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: target, namespace: prod_project, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
-        sleep(10)
+        openshiftVerifyService apiURL: '', authToken: '', namespace: prod_project, svcName: target, verbose: 'false'
+
+        echo "Checking for app health ..."
+        def curlget = "curl -f ${app_url_dev}/ws/healthz".execute().with{
+            def output = new StringWriter()
+            def error = new StringWriter()
+            it.waitForProcessOutput(output, error)
+            assert it.exitValue() == 0: "$error"
+        }
+        echo "Checking for app info ..."
+        curlget = "curl -f ${app_url_dev}/ws/info".execute().with{
+            def output = new StringWriter()
+            def error = new StringWriter()
+            it.waitForProcessOutput(output, error)
+            assert it.exitValue() == 0: "$error"
+        }
+
+        timeout(time: 2, unit: 'DAYS') {
+            input message: 'Approve this build to GO LIVE ?'
+        }
+
+        //Finally cut over the route
         ret = sh(script: "oc patch route/{app_name} -p '{\"spec\":{\"to\":{\"name\":\"${target}\"}}}' -n ${prod_project}", returnStdout: true)
 
     }
