@@ -94,7 +94,7 @@ node('maven') {
             it.waitForProcessOutput(output, error)
             assert it.exitValue() == 0: "$error"
         }
-        openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: app_name, destTag: prodTag, destinationAuthToken: '', destinationNamespace: prod_project, namespace: dev_project, srcStream: app_name, srcTag: devTag, verbose: 'false'
+        openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: app_name, destTag: prodTag, destinationAuthToken: '', destinationNamespace: dev_project, namespace: dev_project, srcStream: app_name, srcTag: devTag, verbose: 'false'
     }
 
 
@@ -111,7 +111,7 @@ node('maven') {
     def activeApp = ""
 
     stage('Blue/Green Production Deployment') {
-        sh "oc set image dc/${destApp} ${destApp}=jnd-tasks-prod/tasks:${prodTag} -n ${prod_project}"
+        sh "oc set image dc/${destApp} ${destApp}=${dev_project}/${app_name}:${prodTag} -n ${prod_project}"
         def ret = sh(script: "oc delete configmap ${app_name}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
         ret = sh(script: "oc create configmap ${app_name}-config --from-file=src/main/resources/mlbparks.json -n ${prod_project}", returnStdout: true)
         openshiftDeploy apiURL: '', authToken: '', depCfg: destApp, namespace: prod_project, verbose: 'false', waitTime: '', waitUnit: 'sec'
