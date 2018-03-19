@@ -24,7 +24,7 @@ oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:jenkins -n
 oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:default -n ${DEV_PROJECT}
 oc policy add-role-to-user view --serviceaccount=default -n ${DEV_PROJECT}
 
-for APP in "mlbparks nationalparks parksmap"
+for APP in mlbparks nationalparks parksmap
 do
     echo Setting up ${APP}
     oc new-build --binary=true --name=${APP} jboss-eap70-openshift:1.6 -n ${DEV_PROJECT}
@@ -44,9 +44,9 @@ done
 
 oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:jenkins -n ${PROD_PROJECT}
 oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:default -n ${PROD_PROJECT}
-oc policy add-role-to-user view --serviceaccount=default -n ${DEV_PROJECT}
+oc policy add-role-to-user view --serviceaccount=default -n ${PROD_PROJECT}
 
-for APP in "mlbparks nationalparks parksmap"
+for APP in mlbparks nationalparks parksmap
 do
     echo Setting up ${APP}
     oc new-app ${PROD_PROJECT}/${APP}:0.0 --name=${APP} --allow-missing-imagestream-tags=true -n ${PROD_PROJECT}
