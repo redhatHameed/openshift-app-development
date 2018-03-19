@@ -6,8 +6,12 @@ node('maven') {
         git credentialsId: 'gogs', url: "https://gogs-cicd.apps.ocp.datr.eu/mitzicom/mlbparks.git"
     }
 
-    def org = "mitzicom"
-    def app_name = "mlbparks"
+    // Set the tag for the development image: version + build number
+    //def devTag  = "0.0-0"
+    // Set the tag for the production image: version
+    //def prodTag = "0.0"
+    //def org = "mitzicom"
+    //def app_name = "mlbparks"
     def dev_project = "${org}-dev"
     def prod_project = "${org}-prod"
     def app_url_dev = "http://${app_name}-${dev_project}.apps.ocp.datr.eu"

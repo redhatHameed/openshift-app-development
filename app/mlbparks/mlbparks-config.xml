@@ -13,6 +13,30 @@
             <triggers/>
         </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
     </properties>
+    <hudson.model.ParametersDefinitionProperty>
+        <parameterDefinitions>
+            <hudson.model.StringParameterDefinition>
+                <name>org</name>
+                <description>the organisation using this product</description>
+                <defaultValue>mitzicom</defaultValue>
+            </hudson.model.StringParameterDefinition>
+            <hudson.model.StringParameterDefinition>
+                <name>app_name</name>
+                <description>the product name</description>
+                <defaultValue>mlbparks</defaultValue>
+            </hudson.model.StringParameterDefinition>
+            <hudson.model.StringParameterDefinition>
+                <name>devTag</name>
+                <description>the version tag for a dev build</description>
+                <defaultValue>0.0-0</defaultValue>
+            </hudson.model.StringParameterDefinition>
+            <hudson.model.StringParameterDefinition>
+                <name>prodTag</name>
+                <description>the version tag for a dev build</description>
+                <defaultValue>0.0</defaultValue>
+            </hudson.model.StringParameterDefinition>
+        </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
     <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.39">
         <scm class="hudson.plugins.git.GitSCM" plugin="git@3.3.2">
             <configVersion>2</configVersion>
