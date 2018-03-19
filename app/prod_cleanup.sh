@@ -9,3 +9,5 @@ oc project $PROD_PROJECT
 oc delete all --all
 oc delete configmaps --all
 oc delete pvc --all
+oc delete secret mongodb
+
