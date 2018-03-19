@@ -57,3 +57,4 @@ then
     oc expose svc ${APP}-${COLOUR} --hostname=${APP}.apps.ocp.datr.eu --name=${APP} -n ${PROD_PROJECT}
 else
     oc expose svc ${APP}-${COLOUR} -l type=parksmap-backend --hostname=${APP}.apps.ocp.datr.eu --name=${APP} -n ${PROD_PROJECT}
+fi

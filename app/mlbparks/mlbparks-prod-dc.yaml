@@ -53,7 +53,7 @@ objects:
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /ws/data/all
+              path: /ws/healthz
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
@@ -63,7 +63,7 @@ objects:
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /ws/healthz
+              path: /ws/data/all
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
