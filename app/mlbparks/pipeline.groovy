@@ -121,7 +121,7 @@ node('maven') {
 //
 //    }
 
-    stage('Deploying ${app_name} into Production') {
+    stage("Deploying ${app_name} into Production") {
         echo "Determining currently active service ..."
 //        oc = "oc get route ${app_name} -o jsonpath='{ .spec.to.name }' -n ${prod_project}".execute().with{
 //            def output = new StringWriter()
