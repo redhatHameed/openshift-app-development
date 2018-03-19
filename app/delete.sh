@@ -15,4 +15,14 @@ curl -v -H "Content-Type: text/xml" \
   -H Jenkins-Crumb:${CRUMB} \
   -X POST https://${JENKINS}/job/mlbparks/doDelete
 
+curl -v -H "Content-Type: text/xml" \
+  --user ${JENKINS_USER}:${JENKINS_TOKEN} \
+  -H Jenkins-Crumb:${CRUMB} \
+  -X POST https://${JENKINS}/job/nationalparks/doDelete
+
+curl -v -H "Content-Type: text/xml" \
+  --user ${JENKINS_USER}:${JENKINS_TOKEN} \
+  -H Jenkins-Crumb:${CRUMB} \
+  -X POST https://${JENKINS}/job/parksmap/doDelete
+
 

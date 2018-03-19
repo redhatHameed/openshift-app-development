@@ -37,6 +37,11 @@
                     <defaultValue>https://gogs-cicd.apps.ocp.datr.eu/mitzicom/nationalparks.git</defaultValue>
                 </hudson.model.StringParameterDefinition>
                 <hudson.model.StringParameterDefinition>
+                    <name>config_file</name>
+                    <description>a config file tobe attached to nationalparks-config configmap</description>
+                    <defaultValue>src/main/resources/nationalparks.json</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
                     <name>devTag</name>
                     <description>the version tag for a dev build</description>
                     <defaultValue>0.0-0</defaultValue>

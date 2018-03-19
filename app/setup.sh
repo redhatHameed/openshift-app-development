@@ -27,3 +27,9 @@ curl -v -H "Content-Type: text/xml" \
   -H Jenkins-Crumb:${CRUMB} \
   --data-binary @parksmap/config.xml \
   -X POST https://${JENKINS}/createItem?name=parksmap
+
+./build_ocp_resources.sh mlbparks
+
+./build_ocp_resources.sh nationalparks
+
+./build_ocp_resources.sh parksmap

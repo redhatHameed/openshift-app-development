@@ -37,6 +37,11 @@
                     <defaultValue>https://gogs-cicd.apps.ocp.datr.eu/mitzicom/mlbparks.git</defaultValue>
                 </hudson.model.StringParameterDefinition>
                 <hudson.model.StringParameterDefinition>
+                    <name>config_file</name>
+                    <description>a config file tobe attached to mlbparks-config configmap</description>
+                    <defaultValue>src/main/resources/mlbparks.json</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
                     <name>devTag</name>
                     <description>the version tag for a dev build</description>
                     <defaultValue>0.0-0</defaultValue>
