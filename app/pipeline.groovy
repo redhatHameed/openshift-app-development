@@ -3,15 +3,9 @@
 node('maven') {
 
     stage('Checkout Source') {
-        git credentialsId: 'gogs', url: "https://gogs-cicd.apps.ocp.datr.eu/mitzicom/mlbparks.git"
+        git credentialsId: 'gogs', url: "${git_url}"
     }
 
-    // Set the tag for the development image: version + build number
-    //def devTag  = "0.0-0"
-    // Set the tag for the production image: version
-    //def prodTag = "0.0"
-    //def org = "mitzicom"
-    //def app_name = "mlbparks"
     def dev_project = "${org}-dev"
     def prod_project = "${org}-prod"
     def app_url_dev = "http://${app_name}-${dev_project}.apps.ocp.datr.eu"
@@ -20,11 +14,6 @@ node('maven') {
     def artifactId = getArtifactIdFromPom("pom.xml")
     def version    = getVersionFromPom("pom.xml")
     def packaging    = getPackagingFromPom("pom.xml")
-
-    // Set the tag for the development image: version + build number
-    def devTag  = "0.0-0"
-    // Set the tag for the production image: version
-    def prodTag = "0.0"
 
     stage('Build war') {
         echo "Building version ${version}"
@@ -111,28 +100,12 @@ node('maven') {
     }
 
     // Blue/Green Deployment into Production
-    // -------------------------------------
-    // Do not activate the new version yet.
     def destApp   = "${app_name}-green"
     def activeApp = ""
 
-//    stage('Blue/Green Production Deployment') {
-//        sh "oc set image dc/${destApp} ${destApp}=${dev_project}/${app_name}:${prodTag} -n ${prod_project}"
-//        def ret = sh(script: "oc delete configmap ${destApp}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
-//        ret = sh(script: "oc create configmap ${destApp}-config --from-file=src/main/resources/mlbparks.json -n ${prod_project}", returnStdout: true)
-//        openshiftDeploy apiURL: '', authToken: '', depCfg: destApp, namespace: prod_project, verbose: 'false', waitTime: '', waitUnit: 'sec'
-//        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: destApp, namespace: prod_project, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
-//
-//    }
-
     stage("Deploying ${app_name} into Production") {
         echo "Determining currently active service ..."
-//        oc = "oc get route ${app_name} -o jsonpath='{ .spec.to.name }' -n ${prod_project}".execute().with{
-//            def output = new StringWriter()
-//            def error = new StringWriter()
-//            it.waitForProcessOutput(output, error)
-//            println output.toString()
-//        }
+
         def active_service = sh(script: "oc get route ${app_name} -o jsonpath=\'{ .spec.to.name }\' -n ${prod_project}", returnStdout: true)
         println "${active_service} is the currently active service"
 

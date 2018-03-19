@@ -13,7 +13,7 @@ echo CRUMB=$CRUMB
 curl -v -H "Content-Type: text/xml" \
   --user ${JENKINS_USER}:${JENKINS_TOKEN} \
   -H Jenkins-Crumb:${CRUMB} \
-  --data-binary @mlbparks-config.xml \
+  --data-binary @config.xml \
   -X POST https://${JENKINS}/createItem?name=mlbparks
 
 

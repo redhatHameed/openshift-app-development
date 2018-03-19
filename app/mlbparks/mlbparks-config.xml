@@ -9,10 +9,10 @@
             <name></name>
             <resourceVersion></resourceVersion>
         </io.fabric8.jenkins.openshiftsync.BuildConfigProjectProperty>
-        <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
-            <triggers/>
-        </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
     </properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
+        <autoRebuild>false</autoRebuild>
+    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
         <parameterDefinitions>
             <hudson.model.StringParameterDefinition>
@@ -54,7 +54,7 @@
             <submoduleCfg class="list"/>
             <extensions/>
         </scm>
-        <scriptPath>app/mlbparks/pipeline.groovy</scriptPath>
+        <scriptPath>app/pipeline.groovy</scriptPath>
         <lightweight>true</lightweight>
     </definition>
     <triggers/>
