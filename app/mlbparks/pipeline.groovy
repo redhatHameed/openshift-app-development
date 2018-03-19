@@ -99,53 +99,55 @@ node('maven') {
 
 
     stage('Wait for approval') {
-
+        timeout(time: 2, unit: 'DAYS') {
+            input message: 'Approve this build to move into production ?'
+        }
     }
 
     // Blue/Green Deployment into Production
     // -------------------------------------
     // Do not activate the new version yet.
-    def destApp   = "tasks-green"
+    def destApp   = "${app_name}-green"
     def activeApp = ""
 
     stage('Blue/Green Production Deployment') {
-        sh "oc set image dc/${destApp} ${destApp}=docker-registry.default.svc:5000/jnd-tasks-prod/tasks:${prodTag} -n jnd-tasks-prod"
-        sh "oc delete configmap ${destApp}-config -n jnd-tasks-prod"
-        sh "oc create configmap ${destApp}-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n jnd-tasks-prod"
-        openshiftDeploy apiURL: '', authToken: '', depCfg: "${destApp}", namespace: 'jnd-tasks-prod', verbose: 'false', waitTime: '', waitUnit: 'sec'
-        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: "${destApp}", namespace: 'jnd-tasks-prod', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+        sh "oc set image dc/${destApp} ${destApp}=jnd-tasks-prod/tasks:${prodTag} -n ${prod_project}"
+        def ret = sh(script: "oc delete configmap ${app_name}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
+        ret = sh(script: "oc create configmap ${app_name}-config --from-file=src/main/resources/mlbparks.json -n ${prod_project}", returnStdout: true)
+        openshiftDeploy apiURL: '', authToken: '', depCfg: destApp, namespace: prod_project, verbose: 'false', waitTime: '', waitUnit: 'sec'
+        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: destApp, namespace: prod_project, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
 
     }
 
     stage('Switch over to new Version') {
         echo "Determining active service ..."
-        oc = "oc get route tasks -o jsonpath='{ .spec.to.name }' -n jnd-tasks-prod".execute().with{
+        oc = "oc get route tasks -o jsonpath='{ .spec.to.name }' -n ${prod_project}".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
             println output.toString()
         }
-        def ret = sh(script: 'oc get route tasks -o jsonpath=\'{ .spec.to.name }\' -n jnd-tasks-prod', returnStdout: true)
+        def ret = sh(script: 'oc get route tasks -o jsonpath=\'{ .spec.to.name }\' -n ${prod_project}', returnStdout: true)
         println ret
         def target = "unknown"
 
-        if (ret.equals("tasks-green"))    {
-            target = "tasks-blue"
+        if (ret.equals("{app_name}-green"))    {
+            target = "{app_name}-blue"
             println "Cutting over to ${target}"
         }
         else    {
-            target = "tasks-green"
+            target = "{app_name}-green"
             println "Cutting over to ${target}"
         }
         echo "Switching Production application to ${target}."
 
-        sh "oc set image dc/${target} ${target}=docker-registry.default.svc:5000/jnd-tasks-prod/tasks:${prodTag} -n jnd-tasks-prod"
-        sh "oc delete configmap ${target}-config -n jnd-tasks-prod"
-        sh "oc create configmap ${target}-config --from-file=./configuration/application-users.properties --from-file=./configuration/application-roles.properties -n jnd-tasks-prod"
-        openshiftDeploy apiURL: '', authToken: '', depCfg: "${target}", namespace: 'jnd-tasks-prod', verbose: 'false', waitTime: '', waitUnit: 'sec'
-        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: "${target}", namespace: 'jnd-tasks-prod', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
+        sh "oc set image dc/${target} ${target}=docker-registry.default.svc:5000/jnd-tasks-prod/tasks:${prodTag} -n ${prod_project}"
+        ret = sh(script: "oc delete configmap ${app_name}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
+        ret = sh(script: "oc create configmap ${app_name}-config --from-file=src/main/resources/mlbparks.json -n ${prod_project}", returnStdout: true)
+        openshiftDeploy apiURL: '', authToken: '', depCfg: target, namespace: prod_project, verbose: 'false', waitTime: '', waitUnit: 'sec'
+        openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: target, namespace: prod_project, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
         sleep(10)
-        ret = sh(script: "oc patch route/tasks -p '{\"spec\":{\"to\":{\"name\":\"${target}\"}}}' -n jnd-tasks-prod", returnStdout: true)
+        ret = sh(script: "oc patch route/{app_name} -p '{\"spec\":{\"to\":{\"name\":\"${target}\"}}}' -n ${prod_project}", returnStdout: true)
 
     }
 }
