@@ -134,9 +134,9 @@ node('maven') {
 
         def target = "unknown"
         if (active_service.equals(app_name + "-green")) {
-            target = "${app_name}-blue"
+            target = app_name+"-blue"
         } else {
-            target = "${app_name}-green"
+            target = app_name+"-green"
         }
         println "So staging ${app_name} to ${target}"
 
