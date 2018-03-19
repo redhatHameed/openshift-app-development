@@ -130,10 +130,10 @@ node('maven') {
 //            println output.toString()
 //        }
         def active_service = sh(script: "oc get route ${app_name} -o jsonpath=\'{ .spec.to.name }\' -n ${prod_project}", returnStdout: true)
-        println "${active_service} is currently active service"
+        println "${active_service} is the currently active service"
 
         def target = "unknown"
-        if (ret.equals("${app_name}-green"))    {
+        if (active_service.equals("${app_name}-green"))    {
             target = "${app_name}-blue"
         }
         else    {
@@ -142,7 +142,7 @@ node('maven') {
         println "So staging ${app_name} to ${target}"
 
         sh "oc set image dc/${target} ${target}=${dev_project}/${app_name}:${prodTag} -n ${prod_project}"
-        ret = sh(script: "oc delete configmap ${destApp}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
+        def ret = sh(script: "oc delete configmap ${destApp}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
         ret = sh(script: "oc create configmap ${destApp}-config --from-file=src/main/resources/mlbparks.json -n ${prod_project}", returnStdout: true)
         openshiftDeploy apiURL: '', authToken: '', depCfg: target, namespace: prod_project, verbose: 'false', waitTime: '', waitUnit: 'sec'
         openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: target, namespace: prod_project, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
