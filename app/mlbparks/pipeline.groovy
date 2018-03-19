@@ -129,19 +129,17 @@ node('maven') {
 //            it.waitForProcessOutput(output, error)
 //            println output.toString()
 //        }
-        def ret = sh(script: "oc get route ${app_name} -o jsonpath=\'{ .spec.to.name }\' -n ${prod_project}", returnStdout: true)
-        println ret
-        def target = "unknown"
+        def active_service = sh(script: "oc get route ${app_name} -o jsonpath=\'{ .spec.to.name }\' -n ${prod_project}", returnStdout: true)
+        println "${active_service} is currently active service"
 
-        if (ret.equals("{app_name}-green"))    {
-            target = "{app_name}-blue"
-            println "Cutting over to ${target}"
+        def target = "unknown"
+        if (ret.equals("${app_name}-green"))    {
+            target = "${app_name}-blue"
         }
         else    {
-            target = "{app_name}-green"
-            println "Cutting over to ${target}"
+            target = "${app_name}-green"
         }
-        echo "Switching Production application to ${target}."
+        println "So staging ${app_name} to ${target}"
 
         sh "oc set image dc/${target} ${target}=${dev_project}/${app_name}:${prodTag} -n ${prod_project}"
         ret = sh(script: "oc delete configmap ${destApp}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
@@ -150,7 +148,7 @@ node('maven') {
         openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: target, namespace: prod_project, replicaCount: '1', verbose: 'false', verifyReplicaCount: 'true', waitTime: '', waitUnit: 'sec'
         openshiftVerifyService apiURL: '', authToken: '', namespace: prod_project, svcName: target, verbose: 'false'
 
-        echo "Checking for app health ..."
+        echo "Checking ${target} app health ..."
         def curlget = "curl -f ${app_url_dev}/ws/healthz".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
@@ -170,7 +168,7 @@ node('maven') {
         }
 
         //Finally cut over the route
-        ret = sh(script: "oc patch route/{app_name} -p '{\"spec\":{\"to\":{\"name\":\"${target}\"}}}' -n ${prod_project}", returnStdout: true)
+        ret = sh(script: "oc patch route/${app_name} -p '{\"spec\":{\"to\":{\"name\":\"${target}\"}}}' -n ${prod_project}", returnStdout: true)
 
     }
 }

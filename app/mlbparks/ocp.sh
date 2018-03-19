@@ -37,4 +37,4 @@ oc new-app -f ${APP}-prod-dc.yaml --allow-missing-imagestream-tags=true -p BLUE_
 oc set volume dc/${APP}-${COLOUR} --add --name=${APP}-${COLOUR}-config-vol --mount-path=/opt/eap/standalone/configuration/${APP}-config --configmap-name=${APP}-${COLOUR}-config -n ${PROD_PROJECT}
 oc expose dc ${APP}-${COLOUR} --port 8080 -n ${PROD_PROJECT}
 
-oc expose svc ${APP}-${COLOUR} --hostname=mlbparks.apps.ocp.datr.eu -n ${PROD_PROJECT}
+oc expose svc ${APP}-${COLOUR} --hostname=mlbparks.apps.ocp.datr.eu --name=${APP} -n ${PROD_PROJECT}
