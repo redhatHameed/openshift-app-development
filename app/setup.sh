@@ -28,8 +28,8 @@ curl -v -H "Content-Type: text/xml" \
   --data-binary @parksmap/config.xml \
   -X POST https://${JENKINS}/createItem?name=parksmap
 
-./build_ocp_resources.sh mlbparks
+./build_ocp_resources.sh mlbparks jboss-eap70-openshift:1.6
 
-./build_ocp_resources.sh nationalparks
+./build_ocp_resources.sh nationalparks redhat-openjdk18-openshift:1.2
 
-./build_ocp_resources.sh parksmap
+./build_ocp_resources.sh parksmap redhat-openjdk18-openshift:1.2

@@ -40,7 +40,7 @@ objects:
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /ws/info
+              path: /ws/healthz
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 10
