@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Template
 metadata:
-  creationTimestamp: null
   name: nationalparks-dev-dc
 objects:
+
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
@@ -40,7 +40,7 @@ objects:
             - name: DB_HOST
               value: mongodb
             - name: DB_PORT
-              value: 27017
+              value: "27017"
             - name: DB_USERNAME
               value: mongodb
             - name: DB_PASSWORD
@@ -78,20 +78,3 @@ objects:
         securityContext: {}
         terminationGracePeriodSeconds: 30
     test: false
-
-
-
-
-- env:
-  - name: DB_HOST
-    value: mongodb
-  - name: DB_PORT
-    value: 27017
-  - name: DB_USERNAME
-    value: mongodb
-  - name: DB_PASSWORD
-    value: mongodb
-  - name: DB_NAME
-    value: parks
-  - name: DB_REPLICASET
-    value: rs0
