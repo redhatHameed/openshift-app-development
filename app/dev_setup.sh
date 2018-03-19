@@ -24,3 +24,27 @@ oc new-app -f ${APP}/${APP}-dev-dc.yaml --allow-missing-imagestream-tags=true -n
 oc set volume dc/${APP} --add --name=${APP}-config-vol --mount-path=/config --configmap-name=${APP}-config -n ${DEV_PROJECT}
 oc expose dc ${APP} --port 8080 -n ${DEV_PROJECT}
 oc expose svc ${APP} -l type=parksmap-backend -n ${DEV_PROJECT}
+
+APP=nationalparks
+S2I_IMAGE=redhat-openjdk18-openshift:1.2
+echo Setting up ${APP} for ${DEV_PROJECT}
+oc new-build --binary=true --labels=app=${APP} --name=${APP} ${S2I_IMAGE} -n ${DEV_PROJECT}
+oc new-app -f ${APP}/${APP}-dev-dc.yaml --allow-missing-imagestream-tags=true -n ${DEV_PROJECT}
+oc set volume dc/${APP} --add --name=${APP}-config-vol --mount-path=/config --configmap-name=${APP}-config -n ${DEV_PROJECT}
+oc expose dc ${APP} --port 8080 -n ${DEV_PROJECT}
+oc expose svc ${APP} -l type=parksmap-backend -n ${DEV_PROJECT}
+
+APP=parksmap
+S2I_IMAGE=redhat-openjdk18-openshift:1.2
+echo Setting up ${APP} for ${DEV_PROJECT}
+oc new-build --binary=true --labels=app=${APP} --name=${APP} ${S2I_IMAGE} -n ${DEV_PROJECT}
+oc new-app -f ${APP}/${APP}-dev-dc.yaml --allow-missing-imagestream-tags=true -n ${DEV_PROJECT}
+oc set volume dc/${APP} --add --name=${APP}-config-vol --mount-path=/config --configmap-name=${APP}-config -n ${DEV_PROJECT}
+oc expose dc ${APP} --port 8080 -n ${DEV_PROJECT}
+oc expose svc ${APP} -l type=parksmap-backend -n ${DEV_PROJECT}
+
+cd mongodb
+
+./dev-deploy.sh
+
+cd ..
