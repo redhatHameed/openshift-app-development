@@ -37,6 +37,19 @@ objects:
         - name: mlbparks-${BLUE_OR_GREEN}
           image: " "
           imagePullPolicy: IfNotPresent
+          - env:
+            - name: DB_HOST
+              value: mongodb
+            - name: DB_PORT
+              value: 27017
+            - name: DB_USERNAME
+              value: mongodb
+            - name: DB_PASSWORD
+              value: mongodb
+            - name: DB_NAME
+              value: parks
+            - name: DB_REPLICASET
+              value: rs0
           livenessProbe:
             failureThreshold: 3
             httpGet:
