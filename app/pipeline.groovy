@@ -81,13 +81,6 @@ node('maven') {
             it.waitForProcessOutput(output, error)
             assert it.exitValue() == 0: "$error"
         }
-        echo "Checking for app info ..."
-        curlget = "curl -f ${app_url_dev}/ws/info".execute().with{
-            def output = new StringWriter()
-            def error = new StringWriter()
-            it.waitForProcessOutput(output, error)
-            assert it.exitValue() == 0: "$error"
-        }
 
         openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: app_name, destTag: prodTag, destinationAuthToken: '', destinationNamespace: dev_project, namespace: dev_project, srcStream: app_name, srcTag: devTag, verbose: 'false'
     }
@@ -126,13 +119,6 @@ node('maven') {
 
         echo "Checking ${target} app health ..."
         def curlget = "curl -f http://${target}-${prod_project}.apps.ocp.datr.eu/ws/healthz".execute().with {
-            def output = new StringWriter()
-            def error = new StringWriter()
-            it.waitForProcessOutput(output, error)
-            assert it.exitValue() == 0: "$error"
-        }
-        echo "Checking for app info ..."
-        curlget = "curl -f http://${target}-${prod_project}.apps.ocp.datr.eu/ws/info".execute().with {
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
