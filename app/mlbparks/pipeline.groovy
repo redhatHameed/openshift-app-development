@@ -161,11 +161,22 @@ node('maven') {
             it.waitForProcessOutput(output, error)
             assert it.exitValue() == 0: "$error"
         }
+        echo "App health looks good !"
     }
 
     stage('GO LIVE !!!!!') {
+
+        def active_service = sh(script: "oc get route ${app_name} -o jsonpath=\'{ .spec.to.name }\' -n ${prod_project}", returnStdout: true)
+        println "${active_service} is the currently active service"
+
+        def target = "unknown"
+        if (active_service.equals(app_name + "-green")) {
+            target = app_name+"-blue"
+        } else {
+            target = app_name+"-green"
+        }
         timeout(time: 2, unit: 'DAYS') {
-            input message: 'Approve this build to GO LIVE ?'
+            input message: "Approve ${target} to GO LIVE ?"
         }
 
         //Finally cut over the route
