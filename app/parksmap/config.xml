@@ -1,19 +1,58 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job@2.10">
+    <actions>
+        <io.jenkins.blueocean.service.embedded.BlueOceanUrlAction plugin="blueocean-rest-impl@1.1.4">
+            <blueOceanUrlObject class="io.jenkins.blueocean.service.embedded.BlueOceanUrlObjectImpl">
+                <mappedUrl>blue/organizations/jenkins/mitzicom-parksmap</mappedUrl>
+            </blueOceanUrlObject>
+        </io.jenkins.blueocean.service.embedded.BlueOceanUrlAction>
+    </actions>
     <description></description>
     <keepDependencies>false</keepDependencies>
     <properties>
-        <io.fabric8.jenkins.openshiftsync.BuildConfigProjectProperty plugin="openshift-sync@0.1.32">
+        <io.fabric8.jenkins.openshiftsync.BuildConfigProjectProperty plugin="openshift-sync@0.1.26">
             <uid></uid>
             <namespace></namespace>
             <name></name>
             <resourceVersion></resourceVersion>
         </io.fabric8.jenkins.openshiftsync.BuildConfigProjectProperty>
+        <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
+            <autoRebuild>false</autoRebuild>
+        </com.sonyericsson.rebuild.RebuildSettings>
+        <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+                <hudson.model.StringParameterDefinition>
+                    <name>org</name>
+                    <description>the organisation using this product</description>
+                    <defaultValue>mitzicom</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>app_name</name>
+                    <description>the product name</description>
+                    <defaultValue>parksmap</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>git_url</name>
+                    <description>the git url for the project</description>
+                    <defaultValue>https://gogs-cicd.apps.ocp.datr.eu/mitzicom/parksmap.git</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>devTag</name>
+                    <description>the version tag for a dev build</description>
+                    <defaultValue>0.0-0</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>prodTag</name>
+                    <description>the version tag for a production version</description>
+                    <defaultValue>0.0</defaultValue>
+                </hudson.model.StringParameterDefinition>
+            </parameterDefinitions>
+        </hudson.model.ParametersDefinitionProperty>
         <org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
             <triggers/>
         </org.jenkinsci.plugins.workflow.job.properties.PipelineTriggersJobProperty>
     </properties>
-    <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.39">
+    <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.36.1">
         <scm class="hudson.plugins.git.GitSCM" plugin="git@3.3.2">
             <configVersion>2</configVersion>
             <userRemoteConfigs>
@@ -30,7 +69,7 @@
             <submoduleCfg class="list"/>
             <extensions/>
         </scm>
-        <scriptPath>app/parksmap/pipeline.groovy</scriptPath>
+        <scriptPath>app/pipeline.groovy</scriptPath>
         <lightweight>true</lightweight>
     </definition>
     <triggers/>

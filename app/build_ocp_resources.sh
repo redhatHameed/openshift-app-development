@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-. ../../env.sh
+
+APP=$1
+
+. ../env.sh
 
 oc login https://${IP}:8443 -u $USER
 
 oc project ${DEV_PROJECT}
-APP=mlbparks
 
 oc delete all -l app=${APP} -n ${DEV_PROJECT}
 oc delete is,bc,configmap ${APP} -n ${DEV_PROJECT}
