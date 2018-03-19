@@ -149,14 +149,14 @@ node('maven') {
         openshiftVerifyService apiURL: '', authToken: '', namespace: prod_project, svcName: target, verbose: 'false'
 
         echo "Checking ${target} app health ..."
-        def curlget = "curl -f ${app_url_dev}/ws/healthz".execute().with{
+        def curlget = "curl -f ${app_url}/ws/healthz".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
             assert it.exitValue() == 0: "$error"
         }
         echo "Checking for app info ..."
-        curlget = "curl -f ${app_url_dev}/ws/info".execute().with{
+        curlget = "curl -f ${app_url}/ws/info".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
