@@ -123,13 +123,13 @@ node('maven') {
 
     stage('Deploying ${app_name} into Production') {
         echo "Determining currently active service ..."
-        oc = "oc get route ${app_name} -o jsonpath='{ .spec.to.name }' -n ${prod_project}".execute().with{
-            def output = new StringWriter()
-            def error = new StringWriter()
-            it.waitForProcessOutput(output, error)
-            println output.toString()
-        }
-        def ret = sh(script: 'oc get route tasks -o jsonpath=\'{ .spec.to.name }\' -n ${prod_project}', returnStdout: true)
+//        oc = "oc get route ${app_name} -o jsonpath='{ .spec.to.name }' -n ${prod_project}".execute().with{
+//            def output = new StringWriter()
+//            def error = new StringWriter()
+//            it.waitForProcessOutput(output, error)
+//            println output.toString()
+//        }
+        def ret = sh(script: "oc get route ${app_name} -o jsonpath=\'{ .spec.to.name }\' -n ${prod_project}", returnStdout: true)
         println ret
         def target = "unknown"
 
