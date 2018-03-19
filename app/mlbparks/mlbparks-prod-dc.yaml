@@ -37,7 +37,7 @@ objects:
         - name: mlbparks-${BLUE_OR_GREEN}
           image: " "
           imagePullPolicy: IfNotPresent
-          - env:
+          env:
             - name: DB_HOST
               value: mongodb
             - name: DB_PORT
