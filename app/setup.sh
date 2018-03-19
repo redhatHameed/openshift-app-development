@@ -13,7 +13,17 @@ echo CRUMB=$CRUMB
 curl -v -H "Content-Type: text/xml" \
   --user ${JENKINS_USER}:${JENKINS_TOKEN} \
   -H Jenkins-Crumb:${CRUMB} \
-  --data-binary @config.xml \
+  --data-binary @mlbparks/config.xml \
   -X POST https://${JENKINS}/createItem?name=mlbparks
 
+curl -v -H "Content-Type: text/xml" \
+  --user ${JENKINS_USER}:${JENKINS_TOKEN} \
+  -H Jenkins-Crumb:${CRUMB} \
+  --data-binary @nationalparks/config.xml \
+  -X POST https://${JENKINS}/createItem?name=nationalparks
 
+curl -v -H "Content-Type: text/xml" \
+  --user ${JENKINS_USER}:${JENKINS_TOKEN} \
+  -H Jenkins-Crumb:${CRUMB} \
+  --data-binary @parksmap/config.xml \
+  -X POST https://${JENKINS}/createItem?name=parksmap
