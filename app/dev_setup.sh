@@ -14,7 +14,7 @@ done
 
 oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:jenkins -n ${DEV_PROJECT}
 oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:default -n ${DEV_PROJECT}
-
+oc policy add-role-to-user view --serviceaccount=default -n ${DEV_PROJECT}
 
 APP=mlbparks
 S2I_IMAGE=jboss-eap70-openshift:1.6

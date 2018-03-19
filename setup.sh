@@ -22,6 +22,7 @@ done
 
 oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:jenkins -n ${DEV_PROJECT}
 oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:default -n ${DEV_PROJECT}
+oc policy add-role-to-user view --serviceaccount=default -n ${DEV_PROJECT}
 
 for APP in "mlbparks nationalparks parksmap"
 do
@@ -43,6 +44,7 @@ done
 
 oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:jenkins -n ${PROD_PROJECT}
 oc policy add-role-to-user edit system:serviceaccount:${CICD_PROJECT}:default -n ${PROD_PROJECT}
+oc policy add-role-to-user view --serviceaccount=default -n ${DEV_PROJECT}
 
 for APP in "mlbparks nationalparks parksmap"
 do
