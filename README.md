@@ -62,8 +62,8 @@ This concludes environment setup the remainder of this guide concerns setup of t
         2. nationalparks
         3. parksmap
     2. MongoDB statefulsets:
-            1. **dev-deploy.sh**, this deploys a single replica mogodb statefulset with persistent storage into the **mitzicom-dev** project
-            2. **prod-deploy.sh**, this deploys a 3 replica mogodb statefulset with persistent storage into the **mitzicom-prod** project     
+        1. **dev-deploy.sh**, this deploys a single replica mogodb statefulset with persistent storage into the **mitzicom-dev** project
+        2. **prod-deploy.sh**, this deploys a 3 replica mogodb statefulset with persistent storage into the **mitzicom-prod** project     
     3. OCP resources including buildconfigs, deploymentconfigs, services and routes for the application pod to use.
     
     
