@@ -6,14 +6,19 @@ node('maven') {
         git credentialsId: 'gogs', url: "${git_url}"
     }
 
-    def dev_project = "${org}-dev"
+    def dev_project  = "${org}-dev"
     def prod_project = "${org}-prod"
-    def app_url_dev = "http://${app_name}-${dev_project}.apps.ocp.datr.eu"
-    def app_url = "http://${app_name}.apps.ocp.datr.eu"
-    def groupId    = getGroupIdFromPom("pom.xml")
-    def artifactId = getArtifactIdFromPom("pom.xml")
-    def version    = getVersionFromPom("pom.xml")
+    def app_url_dev  = "http://${app_name}-${dev_project}.apps.ocp.datr.eu"
+    def app_url      = "http://${app_name}.apps.ocp.datr.eu"
+    def groupId      = getGroupIdFromPom("pom.xml")
+    def artifactId   = getArtifactIdFromPom("pom.xml")
+    def version      = getVersionFromPom("pom.xml")
     def packaging    = getPackagingFromPom("pom.xml")
+//    def sonar_url    = "https://sonarqube-cicd.apps.ocp.datr.eu"
+    def sonar_url    = "http://sonarqube.cicd.svc:9000"
+//    def nexus_url    = "https://nexus-cicd.apps.ocp.datr.eu"
+    def nexus_url    = "http://nexus.cicd.svc:8081"
+
 
     stage('Build war') {
         echo "Building version ${version}"
@@ -29,13 +34,13 @@ node('maven') {
     // Using Maven call SonarQube for Code Analysis
     stage('Code Analysis') {
         echo "Running Code Analysis"
-        sh "mvn -q -s settings.xml sonar:sonar -DskipTests -Dsonar.host.url=https://sonarqube-cicd.apps.ocp.datr.eu"
+        sh "mvn -q -s settings.xml sonar:sonar -DskipTests -Dsonar.host.url=${sonar_url}"
     }
 
     // Publish the built war file to Nexus
     stage('Publish to Nexus') {
         echo "Publish to Nexus"
-        sh "mvn -q -s settings.xml deploy -DskipTests -DaltDeploymentRepository=nexus::default::https://nexus-cicd.apps.ocp.datr.eu/repository/maven-snapshots"
+        sh "mvn -q -s settings.xml deploy -DskipTests -DaltDeploymentRepository=nexus::default::${nexus_url}/repository/maven-snapshots"
     }
 
     //Build the OpenShift Image in OpenShift and tag it.
