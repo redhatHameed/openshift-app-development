@@ -6,20 +6,17 @@ node('maven') {
         git credentialsId: 'gogs', url: "${git_url}"
     }
 
-    def approval_required = false
+    def approval_required = true
 
     def dev_project  = "${org}-dev"
     def prod_project = "${org}-prod"
-    def app_url_dev  = "http://${app_name}-${dev_project}.apps.ocp.datr.eu"
-    def app_url      = "http://${app_name}.apps.ocp.datr.eu"
+    def app_url_dev  = "http://${app_name}.${dev_project}.svc:8080"
     def groupId      = getGroupIdFromPom("pom.xml")
     def artifactId   = getArtifactIdFromPom("pom.xml")
     def version      = getVersionFromPom("pom.xml")
     def packaging    = getPackagingFromPom("pom.xml")
-//    def sonar_url    = "https://sonarqube-cicd.apps.ocp.datr.eu"
     def sonar_url    = "http://sonarqube.cicd.svc:9000"
-//    def nexus_url    = "https://nexus-cicd.apps.ocp.datr.eu"
-    def nexus_url    = "http://nexus.cicd.svc:8081"
+    def nexus_url    = "http://nexus.cicd.svc:8081/repository/maven-snapshots"
 
 
     stage('Build war') {
@@ -30,8 +27,7 @@ node('maven') {
     // Using Maven run the unit tests
     stage('Unit Tests') {
         echo "Running Unit Tests"
-        sh "mvn -q -s settings.xml test"
-        //junit '**/target/surefire-reports/*.xml'
+        sh "mvn -B -s settings.xml test"
     }
 
     // Using Maven call SonarQube for Code Analysis
@@ -43,7 +39,7 @@ node('maven') {
     // Publish the built war file to Nexus
     stage('Publish to Nexus') {
         echo "Publish to Nexus"
-        sh "mvn -q -s settings.xml deploy -DskipTests -DaltDeploymentRepository=nexus::default::${nexus_url}/repository/maven-snapshots"
+        sh "mvn -q -s settings.xml deploy -DskipTests -DaltDeploymentRepository=nexus::default::${nexus_url}"
     }
 
     //Build the OpenShift Image in OpenShift and tag it.
@@ -85,7 +81,7 @@ node('maven') {
 
         openshiftVerifyService apiURL: '', authToken: '', namespace: dev_project, svcName: app_name, verbose: 'false'
         echo "Checking for app health ..."
-        def curlget = "curl -f http://${app_name}.${dev_project}.svc:8080/ws/healthz".execute().with{
+        def curlget = "curl -f ${app_url_dev}/ws/healthz".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
