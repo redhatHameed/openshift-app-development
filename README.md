@@ -27,7 +27,7 @@ https://github.com/wkulhanek/ParksMap
     2. **nationalparks** - a REST API to a database of national parks
     3. **parksmap** - a mapping eapplications that leverages these APIs
 
-### Setting the environment
+### Setting the CICD environment
 
 1. First run **setup.sh**, this :
     1. sets up three openshift projects
@@ -35,7 +35,6 @@ https://github.com/wkulhanek/ParksMap
         2. **mitzicom-dev** - this hosts the development version of the application for testing purposes.
         3. **mitzicom-prod** - this hosts the production version of the application, changes tested in dev are promoted to here.
      2. configures openshift security, so that Jenkins can orchestrate changes in the mitzicom-dev and mitzicom-prod projects.
-     3. configures build and deployment configurations in mitzicom-dev, mitzicom-prod, these will be used by jenkins later.
      
 2. In the **postgresql** folder run the **deploy.sh** script, this deploys a postgresql database with persistent storage
 3. In the **gogs** folder run the **deploy.sh** script, this deploys the gogs version control application
@@ -51,18 +50,22 @@ https://github.com/wkulhanek/ParksMap
     1. https://gogs-cicd.apps.your.ocp.domain/mitzicom/parksmap    
     2. https://gogs-cicd.apps.your.ocp.domain/mitzicom/nationalparks
     3. https://gogs-cicd.apps.your.ocp.domain/mitzicom/mlbparks
-8. In the **skopeo-jenkins-slave** folder, the script **build-deploy-skope-slave-image.sh** does a docker build of a Jenkins slave incorporating skope, and deploys it to Openshifts image registry.
+8. In the **skopeo-jenkins-slave** folder, the script **build-deploy-skope-slave-image.sh** does a docker build of a Jenkins slave incorporating skope, and deploys it to Openshifts image registry. Configure a pod template called "skopeo" that points to the image that was just up loaded to the registry.
 
 This concludes environment setup the remainder of this guide concerns setup of the runtime environment of the ParksMap app.
 
-##Setting Up   
+## Setting Up the application Runtime environment  
     
-8. In the **app/mlbparks** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/mlbparks/pipeline.groovy** file in this repo
-9. In the **app/nationalparks** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/nationalparks/pipeline.groovy** file in this repo
-10. In the **app/parksmap** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/parksmap/pipeline.groovy** file in this repo
-11. In the **app/mongodb** folder run :
-    1. **dev-deploy.sh**, this deploys a single replica mogodb statefulset with persistent storage into the **mitzicom-dev** project
-    2. **prod-deploy.sh**, this deploys a 3 replica mogodb statefulset with persistent storage into the **mitzicom-prod** project
+1. In the **app** folder run the **setup.sh** script, this creates  several resources automatically :
+    1. Jenkins paremeterised pipeline jobs, that point to **app/pipeline.groovy** file in this repo, for projects :
+        1. mlbparks
+        2. nationalparks
+        3. parksmap
+    2. MongoDB statefulsets :
+            1. **dev-deploy.sh**, this deploys a single replica mogodb statefulset with persistent storage into the **mitzicom-dev** project
+            2. **prod-deploy.sh**, this deploys a 3 replica mogodb statefulset with persistent storage into the **mitzicom-prod** project     
+    3. OCP resources including buildconfigs, deploymentconfigs, services and routes for the application pod to use.
+    
     
 ### Running the CICD process
 
