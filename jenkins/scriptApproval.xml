@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<scriptApproval plugin="script-security@1.29.1">
+    <approvedScriptHashes/>
+    <approvedSignatures>
+        <string>method java.lang.Process exitValue</string>
+        <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods execute java.lang.String</string>
+        <string>staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods with java.lang.Object groovy.lang.Closure</string>
+        <string>staticMethod org.codehaus.groovy.runtime.ProcessGroovyMethods waitForProcessOutput java.lang.Process java.lang.Appendable java.lang.Appendable</string>
+    </approvedSignatures>
+    <aclApprovedSignatures/>
+    <approvedClasspathEntries/>
+    <pendingScripts/>
+    <pendingSignatures/>
+    <pendingClasspathEntries/>
+</scriptApproval>

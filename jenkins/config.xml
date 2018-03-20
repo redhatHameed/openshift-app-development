@@ -1,0 +1,757 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson>
+    <disabledAdministrativeMonitors>
+        <string>jenkins.security.s2m.MasterKillSwitchWarning</string>
+    </disabledAdministrativeMonitors>
+    <version>2.46.3</version>
+    <numExecutors>5</numExecutors>
+    <mode>NORMAL</mode>
+    <useSecurity>true</useSecurity>
+    <authorizationStrategy class="hudson.security.GlobalMatrixAuthorizationStrategy">
+        <permission>com.cloudbees.jenkins.support.SupportPlugin.DownloadBundle:admin</permission>
+        <permission>com.cloudbees.jenkins.support.SupportPlugin.DownloadBundle:justin-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:justin-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:wolfgang-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:justin-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:wolfgang-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:justin-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:wolfgang-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:justin-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:wolfgang-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.UseItem:admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.UseItem:justin-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.UseOwn:admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.UseOwn:justin-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:justin-admin</permission>
+        <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:wolfgang-admin</permission>
+        <permission>hudson.model.Computer.Build:admin</permission>
+        <permission>hudson.model.Computer.Build:justin-admin</permission>
+        <permission>hudson.model.Computer.Configure:admin</permission>
+        <permission>hudson.model.Computer.Configure:justin-admin</permission>
+        <permission>hudson.model.Computer.Configure:wolfgang-admin</permission>
+        <permission>hudson.model.Computer.Connect:admin</permission>
+        <permission>hudson.model.Computer.Connect:justin-admin</permission>
+        <permission>hudson.model.Computer.Create:admin</permission>
+        <permission>hudson.model.Computer.Create:justin-admin</permission>
+        <permission>hudson.model.Computer.Delete:admin</permission>
+        <permission>hudson.model.Computer.Delete:justin-admin</permission>
+        <permission>hudson.model.Computer.Delete:wolfgang-admin</permission>
+        <permission>hudson.model.Computer.Disconnect:admin</permission>
+        <permission>hudson.model.Computer.Disconnect:justin-admin</permission>
+        <permission>hudson.model.Computer.ExtendedRead:admin</permission>
+        <permission>hudson.model.Computer.ExtendedRead:justin-admin</permission>
+        <permission>hudson.model.Computer.Provision:admin</permission>
+        <permission>hudson.model.Computer.Provision:justin-admin</permission>
+        <permission>hudson.model.Hudson.Administer:admin</permission>
+        <permission>hudson.model.Hudson.Administer:justin-admin</permission>
+        <permission>hudson.model.Hudson.Administer:wolfgang-admin</permission>
+        <permission>hudson.model.Hudson.ConfigureUpdateCenter:admin</permission>
+        <permission>hudson.model.Hudson.ConfigureUpdateCenter:justin-admin</permission>
+        <permission>hudson.model.Hudson.Read:admin</permission>
+        <permission>hudson.model.Hudson.Read:justin-admin</permission>
+        <permission>hudson.model.Hudson.Read:wolfgang-admin</permission>
+        <permission>hudson.model.Hudson.RunScripts:admin</permission>
+        <permission>hudson.model.Hudson.RunScripts:justin-admin</permission>
+        <permission>hudson.model.Hudson.RunScripts:wolfgang-admin</permission>
+        <permission>hudson.model.Hudson.UploadPlugins:admin</permission>
+        <permission>hudson.model.Hudson.UploadPlugins:justin-admin</permission>
+        <permission>hudson.model.Item.Build:admin</permission>
+        <permission>hudson.model.Item.Build:justin-admin</permission>
+        <permission>hudson.model.Item.Build:wolfgang-admin</permission>
+        <permission>hudson.model.Item.Cancel:admin</permission>
+        <permission>hudson.model.Item.Cancel:justin-admin</permission>
+        <permission>hudson.model.Item.Configure:admin</permission>
+        <permission>hudson.model.Item.Configure:justin-admin</permission>
+        <permission>hudson.model.Item.Configure:wolfgang-admin</permission>
+        <permission>hudson.model.Item.ConfigureVersions:admin</permission>
+        <permission>hudson.model.Item.ConfigureVersions:justin-admin</permission>
+        <permission>hudson.model.Item.Create:admin</permission>
+        <permission>hudson.model.Item.Create:justin-admin</permission>
+        <permission>hudson.model.Item.Create:wolfgang-admin</permission>
+        <permission>hudson.model.Item.Delete:admin</permission>
+        <permission>hudson.model.Item.Delete:justin-admin</permission>
+        <permission>hudson.model.Item.Delete:wolfgang-admin</permission>
+        <permission>hudson.model.Item.Discover:admin</permission>
+        <permission>hudson.model.Item.Discover:justin-admin</permission>
+        <permission>hudson.model.Item.Discover:wolfgang-admin</permission>
+        <permission>hudson.model.Item.ExtendedRead:admin</permission>
+        <permission>hudson.model.Item.ExtendedRead:justin-admin</permission>
+        <permission>hudson.model.Item.Move:admin</permission>
+        <permission>hudson.model.Item.Move:justin-admin</permission>
+        <permission>hudson.model.Item.Read:admin</permission>
+        <permission>hudson.model.Item.Read:justin-admin</permission>
+        <permission>hudson.model.Item.Read:wolfgang-admin</permission>
+        <permission>hudson.model.Item.Workspace:admin</permission>
+        <permission>hudson.model.Item.Workspace:justin-admin</permission>
+        <permission>hudson.model.Item.Workspace:wolfgang-admin</permission>
+        <permission>hudson.model.Run.Delete:admin</permission>
+        <permission>hudson.model.Run.Delete:justin-admin</permission>
+        <permission>hudson.model.Run.Delete:wolfgang-admin</permission>
+        <permission>hudson.model.Run.Replay:admin</permission>
+        <permission>hudson.model.Run.Replay:justin-admin</permission>
+        <permission>hudson.model.Run.Update:admin</permission>
+        <permission>hudson.model.Run.Update:justin-admin</permission>
+        <permission>hudson.model.Run.Update:wolfgang-admin</permission>
+        <permission>hudson.model.View.Configure:admin</permission>
+        <permission>hudson.model.View.Configure:justin-admin</permission>
+        <permission>hudson.model.View.Configure:wolfgang-admin</permission>
+        <permission>hudson.model.View.Create:admin</permission>
+        <permission>hudson.model.View.Create:justin-admin</permission>
+        <permission>hudson.model.View.Create:wolfgang-admin</permission>
+        <permission>hudson.model.View.Delete:admin</permission>
+        <permission>hudson.model.View.Delete:justin-admin</permission>
+        <permission>hudson.model.View.Delete:wolfgang-admin</permission>
+        <permission>hudson.model.View.Read:admin</permission>
+        <permission>hudson.model.View.Read:justin-admin</permission>
+        <permission>hudson.scm.SCM.Tag:admin</permission>
+        <permission>hudson.scm.SCM.Tag:justin-admin</permission>
+        <permission>hudson.scm.SCM.Tag:wolfgang-admin</permission>
+        <permission>hudson.security.Permission.FullControl:admin</permission>
+        <permission>hudson.security.Permission.FullControl:justin-admin</permission>
+        <permission>hudson.security.Permission.GenericConfigure:admin</permission>
+        <permission>hudson.security.Permission.GenericConfigure:justin-admin</permission>
+        <permission>hudson.security.Permission.GenericCreate:admin</permission>
+        <permission>hudson.security.Permission.GenericCreate:justin-admin</permission>
+        <permission>hudson.security.Permission.GenericDelete:admin</permission>
+        <permission>hudson.security.Permission.GenericDelete:justin-admin</permission>
+        <permission>hudson.security.Permission.GenericRead:admin</permission>
+        <permission>hudson.security.Permission.GenericRead:justin-admin</permission>
+        <permission>hudson.security.Permission.GenericUpdate:admin</permission>
+        <permission>hudson.security.Permission.GenericUpdate:justin-admin</permission>
+        <permission>hudson.security.Permission.GenericWrite:admin</permission>
+        <permission>hudson.security.Permission.GenericWrite:justin-admin</permission>
+        <permission>jenkins.metrics.api.Metrics.HealthCheck:admin</permission>
+        <permission>jenkins.metrics.api.Metrics.HealthCheck:justin-admin</permission>
+        <permission>jenkins.metrics.api.Metrics.ThreadDump:admin</permission>
+        <permission>jenkins.metrics.api.Metrics.ThreadDump:justin-admin</permission>
+        <permission>jenkins.metrics.api.Metrics.View:admin</permission>
+        <permission>jenkins.metrics.api.Metrics.View:justin-admin</permission>
+    </authorizationStrategy>
+    <securityRealm class="org.openshift.jenkins.plugins.openshiftlogin.OpenShiftOAuth2SecurityRealm" plugin="openshift-login@0.12">
+        <transport class="com.google.api.client.http.javanet.NetHttpTransport">
+            <connectionFactory class="com.google.api.client.http.javanet.DefaultConnectionFactory"/>
+            <sslSocketFactory class="sun.security.ssl.SSLSocketFactoryImpl">
+                <context class="sun.security.ssl.SSLContextImpl$TLSContext">
+                    <ephemeralKeyManager>
+                        <keys>
+                            <sun.security.ssl.EphemeralKeyManager_-EphemeralKeyPair>
+                                <uses>0</uses>
+                                <expirationTime>1521575839447</expirationTime>
+                            </sun.security.ssl.EphemeralKeyManager_-EphemeralKeyPair>
+                            <sun.security.ssl.EphemeralKeyManager_-EphemeralKeyPair>
+                                <uses>0</uses>
+                                <expirationTime>1521575839447</expirationTime>
+                            </sun.security.ssl.EphemeralKeyManager_-EphemeralKeyPair>
+                        </keys>
+                    </ephemeralKeyManager>
+                    <clientCache>
+                        <sessionCache class="sun.security.util.MemoryCache">
+                            <cacheMap class="linked-hash-map"/>
+                            <maxSize>0</maxSize>
+                            <lifetime>86400000</lifetime>
+                            <queue>
+                                <lock/>
+                                <queueLength>0</queueLength>
+                            </queue>
+                        </sessionCache>
+                        <sessionHostPortCache class="sun.security.util.MemoryCache">
+                            <cacheMap class="linked-hash-map"/>
+                            <maxSize>0</maxSize>
+                            <lifetime>86400000</lifetime>
+                            <queue>
+                                <lock/>
+                                <queueLength>0</queueLength>
+                            </queue>
+                        </sessionHostPortCache>
+                        <cacheLimit>0</cacheLimit>
+                        <timeout>86400</timeout>
+                    </clientCache>
+                    <serverCache>
+                        <sessionCache class="sun.security.util.MemoryCache">
+                            <cacheMap class="linked-hash-map"/>
+                            <maxSize>0</maxSize>
+                            <lifetime>86400000</lifetime>
+                            <queue>
+                                <lock/>
+                                <queueLength>0</queueLength>
+                            </queue>
+                        </sessionCache>
+                        <sessionHostPortCache class="sun.security.util.MemoryCache">
+                            <cacheMap class="linked-hash-map"/>
+                            <maxSize>0</maxSize>
+                            <lifetime>86400000</lifetime>
+                            <queue>
+                                <lock/>
+                                <queueLength>0</queueLength>
+                            </queue>
+                        </sessionHostPortCache>
+                        <cacheLimit>0</cacheLimit>
+                        <timeout>86400</timeout>
+                    </serverCache>
+                    <isInitialized>true</isInitialized>
+                    <keyManager class="sun.security.ssl.DummyX509KeyManager"/>
+                    <trustManager class="sun.security.ssl.X509TrustManagerImpl">
+                        <validatorType>PKIX</validatorType>
+                        <trustedCerts class="set">
+                            <sun.security.x509.X509CertImpl resolves-to="java.security.cert.Certificate$CertificateRep">
+                                <type>X.509</type>
+                                <data>MIIC6jCCAdKgAwIBAgIBATANBgkqhkiG9w0BAQsFADAmMSQwIgYDVQQDDBtvcGVuc2hpZnQtc2ln
+                                    bmVyQDE1MjEzMjE4NDMwHhcNMTgwMzE3MjEyNDAyWhcNMjMwMzE2MjEyNDAzWjAmMSQwIgYDVQQD
+                                    DBtvcGVuc2hpZnQtc2lnbmVyQDE1MjEzMjE4NDMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+                                    AoIBAQDUtPqQjZcjCLCjXiAbIGD+YNOH/YxlFpFo4FFzZmzWvdTfVP9t5cpqwixF8eSAS8PAhtkD
+                                    cRiWBq1FmdHLkSUpJ0r7VkR8+zLM0LrzPn3S/EuKOGV0t8d/I34n9X42hXn4Rga9ZYVVxR8ix1AP
+                                    C8mMY0k3rNiCcBPvs2gfyPom2T5MLCO+Wb+tZr5IdI/Pa0iyit8F9C+IaRrOw4Wmusp5KojRa8pH
+                                    en6dFFrUsJbOlNcC+Ef3XB/ysiN05TbFPPIBIoADoQ4LSIJrQeLlp8rT+Rgla5YPIOOuvnJ+6+G9
+                                    p0UChTeCs1slZnhTWHMtwdlGSIVu4+pIgTqfX3siRMZ3AgMBAAGjIzAhMA4GA1UdDwEB/wQEAwIC
+                                    pDAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQCZGxrbGxiIsS3tpORMoDJwy2fJ
+                                    E0d/ZLVRWh636wwREm+D5yv34l0SHFIX2r0a1bI8x6yGVYkR7zyuF//baoDiCv3EKymA/qnYrC+F
+                                    E9GqOuQY36WlxtjxeTnICyTxCHeCpNL6rx17CatzFhb71DRZY22o37s9xz0qbu0AKn34wAIy3Oe0
+                                    ybGmV0kOwZVy+qt+YNyvORP/B3TwWpaMtwxeBchuQVy4DC/SElX3HwXYRhMys4kWAHJP0fBvuuCe
+                                    E7MRBpFRVXtHLFXGqjDA5PKW1FkIIMprIUXS/9qLILBaNf4nPJ0g/gczlnTi9kxtk4gLqMaVFb3I
+                                    cQGIn09zHhAG</data>
+                            </sun.security.x509.X509CertImpl>
+                            <sun.security.x509.X509CertImpl resolves-to="java.security.cert.Certificate$CertificateRep">
+                                <type>X.509</type>
+                                <data>MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/MSQwIgYDVQQK
+                                    ExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMTDkRTVCBSb290IENBIFgzMB4X
+                                    DTE2MDMxNzE2NDA0NloXDTIxMDMxNzE2NDA0NlowSjELMAkGA1UEBhMCVVMxFjAUBgNVBAoTDUxl
+                                    dCdzIEVuY3J5cHQxIzAhBgNVBAMTGkxldCdzIEVuY3J5cHQgQXV0aG9yaXR5IFgzMIIBIjANBgkq
+                                    hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnNMM8FrlLke3cl03g7NoYzDq1zUmGSXhvb418XCSL7e4
+                                    S0EFq6meNQhY7LEqxGiHC6PjdeTm86dicbp5gWAf15Gan/PQeGdxyGkOlZHP/uaZ6WA8SMx+yk13
+                                    EiSdRxta67nsHjcAHJyse6cF6s5K671B5TaYucv9bTyWaN8jKkKQDIZ0Z8h/pZq4UmEUEz9l6YKH
+                                    y9v6Dlb2honzhT+Xhq+w3Brvaw2VFn3EK6BlspkENnWAa6xK8xuQSXgvopZPKiAlKQTGdMDQMc2P
+                                    MTiVFrqoM7hD8bEfwzB/onkxEz0tNvjj/PIzark5McWvxI0NHWQWM6r6hCm21AvA2H3DkwIDAQAB
+                                    o4IBfTCCAXkwEgYDVR0TAQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8EBAMCAYYwfwYIKwYBBQUHAQEE
+                                    czBxMDIGCCsGAQUFBzABhiZodHRwOi8vaXNyZy50cnVzdGlkLm9jc3AuaWRlbnRydXN0LmNvbTA7
+                                    BggrBgEFBQcwAoYvaHR0cDovL2FwcHMuaWRlbnRydXN0LmNvbS9yb290cy9kc3Ryb290Y2F4My5w
+                                    N2MwHwYDVR0jBBgwFoAUxKexpHsscfrb4UuQdf/EFWCFiRAwVAYDVR0gBE0wSzAIBgZngQwBAgEw
+                                    PwYLKwYBBAGC3xMBAQEwMDAuBggrBgEFBQcCARYiaHR0cDovL2Nwcy5yb290LXgxLmxldHNlbmNy
+                                    eXB0Lm9yZzA8BgNVHR8ENTAzMDGgL6AthitodHRwOi8vY3JsLmlkZW50cnVzdC5jb20vRFNUUk9P
+                                    VENBWDNDUkwuY3JsMB0GA1UdDgQWBBSoSmpjBH3duubRObemRWXv86jsoTANBgkqhkiG9w0BAQsF
+                                    AAOCAQEA3TPXEfNjWDjdGBX7CVW+dla5cEilaUcne8IkCJLxWh9KEik3JHRRHGJouM2VcGfl96S8
+                                    TihRzZvoroed6ti6WqEBmtzw3Wodatg+VyOeph4EYpr/1wXKtx8/wApIvJSwtmVi4MFU5aMqrSDE
+                                    6ea73Mj2tcMyo5jMd6jmeWUHK8so/joWUoHOUgwuX4Po1QYz+3dszkDqMp4fklxBwXRsW10KXzPM
+                                    TZ+sOPAveyxindmjkW8lGy+QsRlGPfZ+G6Z6h7mjem0Y+iWlkYcV4PIWL1iwBi8saCbGS5jN2p8M
+                                    +X+Q7UNKEkROb3N6KOqkqm57TH2H3eDJAkSnh6/DNFu0Qg==</data>
+                            </sun.security.x509.X509CertImpl>
+                        </trustedCerts>
+                        <serverValidator class="sun.security.validator.PKIXValidator">
+                            <endEntityChecker>
+                                <variant>tls server</variant>
+                                <type>PKIX</type>
+                            </endEntityChecker>
+                            <variant>tls server</variant>
+                            <trustedCerts reference="../../trustedCerts"/>
+                            <parameterTemplate>
+                                <unmodTrustAnchors class="java.util.Collections$UnmodifiableSet">
+                                    <c class="set">
+                                        <java.security.cert.TrustAnchor>
+                                            <trustedCert class="sun.security.x509.X509CertImpl" reference="../../../../../../trustedCerts/sun.security.x509.X509CertImpl"/>
+                                        </java.security.cert.TrustAnchor>
+                                        <java.security.cert.TrustAnchor>
+                                            <trustedCert class="sun.security.x509.X509CertImpl" reference="../../../../../../trustedCerts/sun.security.x509.X509CertImpl[2]"/>
+                                        </java.security.cert.TrustAnchor>
+                                    </c>
+                                </unmodTrustAnchors>
+                                <certPathCheckers/>
+                                <revocationEnabled>false</revocationEnabled>
+                                <unmodInitialPolicies class="empty-set"/>
+                                <explicitPolicyRequired>false</explicitPolicyRequired>
+                                <policyMappingInhibited>false</policyMappingInhibited>
+                                <anyPolicyInhibited>false</anyPolicyInhibited>
+                                <policyQualifiersRejected>true</policyQualifiersRejected>
+                                <certStores/>
+                                <maxPathLength>5</maxPathLength>
+                            </parameterTemplate>
+                            <certPathLength>1</certPathLength>
+                            <trustedSubjects>
+                                <entry>
+                                    <javax.security.auth.x500.X500Principal serialization="custom">
+                                        <javax.security.auth.x500.X500Principal>
+                                            <byte-array>MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQDExpMZXQncyBF
+                                                bmNyeXB0IEF1dGhvcml0eSBYMw==</byte-array>
+                                        </javax.security.auth.x500.X500Principal>
+                                    </javax.security.auth.x500.X500Principal>
+                                    <list>
+                                        <sun.security.rsa.RSAPublicKeyImpl resolves-to="java.security.KeyRep">
+                                            <type>PUBLIC</type>
+                                            <algorithm>RSA</algorithm>
+                                            <format>X.509</format>
+                                            <encoded>MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnNMM8FrlLke3cl03g7NoYzDq1zUmGSXh
+                                                vb418XCSL7e4S0EFq6meNQhY7LEqxGiHC6PjdeTm86dicbp5gWAf15Gan/PQeGdxyGkOlZHP/uaZ
+                                                6WA8SMx+yk13EiSdRxta67nsHjcAHJyse6cF6s5K671B5TaYucv9bTyWaN8jKkKQDIZ0Z8h/pZq4
+                                                UmEUEz9l6YKHy9v6Dlb2honzhT+Xhq+w3Brvaw2VFn3EK6BlspkENnWAa6xK8xuQSXgvopZPKiAl
+                                                KQTGdMDQMc2PMTiVFrqoM7hD8bEfwzB/onkxEz0tNvjj/PIzark5McWvxI0NHWQWM6r6hCm21AvA
+                                                2H3DkwIDAQAB</encoded>
+                                        </sun.security.rsa.RSAPublicKeyImpl>
+                                    </list>
+                                </entry>
+                                <entry>
+                                    <javax.security.auth.x500.X500Principal serialization="custom">
+                                        <javax.security.auth.x500.X500Principal>
+                                            <byte-array>MCYxJDAiBgNVBAMMG29wZW5zaGlmdC1zaWduZXJAMTUyMTMyMTg0Mw==</byte-array>
+                                        </javax.security.auth.x500.X500Principal>
+                                    </javax.security.auth.x500.X500Principal>
+                                    <list>
+                                        <sun.security.rsa.RSAPublicKeyImpl resolves-to="java.security.KeyRep">
+                                            <type>PUBLIC</type>
+                                            <algorithm>RSA</algorithm>
+                                            <format>X.509</format>
+                                            <encoded>MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1LT6kI2XIwiwo14gGyBg/mDTh/2MZRaR
+                                                aOBRc2Zs1r3U31T/beXKasIsRfHkgEvDwIbZA3EYlgatRZnRy5ElKSdK+1ZEfPsyzNC68z590vxL
+                                                ijhldLfHfyN+J/V+NoV5+EYGvWWFVcUfIsdQDwvJjGNJN6zYgnAT77NoH8j6Jtk+TCwjvlm/rWa+
+                                                SHSPz2tIsorfBfQviGkazsOFprrKeSqI0WvKR3p+nRRa1LCWzpTXAvhH91wf8rIjdOU2xTzyASKA
+                                                A6EOC0iCa0Hi5afK0/kYJWuWDyDjrr5yfuvhvadFAoU3grNbJWZ4U1hzLcHZRkiFbuPqSIE6n197
+                                                IkTGdwIDAQAB</encoded>
+                                        </sun.security.rsa.RSAPublicKeyImpl>
+                                    </list>
+                                </entry>
+                            </trustedSubjects>
+                            <factory>
+                                <type>X.509</type>
+                                <provider class="sun.security.provider.Sun" serialization="custom">
+                                    <unserializable-parents/>
+                                    <hashtable>
+                                        <default>
+                                            <loadFactor>0.75</loadFactor>
+                                            <threshold>143</threshold>
+                                        </default>
+                                        <int>191</int>
+                                        <int>100</int>
+                                        <string>Alg.Alias.Signature.1.2.840.10040.4.3</string>
+                                        <string>SHA1withDSA</string>
+                                        <string>Alg.Alias.Signature.SHA1/DSA</string>
+                                        <string>SHA1withDSA</string>
+                                        <string>Alg.Alias.Signature.DSS</string>
+                                        <string>SHA1withDSA</string>
+                                        <string>SecureRandom.SHA1PRNG ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>KeyStore.JKS</string>
+                                        <string>sun.security.provider.JavaKeyStore$DualFormatJKS</string>
+                                        <string>MessageDigest.SHA</string>
+                                        <string>sun.security.provider.SHA</string>
+                                        <string>Alg.Alias.MessageDigest.SHA-1</string>
+                                        <string>SHA</string>
+                                        <string>KeyStore.CaseExactJKS</string>
+                                        <string>sun.security.provider.JavaKeyStore$CaseExactJKS</string>
+                                        <string>CertStore.com.sun.security.IndexedCollection ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>Signature.SHA256withDSA</string>
+                                        <string>sun.security.provider.DSA$SHA256withDSA</string>
+                                        <string>Alg.Alias.MessageDigest.OID.1.3.14.3.2.26</string>
+                                        <string>SHA</string>
+                                        <string>Alg.Alias.Signature.DSA</string>
+                                        <string>SHA1withDSA</string>
+                                        <string>KeyFactory.DSA ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>KeyStore.JKS ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>AlgorithmParameters.DSA ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>Signature.NONEwithDSA</string>
+                                        <string>sun.security.provider.DSA$RawDSA</string>
+                                        <string>Alg.Alias.CertificateFactory.X509</string>
+                                        <string>X.509</string>
+                                        <string>Signature.SHA256withDSA SupportedKeyClasses</string>
+                                        <string>java.security.interfaces.DSAPublicKey|java.security.interfaces.DSAPrivateKey</string>
+                                        <string>CertStore.com.sun.security.IndexedCollection</string>
+                                        <string>sun.security.provider.certpath.IndexedCollectionCertStore</string>
+                                        <string>Provider.id className</string>
+                                        <string>sun.security.provider.Sun</string>
+                                        <string>Alg.Alias.MessageDigest.1.3.14.3.2.26</string>
+                                        <string>SHA</string>
+                                        <string>Alg.Alias.Signature.SHA-1/DSA</string>
+                                        <string>SHA1withDSA</string>
+                                        <string>KeyStore.DKS</string>
+                                        <string>sun.security.provider.DomainKeyStore$DKS</string>
+                                        <string>Alg.Alias.Signature.OID.2.16.840.1.101.3.4.3.2</string>
+                                        <string>SHA256withDSA</string>
+                                        <string>CertificateFactory.X.509 ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>Alg.Alias.Signature.OID.2.16.840.1.101.3.4.3.1</string>
+                                        <string>SHA224withDSA</string>
+                                        <string>Signature.SHA1withDSA KeySize</string>
+                                        <string>1024</string>
+                                        <string>Signature.NONEwithDSA KeySize</string>
+                                        <string>1024</string>
+                                        <string>KeyFactory.DSA</string>
+                                        <string>sun.security.provider.DSAKeyFactory</string>
+                                        <string>CertPathValidator.PKIX ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>Alg.Alias.Signature.OID.1.2.840.10040.4.3</string>
+                                        <string>SHA1withDSA</string>
+                                        <string>Configuration.JavaLoginConfig</string>
+                                        <string>sun.security.provider.ConfigFile$Spi</string>
+                                        <string>Alg.Alias.KeyFactory.1.2.840.10040.4.1</string>
+                                        <string>DSA</string>
+                                        <string>Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.4</string>
+                                        <string>SHA-224</string>
+                                        <string>Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.3</string>
+                                        <string>SHA-512</string>
+                                        <string>MessageDigest.MD5 ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.2</string>
+                                        <string>SHA-384</string>
+                                        <string>Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.1</string>
+                                        <string>SHA-256</string>
+                                        <string>Provider.id name</string>
+                                        <string>SUN</string>
+                                        <string>Alg.Alias.Signature.RawDSA</string>
+                                        <string>NONEwithDSA</string>
+                                        <string>Alg.Alias.AlgorithmParameters.1.2.840.10040.4.1</string>
+                                        <string>DSA</string>
+                                        <string>CertPathBuilder.PKIX ValidationAlgorithm</string>
+                                        <string>RFC3280</string>
+                                        <string>Policy.JavaPolicy</string>
+                                        <string>sun.security.provider.PolicySpiFile</string>
+                                        <string>Alg.Alias.AlgorithmParameters.OID.1.2.840.10040.4.1</string>
+                                        <string>DSA</string>
+                                        <string>Signature.SHA224withDSA KeySize</string>
+                                        <string>2048</string>
+                                        <string>MessageDigest.SHA-384</string>
+                                        <string>sun.security.provider.SHA5$SHA384</string>
+                                        <string>Alg.Alias.KeyPairGenerator.1.3.14.3.2.12</string>
+                                        <string>DSA</string>
+                                        <string>Alg.Alias.Signature.SHA/DSA</string>
+                                        <string>SHA1withDSA</string>
+                                        <string>Alg.Alias.AlgorithmParameters.1.3.14.3.2.12</string>
+                                        <string>DSA</string>
+                                        <string>MessageDigest.SHA-224</string>
+                                        <string>sun.security.provider.SHA2$SHA224</string>
+                                        <string>Signature.SHA1withDSA ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>AlgorithmParameterGenerator.DSA</string>
+                                        <string>sun.security.provider.DSAParameterGenerator</string>
+                                        <string>Signature.NONEwithDSA SupportedKeyClasses</string>
+                                        <string>java.security.interfaces.DSAPublicKey|java.security.interfaces.DSAPrivateKey</string>
+                                        <string>SecureRandom.NativePRNGBlocking</string>
+                                        <string>sun.security.provider.NativePRNG$Blocking</string>
+                                        <string>MessageDigest.SHA-512</string>
+                                        <string>sun.security.provider.SHA5$SHA512</string>
+                                        <string>Alg.Alias.KeyFactory.OID.1.2.840.10040.4.1</string>
+                                        <string>DSA</string>
+                                        <string>CertPathBuilder.PKIX</string>
+                                        <string>sun.security.provider.certpath.SunCertPathBuilder</string>
+                                        <string>Alg.Alias.Signature.1.3.14.3.2.27</string>
+                                        <string>SHA1withDSA</string>
+                                        <string>Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.4</string>
+                                        <string>SHA-224</string>
+                                        <string>Provider.id version</string>
+                                        <string>1.8</string>
+                                        <string>Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.3</string>
+                                        <string>SHA-512</string>
+                                        <string>CertPathBuilder.PKIX ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.2</string>
+                                        <string>SHA-384</string>
+                                        <string>Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.1</string>
+                                        <string>SHA-256</string>
+                                        <string>Signature.SHA256withDSA KeySize</string>
+                                        <string>2048</string>
+                                        <string>AlgorithmParameters.DSA</string>
+                                        <string>sun.security.provider.DSAParameters</string>
+                                        <string>Signature.SHA1withDSA SupportedKeyClasses</string>
+                                        <string>java.security.interfaces.DSAPublicKey|java.security.interfaces.DSAPrivateKey</string>
+                                        <string>CertStore.Collection</string>
+                                        <string>sun.security.provider.certpath.CollectionCertStore</string>
+                                        <string>AlgorithmParameterGenerator.DSA ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>SecureRandom.NativePRNGNonBlocking</string>
+                                        <string>sun.security.provider.NativePRNG$NonBlocking</string>
+                                        <string>KeyPairGenerator.DSA KeySize</string>
+                                        <string>2048</string>
+                                        <string>CertStore.LDAP</string>
+                                        <string>sun.security.provider.certpath.ldap.LDAPCertStore</string>
+                                        <string>Alg.Alias.Signature.2.16.840.1.101.3.4.3.2</string>
+                                        <string>SHA256withDSA</string>
+                                        <string>CertificateFactory.X.509</string>
+                                        <string>sun.security.provider.X509Factory</string>
+                                        <string>Alg.Alias.Signature.2.16.840.1.101.3.4.3.1</string>
+                                        <string>SHA224withDSA</string>
+                                        <string>SecureRandom.NativePRNG</string>
+                                        <string>sun.security.provider.NativePRNG</string>
+                                        <string>CertStore.LDAP LDAPSchema</string>
+                                        <string>RFC2587</string>
+                                        <string>KeyPairGenerator.DSA ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>CertStore.LDAP ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>CertPathValidator.PKIX ValidationAlgorithm</string>
+                                        <string>RFC3280</string>
+                                        <string>Signature.SHA224withDSA</string>
+                                        <string>sun.security.provider.DSA$SHA224withDSA</string>
+                                        <string>CertStore.Collection ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>Alg.Alias.Signature.1.3.14.3.2.13</string>
+                                        <string>SHA1withDSA</string>
+                                        <string>CertPathValidator.PKIX</string>
+                                        <string>sun.security.provider.certpath.PKIXCertPathValidator</string>
+                                        <string>Alg.Alias.MessageDigest.SHA1</string>
+                                        <string>SHA</string>
+                                        <string>AlgorithmParameterGenerator.DSA KeySize</string>
+                                        <string>2048</string>
+                                        <string>SecureRandom.SHA1PRNG</string>
+                                        <string>sun.security.provider.SecureRandom</string>
+                                        <string>Signature.SHA1withDSA</string>
+                                        <string>sun.security.provider.DSA$SHA1withDSA</string>
+                                        <string>Alg.Alias.KeyFactory.1.3.14.3.2.12</string>
+                                        <string>DSA</string>
+                                        <string>KeyPairGenerator.DSA</string>
+                                        <string>sun.security.provider.DSAKeyPairGenerator$Current</string>
+                                        <string>MessageDigest.SHA ImplementedIn</string>
+                                        <string>Software</string>
+                                        <string>Provider.id info</string>
+                                        <string>SUN (DSA key/parameter generation; DSA signing; SHA-1, MD5 digests; SecureRandom; X.509 certificates; JKS &amp; DKS keystores; PKIX CertPathValidator; PKIX CertPathBuilder; LDAP, Collection CertStores, JavaPolicy Policy; JavaLoginConfig Configuration)</string>
+                                        <string>Alg.Alias.KeyPairGenerator.1.2.840.10040.4.1</string>
+                                        <string>DSA</string>
+                                        <string>MessageDigest.SHA-256</string>
+                                        <string>sun.security.provider.SHA2$SHA256</string>
+                                        <string>Alg.Alias.Signature.DSAWithSHA1</string>
+                                        <string>SHA1withDSA</string>
+                                        <string>MessageDigest.MD5</string>
+                                        <string>sun.security.provider.MD5</string>
+                                        <string>Alg.Alias.Signature.SHAwithDSA</string>
+                                        <string>SHA1withDSA</string>
+                                        <string>Alg.Alias.KeyPairGenerator.OID.1.2.840.10040.4.1</string>
+                                        <string>DSA</string>
+                                        <string>Signature.SHA224withDSA SupportedKeyClasses</string>
+                                        <string>java.security.interfaces.DSAPublicKey|java.security.interfaces.DSAPrivateKey</string>
+                                        <string>MessageDigest.MD2</string>
+                                        <string>sun.security.provider.MD2</string>
+                                    </hashtable>
+                                    <java.security.Provider>
+                                        <default>
+                                            <version>1.8</version>
+                                            <info>SUN (DSA key/parameter generation; DSA signing; SHA-1, MD5 digests; SecureRandom; X.509 certificates; JKS &amp; DKS keystores; PKIX CertPathValidator; PKIX CertPathBuilder; LDAP, Collection CertStores, JavaPolicy Policy; JavaLoginConfig Configuration)</info>
+                                            <name>SUN</name>
+                                        </default>
+                                    </java.security.Provider>
+                                </provider>
+                                <certFacSpi class="sun.security.provider.X509Factory"/>
+                            </factory>
+                            <plugin>false</plugin>
+                        </serverValidator>
+                    </trustManager>
+                    <secureRandom serialization="custom">
+                        <java.util.Random>
+                            <default>
+                                <seed>0</seed>
+                                <nextNextGaussian>0.0</nextNextGaussian>
+                                <haveNextNextGaussian>false</haveNextNextGaussian>
+                            </default>
+                        </java.util.Random>
+                        <java.security.SecureRandom>
+                            <default>
+                                <counter>0</counter>
+                                <randomBytesUsed>0</randomBytesUsed>
+                                <algorithm>NativePRNG</algorithm>
+                                <provider class="sun.security.provider.Sun" reference="../../../../trustManager/serverValidator/factory/provider"/>
+                                <secureRandomSpi class="sun.security.provider.NativePRNG"/>
+                            </default>
+                        </java.security.SecureRandom>
+                    </secureRandom>
+                </context>
+            </sslSocketFactory>
+        </transport>
+        <defaultedServiceAccountDirectory>/run/secrets/kubernetes.io/serviceaccount</defaultedServiceAccountDirectory>
+        <defaultedServiceAccountName>jenkins</defaultedServiceAccountName>
+        <defaultedServerPrefix>https://openshift.default.svc</defaultedServerPrefix>
+        <defaultedRedirectURL>https://ocp.datr.eu:8443</defaultedRedirectURL>
+        <defaultedClientId>system:serviceaccount:cicd:jenkins</defaultedClientId>
+        <defaultedClientSecret>eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJjaWNkIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImplbmtpbnMtdG9rZW4tN2hwNDYiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiamVua2lucyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjEzZjY3YjI4LTJhYTktMTFlOC04MTNmLWZhMTYzZWZlMDQ5NiIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpjaWNkOmplbmtpbnMifQ.A05bdY_fDGorq7Bq3EP2yc6eFO1Hl8-DFLT6D97jaj7Ej6PALb1gYlZo45_rZiS8cmIlKcJv62PMJplEhdNYjhDKQ7NY0Ky1jWoLqi5iVtoXQ-a7AfjNe6EMrqPEfnzx_Yz9E3vLZq0i2QuFZ2ziFk7LriFrWbCDEL4lKGUmIf9J1q9XyoVIwl4G5hA-gQABVbQv84mlbEZWr2KdBYwOvfqiIrj49qH8Ou0GTkC6EqUI54mcw1HtE_JugNRrSSkVWQQ4vQ32Hz5hrNHalpA73pOJ8c9_TLBGSaWa2dxB4tp_-8eIDRINafI5TkQOQLbgPbFwXWVdxEgC6Yrd9IYE3w</defaultedClientSecret>
+        <namespace>cicd</namespace>
+        <provider>
+            <issuer>https://ocp.datr.eu:8443</issuer>
+            <authorization__endpoint>https://ocp.datr.eu:8443/oauth/authorize</authorization__endpoint>
+            <token__endpoint>https://ocp.datr.eu:8443/oauth/token</token__endpoint>
+        </provider>
+        <filter/>
+    </securityRealm>
+    <disableRememberMe>false</disableRememberMe>
+    <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
+    <workspaceDir>${ITEM_ROOTDIR}/workspace</workspaceDir>
+    <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+    <markupFormatter class="hudson.markup.EscapedMarkupFormatter"/>
+    <jdks/>
+    <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+    <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
+    <clouds>
+        <org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud plugin="kubernetes@0.10">
+            <name>openshift</name>
+            <templates>
+                <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+                    <inheritFrom></inheritFrom>
+                    <name>maven</name>
+                    <instanceCap>2147483647</instanceCap>
+                    <idleMinutes>0</idleMinutes>
+                    <label>maven</label>
+                    <serviceAccount>jenkins</serviceAccount>
+                    <nodeSelector></nodeSelector>
+                    <volumes/>
+                    <containers>
+                        <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+                            <name>jnlp</name>
+                            <image>registry.access.redhat.com/openshift3/jenkins-slave-maven-rhel7</image>
+                            <privileged>false</privileged>
+                            <alwaysPullImage>true</alwaysPullImage>
+                            <workingDir>/tmp</workingDir>
+                            <command></command>
+                            <args>${computer.jnlpmac} ${computer.name}</args>
+                            <ttyEnabled>false</ttyEnabled>
+                            <resourceRequestCpu></resourceRequestCpu>
+                            <resourceRequestMemory></resourceRequestMemory>
+                            <resourceLimitCpu></resourceLimitCpu>
+                            <resourceLimitMemory></resourceLimitMemory>
+                            <envVars/>
+                        </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+                    </containers>
+                    <envVars/>
+                    <annotations/>
+                    <imagePullSecrets/>
+                    <nodeProperties/>
+                </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+                <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+                    <inheritFrom></inheritFrom>
+                    <name>nodejs</name>
+                    <instanceCap>2147483647</instanceCap>
+                    <idleMinutes>0</idleMinutes>
+                    <label>nodejs</label>
+                    <serviceAccount>jenkins</serviceAccount>
+                    <nodeSelector></nodeSelector>
+                    <volumes/>
+                    <containers>
+                        <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+                            <name>jnlp</name>
+                            <image>registry.access.redhat.com/openshift3/jenkins-slave-nodejs-rhel7</image>
+                            <privileged>false</privileged>
+                            <alwaysPullImage>false</alwaysPullImage>
+                            <workingDir>/tmp</workingDir>
+                            <command></command>
+                            <args>${computer.jnlpmac} ${computer.name}</args>
+                            <ttyEnabled>false</ttyEnabled>
+                            <resourceRequestCpu></resourceRequestCpu>
+                            <resourceRequestMemory></resourceRequestMemory>
+                            <resourceLimitCpu></resourceLimitCpu>
+                            <resourceLimitMemory></resourceLimitMemory>
+                            <envVars/>
+                        </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+                    </containers>
+                    <envVars/>
+                    <annotations/>
+                    <imagePullSecrets/>
+                    <nodeProperties/>
+                </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+                <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+                    <inheritFrom></inheritFrom>
+                    <name>skopeo</name>
+                    <instanceCap>2147483647</instanceCap>
+                    <idleMinutes>0</idleMinutes>
+                    <label>skopeo</label>
+                    <serviceAccount>jenkins</serviceAccount>
+                    <nodeSelector></nodeSelector>
+                    <volumes/>
+                    <containers>
+                        <org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+                            <name>jnlp</name>
+                            <image>docker-registry.default.svc:5000/cicd/jenkins-slave-maven-jnd</image>
+                            <privileged>false</privileged>
+                            <alwaysPullImage>false</alwaysPullImage>
+                            <workingDir>/tmp</workingDir>
+                            <command></command>
+                            <args>${computer.jnlpmac} ${computer.name}</args>
+                            <ttyEnabled>true</ttyEnabled>
+                            <resourceRequestCpu></resourceRequestCpu>
+                            <resourceRequestMemory></resourceRequestMemory>
+                            <resourceLimitCpu></resourceLimitCpu>
+                            <resourceLimitMemory></resourceLimitMemory>
+                            <envVars/>
+                        </org.csanchez.jenkins.plugins.kubernetes.ContainerTemplate>
+                    </containers>
+                    <envVars/>
+                    <annotations/>
+                    <imagePullSecrets/>
+                    <nodeProperties/>
+                </org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
+            </templates>
+            <serverUrl>https://172.30.0.1:443</serverUrl>
+            <serverCertificate>-----BEGIN CERTIFICATE-----
+                MIIC6jCCAdKgAwIBAgIBATANBgkqhkiG9w0BAQsFADAmMSQwIgYDVQQDDBtvcGVu
+                c2hpZnQtc2lnbmVyQDE1MjEzMjE4NDMwHhcNMTgwMzE3MjEyNDAyWhcNMjMwMzE2
+                MjEyNDAzWjAmMSQwIgYDVQQDDBtvcGVuc2hpZnQtc2lnbmVyQDE1MjEzMjE4NDMw
+                ggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDUtPqQjZcjCLCjXiAbIGD+
+                YNOH/YxlFpFo4FFzZmzWvdTfVP9t5cpqwixF8eSAS8PAhtkDcRiWBq1FmdHLkSUp
+                J0r7VkR8+zLM0LrzPn3S/EuKOGV0t8d/I34n9X42hXn4Rga9ZYVVxR8ix1APC8mM
+                Y0k3rNiCcBPvs2gfyPom2T5MLCO+Wb+tZr5IdI/Pa0iyit8F9C+IaRrOw4Wmusp5
+                KojRa8pHen6dFFrUsJbOlNcC+Ef3XB/ysiN05TbFPPIBIoADoQ4LSIJrQeLlp8rT
+                +Rgla5YPIOOuvnJ+6+G9p0UChTeCs1slZnhTWHMtwdlGSIVu4+pIgTqfX3siRMZ3
+                AgMBAAGjIzAhMA4GA1UdDwEB/wQEAwICpDAPBgNVHRMBAf8EBTADAQH/MA0GCSqG
+                SIb3DQEBCwUAA4IBAQCZGxrbGxiIsS3tpORMoDJwy2fJE0d/ZLVRWh636wwREm+D
+                5yv34l0SHFIX2r0a1bI8x6yGVYkR7zyuF//baoDiCv3EKymA/qnYrC+FE9GqOuQY
+                36WlxtjxeTnICyTxCHeCpNL6rx17CatzFhb71DRZY22o37s9xz0qbu0AKn34wAIy
+                3Oe0ybGmV0kOwZVy+qt+YNyvORP/B3TwWpaMtwxeBchuQVy4DC/SElX3HwXYRhMy
+                s4kWAHJP0fBvuuCeE7MRBpFRVXtHLFXGqjDA5PKW1FkIIMprIUXS/9qLILBaNf4n
+                PJ0g/gczlnTi9kxtk4gLqMaVFb3IcQGIn09zHhAG
+                -----END CERTIFICATE-----
+
+
+                -----BEGIN CERTIFICATE-----
+                MIIEkjCCA3qgAwIBAgIQCgFBQgAAAVOFc2oLheynCDANBgkqhkiG9w0BAQsFADA/
+                MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT
+                DkRTVCBSb290IENBIFgzMB4XDTE2MDMxNzE2NDA0NloXDTIxMDMxNzE2NDA0Nlow
+                SjELMAkGA1UEBhMCVVMxFjAUBgNVBAoTDUxldCdzIEVuY3J5cHQxIzAhBgNVBAMT
+                GkxldCdzIEVuY3J5cHQgQXV0aG9yaXR5IFgzMIIBIjANBgkqhkiG9w0BAQEFAAOC
+                AQ8AMIIBCgKCAQEAnNMM8FrlLke3cl03g7NoYzDq1zUmGSXhvb418XCSL7e4S0EF
+                q6meNQhY7LEqxGiHC6PjdeTm86dicbp5gWAf15Gan/PQeGdxyGkOlZHP/uaZ6WA8
+                SMx+yk13EiSdRxta67nsHjcAHJyse6cF6s5K671B5TaYucv9bTyWaN8jKkKQDIZ0
+                Z8h/pZq4UmEUEz9l6YKHy9v6Dlb2honzhT+Xhq+w3Brvaw2VFn3EK6BlspkENnWA
+                a6xK8xuQSXgvopZPKiAlKQTGdMDQMc2PMTiVFrqoM7hD8bEfwzB/onkxEz0tNvjj
+                /PIzark5McWvxI0NHWQWM6r6hCm21AvA2H3DkwIDAQABo4IBfTCCAXkwEgYDVR0T
+                AQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8EBAMCAYYwfwYIKwYBBQUHAQEEczBxMDIG
+                CCsGAQUFBzABhiZodHRwOi8vaXNyZy50cnVzdGlkLm9jc3AuaWRlbnRydXN0LmNv
+                bTA7BggrBgEFBQcwAoYvaHR0cDovL2FwcHMuaWRlbnRydXN0LmNvbS9yb290cy9k
+                c3Ryb290Y2F4My5wN2MwHwYDVR0jBBgwFoAUxKexpHsscfrb4UuQdf/EFWCFiRAw
+                VAYDVR0gBE0wSzAIBgZngQwBAgEwPwYLKwYBBAGC3xMBAQEwMDAuBggrBgEFBQcC
+                ARYiaHR0cDovL2Nwcy5yb290LXgxLmxldHNlbmNyeXB0Lm9yZzA8BgNVHR8ENTAz
+                MDGgL6AthitodHRwOi8vY3JsLmlkZW50cnVzdC5jb20vRFNUUk9PVENBWDNDUkwu
+                Y3JsMB0GA1UdDgQWBBSoSmpjBH3duubRObemRWXv86jsoTANBgkqhkiG9w0BAQsF
+                AAOCAQEA3TPXEfNjWDjdGBX7CVW+dla5cEilaUcne8IkCJLxWh9KEik3JHRRHGJo
+                uM2VcGfl96S8TihRzZvoroed6ti6WqEBmtzw3Wodatg+VyOeph4EYpr/1wXKtx8/
+                wApIvJSwtmVi4MFU5aMqrSDE6ea73Mj2tcMyo5jMd6jmeWUHK8so/joWUoHOUgwu
+                X4Po1QYz+3dszkDqMp4fklxBwXRsW10KXzPMTZ+sOPAveyxindmjkW8lGy+QsRlG
+                PfZ+G6Z6h7mjem0Y+iWlkYcV4PIWL1iwBi8saCbGS5jN2p8M+X+Q7UNKEkROb3N6
+                KOqkqm57TH2H3eDJAkSnh6/DNFu0Qg==
+                -----END CERTIFICATE-----</serverCertificate>
+            <skipTlsVerify>false</skipTlsVerify>
+            <namespace>cicd</namespace>
+            <jenkinsUrl>http://172.30.137.184:80</jenkinsUrl>
+            <jenkinsTunnel>172.30.103.96:50000</jenkinsTunnel>
+            <credentialsId>1a12dfa4-7fc5-47a7-aa17-cc56572a41c7</credentialsId>
+            <containerCap>10</containerCap>
+            <retentionTimeout>5</retentionTimeout>
+            <connectTimeout>0</connectTimeout>
+            <readTimeout>0</readTimeout>
+        </org.csanchez.jenkins.plugins.kubernetes.KubernetesCloud>
+    </clouds>
+    <quietPeriod>1</quietPeriod>
+    <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
+    <views>
+        <hudson.model.AllView>
+            <owner class="hudson" reference="../../.."/>
+            <name>all</name>
+            <filterExecutors>false</filterExecutors>
+            <filterQueue>false</filterQueue>
+            <properties/>
+        </hudson.model.AllView>
+    </views>
+    <primaryView>all</primaryView>
+    <slaveAgentPort>50000</slaveAgentPort>
+    <label>master</label>
+    <nodeProperties/>
+    <globalNodeProperties/>
+    <noUsageStatistics>true</noUsageStatistics>
+</hudson>
