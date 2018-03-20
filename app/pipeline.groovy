@@ -96,7 +96,7 @@ node('maven-appdev') {
                 it.waitForProcessOutput(output, error)
                 assert it.exitValue() == 0: "$error"
             }
-            curlget = "curl -f ${app_url_dev}/data/all".execute().with{
+            curlget = "curl -f ${app_url_dev}/ws/data/all".execute().with{
                 def output = new StringWriter()
                 def error = new StringWriter()
                 it.waitForProcessOutput(output, error)
