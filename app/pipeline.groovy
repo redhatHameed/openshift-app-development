@@ -67,7 +67,7 @@ node('maven-appdev') {
         echo "Project : ${dev_project}"
         echo "App : ${app_name}"
         echo "Dev Tag : ${devTag}"
-        sh "oc set image dc/${app_name} ${app_name}=docker-registry.default.svc:5000/${dev_project}/${app_name}:${devTag} -n ${dev_project}"
+        sh "oc set image dc/${app_name} ${app_name}=${dev_project}/${app_name}:${devTag} -n ${dev_project}"
         def ret = sh(script: "oc delete configmap ${app_name}-config --ignore-not-found=true -n ${dev_project}", returnStdout: true)
         ret = sh(script: "oc create configmap ${app_name}-config --from-file=${config_file} -n ${dev_project}", returnStdout: true)
         //sh "oc rollout resume dc/${app_name} -n ${dev_project}"
@@ -145,7 +145,7 @@ node('maven-appdev') {
         }
         println "So staging ${app_name} to ${target}"
 
-        sh "oc set image dc/${target} ${target}=docker-registry.default.svc:5000/${dev_project}/${app_name}:${prodTag} -n ${prod_project}"
+        sh "oc set image dc/${target} ${target}=${dev_project}/${app_name}:${prodTag} -n ${prod_project}"
         def ret = sh(script: "oc delete configmap ${target}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
         ret = sh(script: "oc create configmap ${target}-config --from-file=${config_file} -n ${prod_project}", returnStdout: true)
         openshiftDeploy apiURL: '', authToken: '', depCfg: target, namespace: prod_project, verbose: 'false', waitTime: '180', waitUnit: 'sec'
