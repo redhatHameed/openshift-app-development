@@ -31,7 +31,7 @@ node('maven') {
     stage('Unit Tests') {
         echo "Running Unit Tests"
         sh "mvn -q -s settings.xml test"
-        junit '**/target/surefire-reports/*.xml'
+        //junit '**/target/surefire-reports/*.xml'
     }
 
     // Using Maven call SonarQube for Code Analysis
