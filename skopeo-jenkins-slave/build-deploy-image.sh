@@ -6,7 +6,7 @@ set -x
 
 oc login https://${IP}:8443 -u $USER
 
-IMAGE=jenkins-slave-maven-jnd:latest
+IMAGE=jenkins-slave-skopeo:latest
 REGISTRY_HOST=docker-registry.default.svc:5000
 
 oc project ${CICD_PROJECT}
