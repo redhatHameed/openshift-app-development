@@ -1,6 +1,6 @@
 #!groovy
 
-node('maven-appdev') {
+node('maven') {
 
     stage('Checkout Source') {
         git credentialsId: 'gogs', url: "${git_url}"
