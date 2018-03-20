@@ -7,7 +7,7 @@ set -x
 oc login https://${IP}:8443 -u $USER
 
 IMAGE=jenkins-slave-maven-jnd:latest
-REGISTRY_HOST=docker-registry-default.apps.ocp.datr.eu
+REGISTRY_HOST=docker-registry.default.svc:5000
 
 oc project ${CICD_PROJECT}
 
