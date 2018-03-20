@@ -146,8 +146,10 @@ node('maven') {
 
         def target = "unknown"
         if (active_service.equals(app_name + "-green")) {
+            origin = app_name+"-green"
             target = app_name+"-blue"
         } else {
+            origin = app_name+"-blue"
             target = app_name+"-green"
         }
 
@@ -155,6 +157,13 @@ node('maven') {
             timeout(time: 2, unit: 'DAYS') {
                 input message: "Approve ${target} to GO LIVE ?"
             }
+        }
+
+        if (!app_name.equals("parksmap")) {
+            ret = sh(script: "oc label --overwrite service ${target} type=parksmap-backend", returnStdout: true)
+            println ret
+            ret = sh(script: "oc label --overwrite service ${origin} type=silent", returnStdout: true)
+            println ret
         }
 
         //Finally cut over the route
