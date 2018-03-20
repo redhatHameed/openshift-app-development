@@ -106,19 +106,21 @@ node('maven') {
         openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: app_name, destTag: prodTag, destinationAuthToken: '', destinationNamespace: dev_project, namespace: dev_project, srcStream: app_name, srcTag: devTag, verbose: 'false'
     }
 
-    node('skopeo') {
-        stage('Pushing to Nexus Docker Registry Using Skopeo') {
-        sh"skopeo \\\n" +
-                "    --insecure-policy \\\n" +
-                "    copy \\\n" +
-                "    --src-creds=justin:\$(oc whoami -t) \\\n" +
-                "    --dest-creds=admin:admin123 \\\n" +
-                "    --src-tls-verify=false \\\n" +
-                "    --dest-tls-verify=false \\\n" +
-                "    docker://docker-registry.default.svc:5000/${dev_project}/${app_name}:${devTag} \\\n" +
-                "    docker://docker-registry.cicd.svc:5000/${dev_project}/${app_name}:${devTag}"
+
+    stage('Pushing to Nexus Docker Registry Using Skopeo') {
+        node('skopeo') {
+            sh "skopeo \\\n" +
+                    "    --insecure-policy \\\n" +
+                    "    copy \\\n" +
+                    "    --src-creds=justin:\$(oc whoami -t) \\\n" +
+                    "    --dest-creds=admin:admin123 \\\n" +
+                    "    --src-tls-verify=false \\\n" +
+                    "    --dest-tls-verify=false \\\n" +
+                    "    docker://docker-registry.default.svc:5000/${dev_project}/${app_name}:${devTag} \\\n" +
+                    "    docker://docker-registry.cicd.svc:5000/${dev_project}/${app_name}:${devTag}"
         }
     }
+
 
     stage('Wait for approval to be staged in production') {
         if (approval_required) {
