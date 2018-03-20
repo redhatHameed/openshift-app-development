@@ -67,7 +67,7 @@ node('maven-appdev') {
         echo "Project : ${dev_project}"
         echo "App : ${app_name}"
         echo "Dev Tag : ${devTag}"
-        sh "oc set image dc/${app_name} ${app_name}=${dev_project}/${app_name}:${devTag} -n ${dev_project}"
+        sh "oc set image dc/${app_name} ${app_name}=docker-registry.default.svc:5000/${dev_project}/${app_name}:${devTag} -n ${dev_project}"
         def ret = sh(script: "oc delete configmap ${app_name}-config --ignore-not-found=true -n ${dev_project}", returnStdout: true)
         ret = sh(script: "oc create configmap ${app_name}-config --from-file=${config_file} -n ${dev_project}", returnStdout: true)
         //sh "oc rollout resume dc/${app_name} -n ${dev_project}"
@@ -115,7 +115,7 @@ node('maven-appdev') {
 //                "    --dest-creds=admin:admin123 \\\n" +
 //                "    --src-tls-verify=false \\\n" +
 //                "    --dest-tls-verify=false \\\n" +
-//                "    docker://docker-registry.default.svc:5000/${dev_project}/${app_name}:latest \\\n" +
+//                "    docker://docker-registry.default.svc:5000/${dev_project}/${app_name}:${devTag} \\\n" +
 //                "    docker://registry-jnd-nexus.apps.fra.example.opentlc.com/jnd-jenkins/jenkins-slave-maven-jnd:latest"
     }
 
