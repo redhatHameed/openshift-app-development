@@ -39,7 +39,14 @@ oc new-build --binary=true --labels=app=${APP} --name=${APP}-${COLOUR} ${S2I_IMA
 oc new-app -f ${APP}/${APP}-prod-dc.yaml --allow-missing-imagestream-tags=true -p BLUE_OR_GREEN=${COLOUR} -n ${PROD_PROJECT}
 oc set volume dc/${APP}-${COLOUR} --add --name=${APP}-${COLOUR}-config-vol --mount-path=/config --configmap-name=${APP}-${COLOUR}-config -n ${PROD_PROJECT}
 oc expose dc ${APP}-${COLOUR} --port 8080 -n ${PROD_PROJECT}
-oc expose svc ${APP}-${COLOUR} -n ${PROD_PROJECT}
+
+# setup up coloured routes - but done label frontend as backend
+if [ ${APP} == "parksmap" ]
+then
+    oc expose svc ${APP}-${COLOUR} -n ${PROD_PROJECT}
+else
+    oc expose svc ${APP}-${COLOUR} -l type=parksmap-backend -n ${PROD_PROJECT}
+fi
 
 COLOUR=green
 oc delete template ${APP}-prod-dc -n ${PROD_PROJECT}
@@ -50,11 +57,14 @@ oc new-build --binary=true --labels=app=${APP} --name=${APP}-${COLOUR} ${S2I_IMA
 oc new-app -f ${APP}/${APP}-prod-dc.yaml --allow-missing-imagestream-tags=true -p BLUE_OR_GREEN=${COLOUR} -n ${PROD_PROJECT}
 oc set volume dc/${APP}-${COLOUR} --add --name=${APP}-${COLOUR}-config-vol --mount-path=/config --configmap-name=${APP}-${COLOUR}-config -n ${PROD_PROJECT}
 oc expose dc ${APP}-${COLOUR} --port 8080 -n ${PROD_PROJECT}
-oc expose svc ${APP}-${COLOUR} -n ${PROD_PROJECT}
 
+# setup up coloured routes - but done label frontend as backend
 if [ ${APP} == "parksmap" ]
 then
-    oc expose svc ${APP}-${COLOUR} --hostname=${APP}.apps.ocp.datr.eu --name=${APP} -n ${PROD_PROJECT}
+    oc expose svc ${APP}-${COLOUR} -n ${PROD_PROJECT}
 else
-    oc expose svc ${APP}-${COLOUR} -l type=parksmap-backend --hostname=${APP}.apps.ocp.datr.eu --name=${APP} -n ${PROD_PROJECT}
+    oc expose svc ${APP}-${COLOUR} -l type=parksmap-backend -n ${PROD_PROJECT}
 fi
+
+#setup a route which will be switched between colours
+oc expose svc ${APP}-${COLOUR} --hostname=${APP}.apps.ocp.datr.eu --name=${APP} -n ${PROD_PROJECT}
