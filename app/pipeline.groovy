@@ -85,7 +85,7 @@ node('maven') {
 
         openshiftVerifyService apiURL: '', authToken: '', namespace: dev_project, svcName: app_name, verbose: 'false'
         echo "Checking for app health ..."
-        def curlget = "curl -f ${app_url_dev}/ws/healthz".execute().with{
+        def curlget = "curl -f http://${app_name}.${dev_project}.srv:8080/ws/healthz".execute().with{
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
@@ -130,7 +130,8 @@ node('maven') {
         openshiftVerifyService apiURL: '', authToken: '', namespace: prod_project, svcName: target, verbose: 'false'
 
         echo "Checking ${target} app health ..."
-        def curlget = "curl -f http://${target}-${prod_project}.apps.ocp.datr.eu/ws/healthz".execute().with {
+
+        def curlget = "curl -f http://${target}.${prod_project}.srv:8080/ws/healthz".execute().with {
             def output = new StringWriter()
             def error = new StringWriter()
             it.waitForProcessOutput(output, error)
