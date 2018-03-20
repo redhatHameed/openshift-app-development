@@ -51,6 +51,12 @@ https://github.com/wkulhanek/ParksMap
     1. https://gogs-cicd.apps.your.ocp.domain/mitzicom/parksmap    
     2. https://gogs-cicd.apps.your.ocp.domain/mitzicom/nationalparks
     3. https://gogs-cicd.apps.your.ocp.domain/mitzicom/mlbparks
+8. In the **skopeo-jenkins-slave** folder, the script **build-deploy-skope-slave-image.sh** does a docker build of a Jenkins slave incorporating skope, and deploys it to Openshifts image registry.
+
+This concludes environment setup the remainder of this guide concerns setup of the runtime environment of the ParksMap app.
+
+##Setting Up   
+    
 8. In the **app/mlbparks** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/mlbparks/pipeline.groovy** file in this repo
 9. In the **app/nationalparks** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/nationalparks/pipeline.groovy** file in this repo
 10. In the **app/parksmap** folder run the **setup.sh** script, this creates a jenkins pipeline job, that points to **app/parksmap/pipeline.groovy** file in this repo
