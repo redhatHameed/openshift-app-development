@@ -31,6 +31,7 @@ node('maven') {
     stage('Unit Tests') {
         echo "Running Unit Tests"
         sh "mvn -q -s settings.xml test"
+        junit '**/reports/**/*.xml'
     }
 
     // Using Maven call SonarQube for Code Analysis
