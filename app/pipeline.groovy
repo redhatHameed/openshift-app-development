@@ -160,9 +160,9 @@ node('maven') {
         }
 
         if (!app_name.equals("parksmap")) {
-            ret = sh(script: "oc label --overwrite service ${target} type=parksmap-backend", returnStdout: true)
+            ret = sh(script: "oc label --overwrite service ${target} type=parksmap-backend -n ${prod_project}", returnStdout: true)
             println ret
-            ret = sh(script: "oc label --overwrite service ${origin} type=silent", returnStdout: true)
+            ret = sh(script: "oc label --overwrite service ${origin} type=silent -n ${prod_project}", returnStdout: true)
             println ret
         }
 
