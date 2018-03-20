@@ -6,6 +6,8 @@ node('maven') {
         git credentialsId: 'gogs', url: "${git_url}"
     }
 
+    def approval_required = false
+
     def dev_project  = "${org}-dev"
     def prod_project = "${org}-prod"
     def app_url_dev  = "http://${app_name}-${dev_project}.apps.ocp.datr.eu"
@@ -94,8 +96,10 @@ node('maven') {
 
 
     stage('Wait for approval to be staged in production') {
-        timeout(time: 2, unit: 'DAYS') {
-            input message: 'Approve this build to be staged in production ?'
+        if (approval_required) {
+            timeout(time: 2, unit: 'DAYS') {
+                input message: 'Approve this build to be staged in production ?'
+            }
         }
     }
 
@@ -145,8 +149,11 @@ node('maven') {
         } else {
             target = app_name+"-green"
         }
-        timeout(time: 2, unit: 'DAYS') {
-            input message: "Approve ${target} to GO LIVE ?"
+
+        if (approval_required) {
+            timeout(time: 2, unit: 'DAYS') {
+                input message: "Approve ${target} to GO LIVE ?"
+            }
         }
 
         //Finally cut over the route
