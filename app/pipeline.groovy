@@ -111,11 +111,11 @@ node('maven-appdev') {
 //        sh"skopeo \\\n" +
 //                "    --insecure-policy \\\n" +
 //                "    copy \\\n" +
-//                "    --src-creds=jusdavis-redhat.com:\$(oc whoami -t) \\\n" +
+//                "    --src-creds=justin:\$(oc whoami -t) \\\n" +
 //                "    --dest-creds=admin:admin123 \\\n" +
 //                "    --src-tls-verify=false \\\n" +
 //                "    --dest-tls-verify=false \\\n" +
-//                "    docker://docker-registry-default.apps.fra.example.opentlc.com/jnd-jenkins/jenkins-slave-maven-jnd:latest \\\n" +
+//                "    docker://docker-registry.default.svc:5000/${dev_project}/${app_name}:latest \\\n" +
 //                "    docker://registry-jnd-nexus.apps.fra.example.opentlc.com/jnd-jenkins/jenkins-slave-maven-jnd:latest"
     }
 
@@ -145,7 +145,7 @@ node('maven-appdev') {
         }
         println "So staging ${app_name} to ${target}"
 
-        sh "oc set image dc/${target} ${target}=docker-registry.default.svc:5000/${dev_project}/${app_name}:${prodTag} -n ${prod_project}"
+        sh "oc set image dc/${target} ${target}=${dev_project}/${app_name}:${prodTag} -n ${prod_project}"
         def ret = sh(script: "oc delete configmap ${target}-config --ignore-not-found=true -n ${prod_project}", returnStdout: true)
         ret = sh(script: "oc create configmap ${target}-config --from-file=${config_file} -n ${prod_project}", returnStdout: true)
         openshiftDeploy apiURL: '', authToken: '', depCfg: target, namespace: prod_project, verbose: 'false', waitTime: '180', waitUnit: 'sec'
