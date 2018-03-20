@@ -164,6 +164,22 @@ node('maven') {
             assert it.exitValue() == 0: "$error"
         }
         echo "App health looks good !"
+
+        if (app_name.equals("nationalparks") || app_name.equals("mlbparks"))    {
+            echo "Performing Integration Tests ..."
+            curlget = "curl -f ${target}.${prod_project}.svc:8080/ws/data/load".execute().with{
+                def output = new StringWriter()
+                def error = new StringWriter()
+                it.waitForProcessOutput(output, error)
+                assert it.exitValue() == 0: "$error"
+            }
+            curlget = "curl -f ${target}.${prod_project}.svc:8080/ws/data/all".execute().with{
+                def output = new StringWriter()
+                def error = new StringWriter()
+                it.waitForProcessOutput(output, error)
+                assert it.exitValue() == 0: "$error"
+            }
+        }
     }
 
     stage('GO LIVE !!!!!') {

@@ -85,5 +85,8 @@ Each Pipeline performs the following sequence of actions of it microservice
 7. Integration tests are performed, on sucess the image is tag in preparation for deployment into production.
 8. The image is then pushed to a second internal registry hosted by Nexus
 9. The operator is then asked if they wish to quiet deploy the service onto the production cluster.
-
+10. The quiet side of the production cluster is determined, blue or green, the new image is deployed to thw quiet side. Here it can be tested again.
+11. Further intagration tests are performed automatically
+12. The operator is aked if they wish to put the new image live.
+13. Routing changes are made an the new image starts to receive live traffic.
  
