@@ -61,7 +61,7 @@ This concludes environment setup the remainder of this guide concerns setup of t
         1. mlbparks
         2. nationalparks
         3. parksmap
-    2. MongoDB statefulsets :
+    2. MongoDB statefulsets:
             1. **dev-deploy.sh**, this deploys a single replica mogodb statefulset with persistent storage into the **mitzicom-dev** project
             2. **prod-deploy.sh**, this deploys a 3 replica mogodb statefulset with persistent storage into the **mitzicom-prod** project     
     3. OCP resources including buildconfigs, deploymentconfigs, services and routes for the application pod to use.
@@ -72,4 +72,18 @@ This concludes environment setup the remainder of this guide concerns setup of t
 Having done the preparation above, we now have three seperate and independent pipelines that deploy our microservices in line with the blue-green deployment paradigm described here :
   - https://martinfowler.com/bliki/BlueGreenDeployment.html
   
-Deployments are triggered by interacting with the jobs in Jenkins and by git pushs to the master branches of each microservice in gogs. 
+Deployments are triggered by interacting with the jobs in Jenkins and by git pushs to the master branches of each microservice in gogs.
+
+Each Pipeline performs the following sequence of actions of it microservice
+
+1. A Maven compile and package
+2. A Maven junit test suite.
+3. Sonar code analysis
+4. Deploying the built, tested and analysised artifact to nexus
+5. An Openshift binary build, to generate a docker image
+6. This image is then deployed into the dev project
+7. Integration tests are performed, on sucess the image is tag in preparation for deployment into production.
+8. The image is then pushed to a second internal registry hosted by Nexus
+9. The operator is then asked if they wish to quiet deploy the service onto the production cluster.
+
+ 
