@@ -27,9 +27,9 @@ https://github.com/wkulhanek/ParksMap
     2. **nationalparks** - a REST API to a database of national parks
     3. **parksmap** - a mapping eapplications that leverages these APIs
 
-### Setting the CICD environment
+### Setting the MItizicom CICD environment
 
-1. First run **setup.sh**, this :
+1. First, in the **mitzicom** folder, run **setup.sh**, this :
     1. sets up three openshift projects
         1. **cicd** - hosts the CICD components, jenkins, sonar, nexus etc
         2. **mitzicom-dev** - this hosts the development version of the application for testing purposes.
