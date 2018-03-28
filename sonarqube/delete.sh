@@ -2,6 +2,8 @@
 
 . ../env.sh
 
+oc project $CICD_PROJECT
+
 oc delete all -l app=sonarqube
 
 oc delete serviceaccounts sonarqube

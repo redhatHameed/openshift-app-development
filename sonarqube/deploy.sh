@@ -2,6 +2,8 @@
 
 . ../env.sh
 
+oc project $CICD_PROJECT
+
 oc new-app -f sonarqube-persistent-template.yml \
     -p DOMAIN=${DOMAIN} \
     -p APPLICATION_NAME=sonarqube \

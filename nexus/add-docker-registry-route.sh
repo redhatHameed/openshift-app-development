@@ -2,7 +2,7 @@
 
 . ../env.sh
 
-oc project cicd
+oc project $CICD_PROJECT
 
 oc delete service docker-registry
 oc delete route registry
