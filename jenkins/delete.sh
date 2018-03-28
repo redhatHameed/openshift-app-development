@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ../env.sh
+. ../mitzicom/env.sh
 
 oc project ${CICD_PROJECT}
 

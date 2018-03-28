@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ./env.sh
+. env.sh
 
 oc login https://${IP}:8443 -u $USER
 

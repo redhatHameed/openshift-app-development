@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-. ../env.sh
+. ../mitzicom/env.sh
 
 oc delete all -l app=postgres

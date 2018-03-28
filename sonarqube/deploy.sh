@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ../env.sh
+. ../mitzicom/env.sh
 
 oc new-app -f sonarqube-persistent-template.yml \
     -p DOMAIN=${DOMAIN} \

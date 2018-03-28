@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ../env.sh
+. ../mitzicom/env.sh
 
 oc new-app -f postgres-persistent-template.yml \
     -p DOMAIN=${DOMAIN} \

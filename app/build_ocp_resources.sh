@@ -4,7 +4,7 @@
 APP=$1
 S2I_IMAGE=$2
 
-. ../env.sh
+. ../mitzicom/env.sh
 
 oc login https://${IP}:8443 -u $USER
 

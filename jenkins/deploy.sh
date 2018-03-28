@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ../env.sh
+. ../mitzicom/env.sh
 
 oc delete all -l app=jenkins
 oc delete pvc jenkins-data
