@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ../mitzicom/env.sh
+. ../env.sh
 
 oc delete all -l app=nexus
 oc delete pvc nexus-pv

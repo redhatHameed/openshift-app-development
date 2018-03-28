@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ../mitzicom/env.sh
+. ../env.sh
 
 set -x
 
