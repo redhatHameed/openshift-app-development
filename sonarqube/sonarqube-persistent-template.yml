@@ -166,6 +166,7 @@ objects:
     resources:
       requests:
         storage: ${SONAR_VOLUME_CAPACITY}
+    storageClassName: azurefile
 
 - apiVersion: v1
   kind: PersistentVolumeClaim
@@ -179,6 +180,7 @@ objects:
     resources:
       requests:
         storage: ${SONAR_VOLUME_CAPACITY}
+    storageClassName: azurefile
 
 - kind: ServiceAccount
   apiVersion: v1
@@ -250,7 +252,7 @@ parameters:
   value: "Dockerfile"
   required: true
 - displayName: SonarQube version
-  value: "6.7.2"
+  value: "7.3"
   name: SONARQUBE_VERSION
   required: true
 - description: Username for SonarQube Server PostgreSQL backend
@@ -275,4 +277,4 @@ parameters:
   displayName: SonarQube Volume Capacity
   name: SONAR_VOLUME_CAPACITY
   required: true
-  value: 1Gi
+  value: 2Gi
