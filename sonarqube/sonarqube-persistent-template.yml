@@ -166,7 +166,6 @@ objects:
     resources:
       requests:
         storage: ${SONAR_VOLUME_CAPACITY}
-    storageClassName: azurefile
 
 - apiVersion: v1
   kind: PersistentVolumeClaim
@@ -180,7 +179,6 @@ objects:
     resources:
       requests:
         storage: ${SONAR_VOLUME_CAPACITY}
-    storageClassName: azurefile
 
 - kind: ServiceAccount
   apiVersion: v1
