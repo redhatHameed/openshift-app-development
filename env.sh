@@ -12,5 +12,5 @@ export DATABASE_NAME=${DOMAIN}
 export DATABASE_USER=${DATABASE_NAME}
 export DATABASE_PASSWORD=${DATABASE_NAME}
 export DATABASE_ADMIN_PASSWORD=${DATABASE_NAME}
-export DATABASE_URL="jdbc:postgresql://postgres-"${DATABASE_NAME}"/"${DATABASE_NAME}
+export DATABASE_URL="jdbc:postgresql://postgresql/"${DATABASE_NAME}
 
