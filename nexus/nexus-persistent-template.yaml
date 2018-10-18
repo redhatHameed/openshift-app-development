@@ -8,7 +8,7 @@ metadata:
   annotations:
     openshift.io/display-name: Deploy Nexus
     description: Deploy Nexus
-    tags: sonarqube
+    tags: nexus
 objects:
 
 - apiVersion: v1
@@ -45,8 +45,6 @@ objects:
             name: nexus-data
           dnsPolicy: ClusterFirst
           restartPolicy: Always
-          nodeSelector:
-            capability: cicd
           schedulerName: default-scheduler
           terminationGracePeriodSeconds: 30
           resources:
