@@ -45,6 +45,8 @@ objects:
             name: nexus-data
           dnsPolicy: ClusterFirst
           restartPolicy: Always
+          nodeSelector:
+            capability: cicd
           schedulerName: default-scheduler
           terminationGracePeriodSeconds: 30
           resources:

@@ -135,6 +135,8 @@ objects:
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         securityContext: {}
+        nodeSelector:
+          capability: cicd
         terminationGracePeriodSeconds: 30
         volumes:
         - name: ${APPLICATION_NAME}-data
